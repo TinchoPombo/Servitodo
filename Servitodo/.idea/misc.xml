@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DesignSurface">
+    <option name="filePathToZoomLevelMap">
+      <map>
+        <entry key="..\:/Estudio/ORT/cuartoCuatrimestre/TP3/Servitodo/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.2955" />
+        <entry key="..\:/Estudio/ORT/cuartoCuatrimestre/TP3/Servitodo/app/src/main/res/drawable/ic_launcher_background.xml" value="0.2955" />
+        <entry key="..\:/Estudio/ORT/cuartoCuatrimestre/TP3/Servitodo/app/src/main/res/layout/activity_cliente.xml" value="0.296195652173913" />
+        <entry key="..\:/Estudio/ORT/cuartoCuatrimestre/TP3/Servitodo/app/src/main/res/layout/activity_login.xml" value="0.296195652173913" />
+        <entry key="..\:/Estudio/ORT/cuartoCuatrimestre/TP3/Servitodo/app/src/main/res/layout/activity_main.xml" value="0.296195652173913" />
+        <entry key="..\:/Estudio/ORT/cuartoCuatrimestre/TP3/Servitodo/app/src/main/res/layout/activity_prestador.xml" value="0.33177083333333335" />
+        <entry key="..\:/Estudio/ORT/cuartoCuatrimestre/TP3/Servitodo/app/src/main/res/layout/fragment_calificar_cliente.xml" value="0.296195652173913" />
+        <entry key="..\:/Estudio/ORT/cuartoCuatrimestre/TP3/Servitodo/app/src/main/res/layout/fragment_calificar_prestador.xml" value="0.296195652173913" />
+        <entry key="..\:/Estudio/ORT/cuartoCuatrimestre/TP3/Servitodo/app/src/main/res/layout/fragment_crear_publicacion.xml" value="0.296195652173913" />
+        <entry key="..\:/Estudio/ORT/cuartoCuatrimestre/TP3/Servitodo/app/src/main/res/layout/fragment_historial_cliente.xml" value="0.296195652173913" />
+        <entry key="..\:/Estudio/ORT/cuartoCuatrimestre/TP3/Servitodo/app/src/main/res/layout/fragment_historial_prestador.xml" value="0.296195652173913" />
+        <entry key="..\:/Estudio/ORT/cuartoCuatrimestre/TP3/Servitodo/app/src/main/res/layout/fragment_home_cliente.xml" value="0.33177083333333335" />
+        <entry key="..\:/Estudio/ORT/cuartoCuatrimestre/TP3/Servitodo/app/src/main/res/layout/fragment_home_prestador.xml" value="0.3145833333333333" />
+        <entry key="..\:/Estudio/ORT/cuartoCuatrimestre/TP3/Servitodo/app/src/main/res/layout/fragment_log_in.xml" value="0.296195652173913" />
+        <entry key="..\:/Estudio/ORT/cuartoCuatrimestre/TP3/Servitodo/app/src/main/res/layout/fragment_modificar_publicacion.xml" value="0.296195652173913" />
+        <entry key="..\:/Estudio/ORT/cuartoCuatrimestre/TP3/Servitodo/app/src/main/res/layout/fragment_opiniones_cliente.xml" value="0.296195652173913" />
+        <entry key="..\:/Estudio/ORT/cuartoCuatrimestre/TP3/Servitodo/app/src/main/res/layout/fragment_opiniones_prestador.xml" value="0.296195652173913" />
+        <entry key="..\:/Estudio/ORT/cuartoCuatrimestre/TP3/Servitodo/app/src/main/res/layout/fragment_perfil_cliente.xml" value="0.296195652173913" />
+        <entry key="..\:/Estudio/ORT/cuartoCuatrimestre/TP3/Servitodo/app/src/main/res/layout/fragment_perfil_prestador.xml" value="0.296195652173913" />
+        <entry key="..\:/Estudio/ORT/cuartoCuatrimestre/TP3/Servitodo/app/src/main/res/layout/fragment_publicacion.xml" value="0.296195652173913" />
+        <entry key="..\:/Estudio/ORT/cuartoCuatrimestre/TP3/Servitodo/app/src/main/res/layout/fragment_publicaciones_prestador.xml" value="0.296195652173913" />
+        <entry key="..\:/Estudio/ORT/cuartoCuatrimestre/TP3/Servitodo/app/src/main/res/layout/fragment_sign_up.xml" value="0.296195652173913" />
+        <entry key="..\:/Estudio/ORT/cuartoCuatrimestre/TP3/Servitodo/app/src/main/res/menu/bottom_bar_cliente.xml" value="0.248828125" />
+        <entry key="..\:/Estudio/ORT/cuartoCuatrimestre/TP3/Servitodo/app/src/main/res/menu/bottom_bar_prestador.xml" value="0.33177083333333335" />
+      </map>
+    </option>
+  </component>
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="Android Studio default JDK" project-jdk-type="JavaSDK">
+    <output url="file://$PROJECT_DIR$/build/classes" />
+  </component>
+  <component name="ProjectType">
+    <option name="id" value="Android" />
+  </component>
+</project>

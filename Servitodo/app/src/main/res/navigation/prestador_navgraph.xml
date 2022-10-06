@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/prestador_navgraph"
+    app:startDestination="@id/homePrestadorFragment">
+
+    <fragment
+        android:id="@+id/homePrestadorFragment"
+        android:name="com.ort.servitodo.fragments.prestador.HomePrestadorFragment"
+        android:label="fragment_home_prestador"
+        tools:layout="@layout/fragment_home_prestador" >
+        <action
+            android:id="@+id/action_homePrestadorFragment_to_crearPublicacionFragment"
+            app:destination="@id/crearPublicacionFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/calificarClienteFragment"
+        android:name="com.ort.servitodo.fragments.prestador.CalificarClienteFragment"
+        android:label="fragment_calificar_cliente"
+        tools:layout="@layout/fragment_calificar_cliente" />
+    <fragment
+        android:id="@+id/crearPublicacionFragment"
+        android:name="com.ort.servitodo.fragments.prestador.CrearPublicacionFragment"
+        android:label="fragment_crear_publicacion"
+        tools:layout="@layout/fragment_crear_publicacion" />
+    <fragment
+        android:id="@+id/historialPrestadorFragment"
+        android:name="com.ort.servitodo.fragments.prestador.HistorialPrestadorFragment"
+        android:label="fragment_historial_prestador"
+        tools:layout="@layout/fragment_historial_prestador" >
+        <action
+            android:id="@+id/action_historialPrestadorFragment_to_calificarClienteFragment"
+            app:destination="@id/calificarClienteFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/modificarPublicacionFragment"
+        android:name="com.ort.servitodo.fragments.prestador.ModificarPublicacionFragment"
+        android:label="fragment_modificar_publicacion"
+        tools:layout="@layout/fragment_modificar_publicacion" />
+    <fragment
+        android:id="@+id/perfilPrestadorFragment"
+        android:name="com.ort.servitodo.fragments.prestador.PerfilPrestadorFragment"
+        android:label="fragment_perfil_prestador"
+        tools:layout="@layout/fragment_perfil_prestador" >
+        <action
+            android:id="@+id/action_perfilPrestadorFragment_to_historialPrestadorFragment"
+            app:destination="@id/historialPrestadorFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/publicacionesPrestadorFragment"
+        android:name="com.ort.servitodo.fragments.prestador.PublicacionesPrestadorFragment"
+        android:label="fragment_publicaciones_prestador"
+        tools:layout="@layout/fragment_publicaciones_prestador" >
+        <action
+            android:id="@+id/action_publicacionesPrestadorFragment_to_modificarPublicacionFragment"
+            app:destination="@id/modificarPublicacionFragment" />
+    </fragment>
+</navigation>

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/cliente_navgraph"
+    app:startDestination="@id/homeClienteFragment">
+
+    <fragment
+        android:id="@+id/homeClienteFragment"
+        android:name="com.ort.servitodo.fragments.cliente.HomeClienteFragment"
+        android:label="fragment_home_cliente"
+        tools:layout="@layout/fragment_home_cliente" >
+        <action
+            android:id="@+id/action_homeClienteFragment_to_publicacionFragment"
+            app:destination="@id/publicacionFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/calificarPrestadorFragment"
+        android:name="com.ort.servitodo.fragments.cliente.CalificarPrestadorFragment"
+        android:label="fragment_calificar_prestador"
+        tools:layout="@layout/fragment_calificar_prestador" />
+    <fragment
+        android:id="@+id/historialClienteFragment"
+        android:name="com.ort.servitodo.fragments.cliente.HistorialClienteFragment"
+        android:label="fragment_historial_cliente"
+        tools:layout="@layout/fragment_historial_cliente" >
+        <action
+            android:id="@+id/action_historialClienteFragment_to_calificarPrestadorFragment"
+            app:destination="@id/calificarPrestadorFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/perfilClienteFragment"
+        android:name="com.ort.servitodo.fragments.cliente.PerfilClienteFragment"
+        android:label="fragment_perfil_cliente"
+        tools:layout="@layout/fragment_perfil_cliente" >
+        <action
+            android:id="@+id/action_perfilClienteFragment_to_historialClienteFragment"
+            app:destination="@id/historialClienteFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/opinionesPrestadorFragment"
+        android:name="com.ort.servitodo.fragments.prestador.OpinionesPrestadorFragment"
+        android:label="fragment_opiniones_prestador"
+        tools:layout="@layout/fragment_opiniones_prestador" />
+    <fragment
+        android:id="@+id/publicacionFragment"
+        android:name="com.ort.servitodo.fragments.prestador.PublicacionFragment"
+        android:label="fragment_publicacion"
+        tools:layout="@layout/fragment_publicacion" >
+        <action
+            android:id="@+id/action_publicacionFragment_to_opinionesPrestadorFragment"
+            app:destination="@id/opinionesPrestadorFragment" />
+    </fragment>
+</navigation>
