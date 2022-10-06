@@ -11,8 +11,8 @@
         android:label="fragment_home_cliente"
         tools:layout="@layout/fragment_home_cliente" >
         <action
-            android:id="@+id/action_homeClienteFragment_to_publicacionFragment"
-            app:destination="@id/publicacionFragment" />
+            android:id="@+id/action_homeClienteFragment_to_detallePublicacionFragment"
+            app:destination="@id/detallePublicacionFragment" />
     </fragment>
     <fragment
         android:id="@+id/calificarPrestadorFragment"
@@ -43,12 +43,15 @@
         android:label="fragment_opiniones_prestador"
         tools:layout="@layout/fragment_opiniones_prestador" />
     <fragment
-        android:id="@+id/publicacionFragment"
-        android:name="com.ort.servitodo.fragments.prestador.PublicacionFragment"
-        android:label="fragment_publicacion"
-        tools:layout="@layout/fragment_publicacion" >
+        android:id="@+id/detallePublicacionFragment"
+        android:name="com.ort.servitodo.fragments.cliente.DetallePublicacionFragment"
+        android:label="fragment_detalle_publicacion"
+        tools:layout="@layout/fragment_detalle_publicacion" >
         <action
-            android:id="@+id/action_publicacionFragment_to_opinionesPrestadorFragment"
+            android:id="@+id/action_detallePublicacionFragment_to_opinionesPrestadorFragment"
             app:destination="@id/opinionesPrestadorFragment" />
+        <argument
+            android:name="publicacionIndex"
+            app:argType="integer" />
     </fragment>
 </navigation>
