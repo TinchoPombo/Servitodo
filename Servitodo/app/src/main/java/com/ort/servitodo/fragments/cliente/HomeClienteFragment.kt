@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.viewModels
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -18,16 +19,23 @@ import com.ort.servitodo.viewmodels.cliente.HomeClienteViewModel
 
 class HomeClienteFragment : Fragment() {
 
+    /*
     companion object {
         fun newInstance() = HomeClienteFragment()
     }
 
-    private lateinit var viewModel: HomeClienteViewModel
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        viewModel = ViewModelProvider(this).get(HomeClienteViewModel::class.java)
+        // TODO: Use the ViewModel
+    }
+    */
+
+    private val viewModel: HomeClienteViewModel by viewModels()
     lateinit var v : View
 
-    private var repository = PublicacionRepository()
     lateinit var recyclerPublicacion : RecyclerView
-    lateinit var publicacionAdapter : PublicacionAdapter
+    //lateinit var publicacionAdapter : PublicacionAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -37,29 +45,20 @@ class HomeClienteFragment : Fragment() {
 
         recyclerPublicacion = v.findViewById(R.id.recPublicacion)
 
+        viewModel.setView(v)
+
         return v
     }
 
     override fun onStart() {
         super.onStart()
 
-        recyclerPublicacion.setHasFixedSize(true)
-        recyclerPublicacion.layoutManager  = LinearLayoutManager(context)
-        recyclerPublicacion.adapter = PublicacionAdapter(repository.getPublicaciones()){ pos ->
-            onItemClick(pos)
-        }
+        viewModel.recyclerView(recyclerPublicacion)
 
     }
 
-    fun onItemClick(position : Int){
-        val action = HomeClienteFragmentDirections.actionHomeClienteFragmentToDetallePublicacionFragment(position)
-        v.findNavController().navigate(action)
-    }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProvider(this).get(HomeClienteViewModel::class.java)
-        // TODO: Use the ViewModel
-    }
+
+
 
 }

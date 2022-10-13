@@ -9,31 +9,41 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.fragment.app.viewModels
 import androidx.navigation.findNavController
 import com.bumptech.glide.Glide
 import com.ort.servitodo.R
 import com.ort.servitodo.entities.Publicacion
 import com.ort.servitodo.repositories.PublicacionRepository
 import com.ort.servitodo.viewmodels.cliente.DetallePublicacionViewModel
-import org.w3c.dom.Text
 
 class DetallePublicacionFragment : Fragment() {
 
+    private val viewModel : DetallePublicacionViewModel by viewModels()
+    lateinit var v : View
+
+    /*
     companion object {
         fun newInstance() = DetallePublicacionFragment()
     }
 
-    private lateinit var viewModel: DetallePublicacionViewModel
-    private var repository = PublicacionRepository()
-    lateinit var publicacion : Publicacion
-    lateinit var v : View
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        viewModel = ViewModelProvider(this).get(DetallePublicacionViewModel::class.java)
+        // TODO: Use the ViewModel
+    }
+    */
+
     lateinit var imgPrestador : ImageView
     lateinit var nombre : TextView
     lateinit var apellido : TextView
     lateinit var rubro : TextView
     lateinit var calificacion : TextView
     lateinit var precioEstimado : TextView
-    lateinit var btnBack : Button
+    lateinit var contratarButton : Button
+
+    lateinit var publicacion : Publicacion
+    private var receiveIndex : Int = 0
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -47,39 +57,42 @@ class DetallePublicacionFragment : Fragment() {
         rubro = v.findViewById(R.id.txtRubroPublicacion)
         calificacion = v.findViewById(R.id.txtCalificacionPublicacion)
         precioEstimado = v.findViewById(R.id.txtPrecioEstimadoPublicacion)
-        btnBack = v.findViewById(R.id.btnVolverPublicacion)
+        contratarButton = v.findViewById(R.id.contratarButton)
 
-        val receiveIndex = DetallePublicacionFragmentArgs.fromBundle(requireArguments()).publicacionIndex
-        publicacion = repository.getPublicaciones()[receiveIndex]
+        receiveIndex = DetallePublicacionFragmentArgs.fromBundle(requireArguments()).publicacionIndex
+        publicacion = viewModel.getPublicacionByIndex(receiveIndex)
 
-        val txtNombre = "Nombre: " + publicacion.nombrePrestador
-        val txtApellido = "Apellido: " + publicacion.apellidoPrestador
-        val txtRubro = "Rubro: " + publicacion.nombreRubro
-        val txtCalificacion = "Calificacion: "
-        val txtPrecioEstimado = "Precio estimado: "
+        viewModel.setView(v)
 
-        nombre.text = txtNombre
-        apellido.text = txtApellido
-        rubro.text = txtRubro
-        calificacion.text = txtCalificacion
-        precioEstimado.text = txtPrecioEstimado
+        return v
+    }
 
+    override fun onStart() {
+        super.onStart()
+
+        nombre.text = "Nombre: " + publicacion.nombrePrestador
+        apellido.text = "Apellido: " + publicacion.apellidoPrestador
+        rubro.text =  "Rubro: " + publicacion.nombreRubro
+        calificacion.text = "Calificacion: "
+        precioEstimado.text = "Precio estimado: "
+
+        //Glide
         Glide
             .with(v)
             .load(publicacion.fotoPrestador)
             .into(imgPrestador);
 
+        contratarButton.setOnClickListener{
+            viewModel.whatsapp(receiveIndex)
+        }
+
+        /*
         btnBack.setOnClickListener{
             v.findNavController().navigateUp()
         }
-
-        return v
+        */
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProvider(this).get(DetallePublicacionViewModel::class.java)
-        // TODO: Use the ViewModel
-    }
+
 
 }
