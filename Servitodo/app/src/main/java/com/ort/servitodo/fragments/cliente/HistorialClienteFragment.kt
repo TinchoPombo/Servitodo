@@ -6,22 +6,17 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.viewModels
 import com.ort.servitodo.R
 import com.ort.servitodo.viewmodels.cliente.HistorialClienteViewModel
 
 class HistorialClienteFragment : Fragment() {
 
+    lateinit var v : View
+
+    /*
     companion object {
         fun newInstance() = HistorialClienteFragment()
-    }
-
-    private lateinit var viewModel: HistorialClienteViewModel
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.fragment_historial_cliente, container, false)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -29,5 +24,20 @@ class HistorialClienteFragment : Fragment() {
         viewModel = ViewModelProvider(this).get(HistorialClienteViewModel::class.java)
         // TODO: Use the ViewModel
     }
+    */
+
+    private val viewModel: HistorialClienteViewModel by viewModels()
+
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        v = inflater.inflate(R.layout.fragment_historial_cliente, container, false)
+
+
+
+        return v
+    }
+
 
 }

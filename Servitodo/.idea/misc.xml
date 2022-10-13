@@ -32,6 +32,11 @@
         <entry key="..\:/Estudio/ORT/cuartoCuatrimestre/TP3/Servitodo/app/src/main/res/layout/fragment_sign_up.xml" value="0.296195652173913" />
         <entry key="..\:/Estudio/ORT/cuartoCuatrimestre/TP3/Servitodo/app/src/main/res/menu/bottom_bar_cliente.xml" value="0.248828125" />
         <entry key="..\:/Estudio/ORT/cuartoCuatrimestre/TP3/Servitodo/app/src/main/res/menu/bottom_bar_prestador.xml" value="0.33177083333333335" />
+        <entry key="..\:/SERVITODO/Servitodo/app/src/main/res/layout/activity_cliente.xml" value="0.2" />
+        <entry key="..\:/SERVITODO/Servitodo/app/src/main/res/layout/activity_main.xml" value="0.2" />
+        <entry key="..\:/SERVITODO/Servitodo/app/src/main/res/layout/fragment_detalle_publicacion.xml" value="0.33" />
+        <entry key="..\:/SERVITODO/Servitodo/app/src/main/res/layout/fragment_home_cliente.xml" value="0.25" />
+        <entry key="..\:/SERVITODO/Servitodo/app/src/main/res/layout/fragment_publicacion.xml" value="0.2" />
       </map>
     </option>
   </component>
