@@ -12,5 +12,6 @@ open class Usuario (
     var foto : String,
     var puntuaciones : MutableList<Puntuacion> = mutableListOf(),
         ){
+    //constructor():this(0,"","","","")
 
 }

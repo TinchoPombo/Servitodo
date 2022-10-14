@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "389877060249",
+    "project_id": "servitodo-48dd8",
+    "storage_bucket": "servitodo-48dd8.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:389877060249:android:a439957105935efb105e08",
+        "android_client_info": {
+          "package_name": "com.ort.servitodo"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "389877060249-7q48f1vcaci07280u8775gd39u7ot867.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBoY3D4_idaU9aQ4yA_vv9JSZsFwvRosr4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "389877060249-7q48f1vcaci07280u8775gd39u7ot867.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
