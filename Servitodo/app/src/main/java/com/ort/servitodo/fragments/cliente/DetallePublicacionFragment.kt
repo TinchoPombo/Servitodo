@@ -83,7 +83,7 @@ class DetallePublicacionFragment : Fragment() {
             .into(imgPrestador);
 
         contratarButton.setOnClickListener{
-            viewModel.whatsapp(receiveIndex)
+            viewModel.confirmRedirectionToWhatsapp(receiveIndex)
         }
 
         /*
