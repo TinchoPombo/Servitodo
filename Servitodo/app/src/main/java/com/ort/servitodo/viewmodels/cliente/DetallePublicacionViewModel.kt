@@ -83,7 +83,7 @@ class DetallePublicacionViewModel : ViewModel() {
         }
     }
 
-    //--> Pop up para confirmar el redireccionamiento 
+    //--> Pop up para confirmar el redireccionamiento
     fun confirmRedirectionToWhatsapp(index : Int){
         MaterialAlertDialogBuilder(view.context)
             .setTitle("Confirmar")
