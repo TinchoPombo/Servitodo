@@ -9,17 +9,25 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
 import androidx.navigation.findNavController
 import com.bumptech.glide.Glide
+import com.google.android.material.datepicker.MaterialDatePicker
 import com.ort.servitodo.R
 import com.ort.servitodo.entities.Publicacion
 import com.ort.servitodo.repositories.PublicacionRepository
 import com.ort.servitodo.viewmodels.cliente.DetallePublicacionViewModel
+import com.ort.servitodo.viewmodels.resources.CalendarViewModel
+import com.ort.servitodo.viewmodels.resources.TimePickerViewModel
 
 class DetallePublicacionFragment : Fragment() {
 
-    private val viewModel : DetallePublicacionViewModel by viewModels()
+    private val detalleViewModel : DetallePublicacionViewModel by viewModels()
+    private val calendarViewModel : CalendarViewModel by viewModels()
+    private val timePickerViewModel : TimePickerViewModel by viewModels()
+
     lateinit var v : View
 
     /*
@@ -40,7 +48,11 @@ class DetallePublicacionFragment : Fragment() {
     lateinit var rubro : TextView
     lateinit var calificacion : TextView
     lateinit var precioEstimado : TextView
+    lateinit var fechaseleccionadaTextView : TextView
+    lateinit var horaseleccionadaTextView : TextView
+
     lateinit var contratarButton : Button
+    lateinit var verhorariosButton : Button
 
     lateinit var publicacion : Publicacion
     private var receiveIndex : Int = 0
@@ -58,11 +70,16 @@ class DetallePublicacionFragment : Fragment() {
         calificacion = v.findViewById(R.id.txtCalificacionPublicacion)
         precioEstimado = v.findViewById(R.id.txtPrecioEstimadoPublicacion)
         contratarButton = v.findViewById(R.id.contratarButton)
+        verhorariosButton = v.findViewById(R.id.verhorariosButton)
+        fechaseleccionadaTextView = v.findViewById(R.id.fechaseleccionadaTextView)
+        horaseleccionadaTextView = v.findViewById(R.id.horaseleccionadaTextView)
 
+        //--> Index recibido por parametro
         receiveIndex = DetallePublicacionFragmentArgs.fromBundle(requireArguments()).publicacionIndex
-        publicacion = viewModel.getPublicacionByIndex(receiveIndex)
+        publicacion = detalleViewModel.getPublicacionByIndex(receiveIndex)
 
-        viewModel.setView(v)
+        detalleViewModel.setView(v)
+        detalleViewModel.setFragmentManager(activity?.supportFragmentManager!!)
 
         return v
     }
@@ -82,8 +99,20 @@ class DetallePublicacionFragment : Fragment() {
             .load(publicacion.fotoPrestador)
             .into(imgPrestador);
 
+        detalleViewModel.selectedDay.observe(viewLifecycleOwner, Observer { result ->
+            fechaseleccionadaTextView.text = result.toString()
+            detalleViewModel.selectHour(receiveIndex)
+        })
+        detalleViewModel.selectedHour.observe(viewLifecycleOwner, Observer { result ->
+            horaseleccionadaTextView.text = result.toString()
+        })
+
+        verhorariosButton.setOnClickListener{
+            detalleViewModel.selectDate()
+        }
+
         contratarButton.setOnClickListener{
-            viewModel.confirmRedirectionToWhatsapp(receiveIndex)
+            detalleViewModel.confirmRedirectionToWhatsapp(receiveIndex)
         }
 
         /*

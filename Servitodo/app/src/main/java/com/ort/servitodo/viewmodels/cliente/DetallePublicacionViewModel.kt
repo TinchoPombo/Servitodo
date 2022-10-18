@@ -1,28 +1,48 @@
 package com.ort.servitodo.viewmodels.cliente
 
-import android.content.Intent
-import android.content.pm.PackageManager
-import android.net.Uri
+import android.icu.util.Calendar
+import android.icu.util.TimeZone
 import android.view.View
+import androidx.fragment.app.FragmentManager
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.navigation.findNavController
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.snackbar.Snackbar
-import com.ort.servitodo.R
 import com.ort.servitodo.entities.Prestador
 import com.ort.servitodo.entities.Publicacion
 import com.ort.servitodo.repositories.PrestadorRepository
 import com.ort.servitodo.repositories.PublicacionRepository
+import com.ort.servitodo.viewmodels.resources.CalendarViewModel
+import com.ort.servitodo.viewmodels.resources.TimePickerViewModel
+import com.ort.servitodo.viewmodels.resources.WhatsAppViewModel
+import java.util.*
 
 class DetallePublicacionViewModel : ViewModel() {
 
     private lateinit var view : View
+    private lateinit var fragmentManager: FragmentManager
+
+    //--> Repositorios hardcodeados TODO: (cambiar por BD)
     private var publicacionRepository = PublicacionRepository()
     private var prestadorRepository = PrestadorRepository()
+
+    //--> View Models
+    private val calendarViewModel = CalendarViewModel()
+    private val timeViewModel = TimePickerViewModel()
+    private val whatsAppViewModel = WhatsAppViewModel()
+
+    //--> Mutable Live Data
+    val selectedDay = MutableLiveData<String>()
+    val selectedHour = MutableLiveData<String>()
+
 
     //----------------------------------------------------------------------
     fun setView(v : View){
         this.view = v
+    }
+
+    fun setFragmentManager(fm : FragmentManager){
+        this.fragmentManager = fm
     }
 
     //----------------------------------------------------------------------
@@ -35,65 +55,41 @@ class DetallePublicacionViewModel : ViewModel() {
     }
 
     //-------------------- Redireccion a whatsapp --------------------------------------------------
-    fun whatsapp(index : Int){
+    fun confirmRedirectionToWhatsapp(index : Int){
         val prestador = getPrestadorById(index)
-        val msg = "Hola. Te quiero contratar"
-        val packageWhatsApp = "com.whatsapp"
+        val calendarLive = this.selectedDay.value
+        val timeLive = this.selectedHour.value
 
-        //if(isAppInstalled(packageWhatsApp)){
-
-            /*--> TODO: Opcion 1
-            val sendIntent = Intent().apply {
-                action = Intent.ACTION_SEND
-                putExtra(Intent.EXTRA_TEXT, msg)
-                putExtra("jid", "${prestador.numtel}@s.whatsapp.net")
-                //putExtra("jid", "https://api.whatsapp.com/send/?phone=${prestador.numtel}")
-                type = "text/plain"
-                setPackage(packageWhatsApp)
-            }
-            */
-
-            /*--> TODO: Opcion 2
-            val gmnIntentUri = Uri.parse("https://api.whatsapp.com/send?phone=${prestador.numtel}&text=${msg}")
-            val sendIntent = Intent(Intent.ACTION_VIEW, gmnIntentUri)
-            sendIntent.setPackage(packageWhatsApp)
-            view.context.startActivity(sendIntent)
-            */
-
-            //--> TODO: Opcion 3
-            val gmnIntentUri = Uri.parse("https://wa.me/${prestador.numtel}?text=${msg}")
-            val sendIntent = Intent(Intent.ACTION_VIEW, gmnIntentUri)
-            sendIntent.setPackage(packageWhatsApp)
-            view.context.startActivity(sendIntent)
-
-        /*}
+        if(calendarLive != null && timeLive != null){
+            whatsAppViewModel.confirmRedirectionToWhatsapp(prestador, view)
+        }
         else{
-            Snackbar.make(view, "Debes instalar Whatsapp", Snackbar.LENGTH_SHORT).show()
-        }*/
-    }
-
-    //--> Chequea que la App este instalada
-    private fun isAppInstalled(packageName: String): Boolean {
-        val pm: PackageManager = view.context.packageManager
-        return try {
-            pm.getPackageInfo(packageName, PackageManager.GET_ACTIVITIES)
-            true
-        } catch (e: PackageManager.NameNotFoundException) {
-            false
+            Snackbar.make(view, "Debes seleccionar el horario", Snackbar.LENGTH_SHORT).show()
         }
     }
 
-    //--> Pop up para confirmar el redireccionamiento 
-    fun confirmRedirectionToWhatsapp(index : Int){
-        MaterialAlertDialogBuilder(view.context)
-            .setTitle("Confirmar")
-            .setMessage("Deseas ser redireccionado a whatsapp?")
-            .setNegativeButton("Cancelar") { dialog, which ->
-                //view.findNavController().navigateUp()
-            }
-            .setPositiveButton("Aceptar") { dialog, which ->
-                this.whatsapp(index)
-            }
-            .show()
+    //-------------------- Seleccion del Horario --------------------------------------------------
+    fun selectDate(){
+        val calendar = calendarViewModel.calendar(this.fragmentManager)
+        initializeCalendarMutableLiveData(calendar)
     }
+
+    fun selectHour(servicioIndex : Int){
+        val fecha = this.selectedDay.value
+        if(fecha != null){
+            timeViewModel.showTimePicker(view, fecha, servicioIndex, this.selectedHour, this.fragmentManager)
+        }
+    }
+
+    //---------------- Calendario ------------------------------------------
+    private fun initializeCalendarMutableLiveData(datePicker : MaterialDatePicker<Long>){
+
+        datePicker.addOnPositiveButtonClickListener { selection: Long? ->
+            val calendar = Calendar.getInstance(TimeZone.getTimeZone("UTC"))
+            calendar.time = Date(selection!!)
+            this.selectedDay.value = "${calendar.get(Calendar.DAY_OF_MONTH)}-" +
+                    "${calendar.get(Calendar.MONTH) + 1}-${calendar.get(Calendar.YEAR)}"
+        }
+    }
+
 }

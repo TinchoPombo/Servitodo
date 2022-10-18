@@ -1,14 +1,20 @@
 package com.ort.servitodo.entities
 
-import java.text.DateFormat
+class Pedido (id : Int, idServicio : Int, idCliente : Int, fecha : String, hora : String, estado : TipoEstado)
+{
+    var id : Int
+    var idServicio : Int
+    var idCliente : Int
+    var fecha : String
+    var hora : String
+    var estado : TipoEstado
 
-class Pedido (
-    var id : Int,
-    var idServicio : Int,
-    var idCliente : Int,
-    var fecha : DateFormat,
-    var estado : Int,
-
-    // var horario????
-        ){
+    init {
+        this.id = id
+        this.idServicio = idServicio
+        this.idCliente = idCliente
+        this.fecha = fecha
+        this.hora = hora
+        this.estado = estado
+    }
 }
