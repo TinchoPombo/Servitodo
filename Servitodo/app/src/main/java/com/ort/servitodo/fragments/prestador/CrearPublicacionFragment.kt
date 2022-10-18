@@ -18,6 +18,7 @@ import com.google.firebase.ktx.Firebase
 import com.ort.servitodo.R
 import com.ort.servitodo.databinding.FragmentCrearPublicacionBinding
 import com.ort.servitodo.databinding.FragmentDetallePublicacionBinding
+import com.ort.servitodo.entities.Publicacion
 import com.ort.servitodo.entities.Usuario
 import com.ort.servitodo.viewmodels.prestador.CrearPublicacionViewModel
 
@@ -53,12 +54,29 @@ class CrearPublicacionFragment : Fragment() {
     override fun onStart() {
         super.onStart()
 
-        var usuario: Usuario = Usuario(1, "Roque", "Fort", "roquefort@gmail.com", "quericoelroque", "1111111", "")
+        viewModel.initTestList()
 
         binding.btnCrearPublicacionCp.setOnClickListener {
-            // viewModel.crearPublicacion(usuario, binding. )
-            db.collection("usuarios").document(usuario.nombre).set(usuario)
-            //db.collection("usuarios").add(usuario)
+            for (publicacion in viewModel.listaPublicaciones) {
+                db.collection("publicaciones").document(publicacion.nombrePrestador).set(publicacion)
+            }
+        }
+
+        binding.btnTraerPublicaciones.setOnClickListener {
+            var docRef = db.collection("publicaciones").document("Pedro")
+
+            docRef.get()
+                .addOnSuccessListener { dataSnapshot ->
+                    if (dataSnapshot != null) {
+                        val publicacion  = dataSnapshot.toObject<Publicacion>()
+                        Log.d("Test", "DocumentSnapshot data: ${publicacion.toString()}")
+                    } else {
+                        Log.d("Test", "No such document")
+                    }
+                }
+                .addOnFailureListener { exception ->
+                    Log.d("Test", "get failed with ", exception)
+                }
         }
 
     }
