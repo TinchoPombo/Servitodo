@@ -7,13 +7,46 @@
     android:layout_height="match_parent"
     tools:context=".fragments.prestador.CrearPublicacionFragment" >
 
+    <Button
+        android:id="@+id/btn_crear_publicacion_cp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="131dp"
+        android:text="CREAR PUBLICACION"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <EditText
+        android:id="@+id/txt_descripcion"
+        android:layout_width="269dp"
+        android:layout_height="49dp"
+        android:layout_marginTop="59dp"
+        android:ems="10"
+        android:gravity="start|top"
+        android:inputType="textMultiLine"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/spinner_rubro" />
+
+    <Spinner
+        android:id="@+id/spinner_rubro"
+        android:layout_width="265dp"
+        android:layout_height="43dp"
+        android:layout_marginTop="284dp"
+        android:layout_marginEnd="10dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.536"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <TextView
         android:id="@+id/textView6"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="CREAR PUBLICACION"
         android:textSize="34sp"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

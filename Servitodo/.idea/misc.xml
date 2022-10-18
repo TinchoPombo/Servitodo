@@ -3,6 +3,9 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Estudio/ORT/cuartoCuatrimestre/Nueva carpeta/Servitodo/Servitodo/app/src/main/res/layout/fragment_crear_publicacion.xml" value="0.25" />
+        <entry key="..\:/Estudio/ORT/cuartoCuatrimestre/Nueva carpeta/Servitodo/Servitodo/app/src/main/res/layout/fragment_detalle_publicacion.xml" value="0.5" />
+        <entry key="..\:/Estudio/ORT/cuartoCuatrimestre/Nueva carpeta/Servitodo/Servitodo/app/src/main/res/layout/fragment_home_prestador.xml" value="0.25" />
         <entry key="..\:/Estudio/ORT/cuartoCuatrimestre/TP3/Servitodo/Servitodo/app/src/main/res/layout/activity_main.xml" value="0.296195652173913" />
         <entry key="..\:/Estudio/ORT/cuartoCuatrimestre/TP3/Servitodo/Servitodo/app/src/main/res/layout/fragment_detalle_publicacion.xml" value="0.33" />
         <entry key="..\:/Estudio/ORT/cuartoCuatrimestre/TP3/Servitodo/Servitodo/app/src/main/res/layout/fragment_home_cliente.xml" value="0.296195652173913" />
