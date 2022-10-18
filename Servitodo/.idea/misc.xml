@@ -38,9 +38,13 @@
         <entry key="..\:/Estudio/ORT/cuartoCuatrimestre/TP3/Servitodo/app/src/main/res/menu/bottom_bar_prestador.xml" value="0.33177083333333335" />
         <entry key="..\:/SERVITODO/Servitodo/app/src/main/res/layout/activity_cliente.xml" value="0.2" />
         <entry key="..\:/SERVITODO/Servitodo/app/src/main/res/layout/activity_main.xml" value="0.2" />
-        <entry key="..\:/SERVITODO/Servitodo/app/src/main/res/layout/fragment_detalle_publicacion.xml" value="0.33" />
+        <entry key="..\:/SERVITODO/Servitodo/app/src/main/res/layout/fragment_blank.xml" value="0.2" />
+        <entry key="..\:/SERVITODO/Servitodo/app/src/main/res/layout/fragment_detalle_publicacion.xml" value="0.26063829787234044" />
         <entry key="..\:/SERVITODO/Servitodo/app/src/main/res/layout/fragment_home_cliente.xml" value="0.33" />
         <entry key="..\:/SERVITODO/Servitodo/app/src/main/res/layout/fragment_publicacion.xml" value="0.2" />
+        <entry key="..\:/SERVITODO/Servitodo/app/src/main/res/layout/fragment_time_picker.xml" value="0.1859375" />
+        <entry key="..\:/SERVITODO/Servitodo/app/src/main/res/layout/fragment_whats_app.xml" value="0.1859375" />
+        <entry key="..\:/SERVITODO/Servitodo/app/src/main/res/layout/fragment_whatsa_app.xml" value="0.2" />
       </map>
     </option>
   </component>
