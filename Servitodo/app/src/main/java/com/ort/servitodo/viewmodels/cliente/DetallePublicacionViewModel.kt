@@ -6,6 +6,7 @@ import android.view.View
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.navigation.findNavController
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.snackbar.Snackbar
 import com.ort.servitodo.entities.Prestador
@@ -55,7 +56,7 @@ class DetallePublicacionViewModel : ViewModel() {
     }
 
     //-------------------- Redireccion a whatsapp --------------------------------------------------
-    fun confirmRedirectionToWhatsapp(index : Int){
+    fun whatsapp(index : Int){
         val prestador = getPrestadorById(index)
         val calendarLive = this.selectedDay.value
         val timeLive = this.selectedHour.value
@@ -64,7 +65,7 @@ class DetallePublicacionViewModel : ViewModel() {
             whatsAppViewModel.confirmRedirectionToWhatsapp(prestador, view)
         }
         else{
-            Snackbar.make(view, "Debes seleccionar el horario", Snackbar.LENGTH_SHORT).show()
+            Snackbar.make(this.view, "Debes seleccionar el horario", Snackbar.LENGTH_SHORT).show()
         }
     }
 

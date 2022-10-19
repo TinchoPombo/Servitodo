@@ -69,10 +69,7 @@ class WhatsAppViewModel : ViewModel() {
             }
             .setPositiveButton("Aceptar") { dialog, which ->
                 this.whatsapp(prestador, view)
-
-                //--> TODO: AGREGAR REDIRECCION A LA HOME o HISTORIAL
                 view.findNavController().navigateUp()
-
             }
             .show()
     }
