@@ -11,6 +11,10 @@ import com.bumptech.glide.Glide
 import com.ort.servitodo.databinding.FragmentDetallePublicacionBinding
 import com.ort.servitodo.entities.Publicacion
 import com.ort.servitodo.viewmodels.cliente.DetallePublicacionViewModel
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
 
 class DetallePublicacionFragment : Fragment() {
 
@@ -44,7 +48,7 @@ class DetallePublicacionFragment : Fragment() {
 
         //--> Index recibido por parametro
         receiveIndex = DetallePublicacionFragmentArgs.fromBundle(requireArguments()).publicacionIndex
-        publicacion = detalleViewModel.getPublicacionByIndex(receiveIndex)
+        detalleViewModel.initDetalle(receiveIndex)
 
         detalleViewModel.setView(v)
         detalleViewModel.setFragmentManager(activity?.supportFragmentManager!!)
@@ -55,17 +59,29 @@ class DetallePublicacionFragment : Fragment() {
     override fun onStart() {
         super.onStart()
 
-        binding.txtNombrePublicacion.text = "Nombre: " + publicacion.nombrePrestador
-        binding.txtApellidoPublicacion.text = "Apellido: " + publicacion.apellidoPrestador
-        binding.txtRubroPublicacion.text =  "Rubro: " + publicacion.nombreRubro
-        binding.txtCalificacionPublicacion.text = "Calificacion: "
-        binding.txtDescripcionPublicacion.text = "Descripcion: "
-
-        Glide
-            .with(v)
-            .load(publicacion.fotoPrestador)
-            .into(binding.imgPrestadorPublicacion);
-
+        detalleViewModel.nombre.observe(viewLifecycleOwner, Observer { result ->
+            binding.txtNombrePublicacion.text = result.toString()
+        })
+        detalleViewModel.apellido.observe(viewLifecycleOwner, Observer { result ->
+            binding.txtApellidoPublicacion.text = result.toString()
+        })
+        detalleViewModel.rubro.observe(viewLifecycleOwner, Observer { result ->
+            binding.txtRubroPublicacion.text = result.toString()
+        })
+        detalleViewModel.calificacion.observe(viewLifecycleOwner, Observer { result ->
+            binding.txtCalificacionPublicacion.text = result.toString()
+        })
+        detalleViewModel.descripcion.observe(viewLifecycleOwner, Observer { result ->
+            binding.txtDescripcionPublicacion.text = result.toString()
+        })
+        detalleViewModel.fotoPrestador.observe(viewLifecycleOwner, Observer { result ->
+            Glide
+                .with(v)
+                .load(result.toString())
+                .into(binding.imgPrestadorPublicacion);
+        })
+        
+        //----------------------------------------------------------------------------------
         detalleViewModel.selectedDay.observe(viewLifecycleOwner, Observer { result ->
             binding.fechaseleccionadaTextView.text = result.toString()
             detalleViewModel.selectHour(receiveIndex)

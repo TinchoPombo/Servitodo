@@ -6,6 +6,7 @@ import android.view.View
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import androidx.navigation.findNavController
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.snackbar.Snackbar
@@ -16,6 +17,10 @@ import com.ort.servitodo.repositories.PublicacionRepository
 import com.ort.servitodo.viewmodels.resources.CalendarViewModel
 import com.ort.servitodo.viewmodels.resources.TimePickerViewModel
 import com.ort.servitodo.viewmodels.resources.WhatsAppViewModel
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
 import java.util.*
 
 class DetallePublicacionViewModel : ViewModel() {
@@ -23,8 +28,9 @@ class DetallePublicacionViewModel : ViewModel() {
     private lateinit var view : View
     private lateinit var fragmentManager: FragmentManager
 
-    //--> Repositorios hardcodeados TODO: (cambiar por BD)
     private var publicacionRepository = PublicacionRepository()
+
+    //--> Repositorios hardcodeados TODO: (cambiar por BD)
     private var prestadorRepository = PrestadorRepository()
 
     //--> View Models
@@ -36,6 +42,12 @@ class DetallePublicacionViewModel : ViewModel() {
     val selectedDay = MutableLiveData<String>()
     val selectedHour = MutableLiveData<String>()
 
+    val nombre = MutableLiveData<String>()
+    val apellido = MutableLiveData<String>()
+    val rubro = MutableLiveData<String>()
+    val calificacion = MutableLiveData<String>()
+    val descripcion = MutableLiveData<String>()
+    val fotoPrestador = MutableLiveData<String>()
 
     //----------------------------------------------------------------------
     fun setView(v : View){
@@ -47,15 +59,28 @@ class DetallePublicacionViewModel : ViewModel() {
     }
 
     //----------------------------------------------------------------------
-    fun getPublicacionByIndex(receiveIndex : Int) : Publicacion{
-        return publicacionRepository.getPublicaciones()[receiveIndex]
+    fun initDetalle(index : Int){
+        viewModelScope.launch {
+            var publicacion = publicacionRepository.getPublicacionById(index)
+
+            initLiveData(publicacion)
+        }
     }
 
+    fun initLiveData(publicacion : Publicacion){
+        nombre.value = "Nombre: ${publicacion.nombrePrestador}"
+        apellido.value = "Apellido: ${publicacion.apellidoPrestador}"
+        rubro.value = "Rubro: ${publicacion.nombreRubro}"
+        calificacion.value = "Calificacion: "
+        descripcion.value = "Descripcion: ${publicacion.descripcion}"
+        fotoPrestador.value = publicacion.fotoPrestador
+    }
+
+    //-------------------- Redireccion a whatsapp --------------------------------------------------
     fun getPrestadorById(index : Int) : Prestador {
         return prestadorRepository.getPrestadores()[index]
     }
 
-    //-------------------- Redireccion a whatsapp --------------------------------------------------
     fun whatsapp(index : Int){
         val prestador = getPrestadorById(index)
         val calendarLive = this.selectedDay.value
