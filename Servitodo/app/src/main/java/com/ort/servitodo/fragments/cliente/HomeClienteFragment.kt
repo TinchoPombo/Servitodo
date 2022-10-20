@@ -31,7 +31,6 @@ class HomeClienteFragment : Fragment() {
     }
     */
 
-    lateinit var recyclerPublicacion : RecyclerView
     //lateinit var publicacionAdapter : PublicacionAdapter
 
     override fun onCreateView(
@@ -42,7 +41,6 @@ class HomeClienteFragment : Fragment() {
 
         v = binding.root
 
-        recyclerPublicacion = v.findViewById(R.id.recPublicacion)
         homeClienteViewModel.setView(v)
 
         return v
@@ -51,11 +49,13 @@ class HomeClienteFragment : Fragment() {
     override fun onStart() {
         super.onStart()
 
+        homeClienteViewModel.emptyList()
+
         homeClienteViewModel.cargando.observe(viewLifecycleOwner, Observer { result ->
             binding.cargandoTxt.text = result.toString()
         })
 
-        homeClienteViewModel.recyclerView(recyclerPublicacion)
+        homeClienteViewModel.recyclerView(binding.recPublicacion)
 
     }
 

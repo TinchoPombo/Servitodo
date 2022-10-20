@@ -19,16 +19,19 @@ class HomeClienteViewModel : ViewModel() {
     private var repository = PublicacionRepository()
 
     val cargando = MutableLiveData<String>()
+    var publicaciones : MutableList<Publicacion> = arrayListOf()
 
     //-------------------------------------------------------------------------------
     fun setView(v : View){
         this.view = v
     }
 
+    fun emptyList(){
+        this.publicaciones.removeAll(this.publicaciones)
+    }
+
     //-------------------------------------------------------------------------------
     fun recyclerView(recyclerPublicacion : RecyclerView){
-
-        var publicaciones : MutableList<Publicacion> = arrayListOf()
 
         cargando.value = "Cargando..."
 
@@ -43,7 +46,6 @@ class HomeClienteViewModel : ViewModel() {
 
             recyclerPublicacion.adapter = PublicacionAdapter(publicaciones){ pos ->
                 onItemClick(pos)
-                publicaciones.removeAll(publicaciones)
             }
 
         }
