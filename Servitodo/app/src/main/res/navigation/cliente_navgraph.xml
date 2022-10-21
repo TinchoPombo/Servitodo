@@ -54,4 +54,9 @@
             android:name="publicacionIndex"
             app:argType="integer" />
     </fragment>
+    <fragment
+        android:id="@+id/pedidosClienteFragment"
+        android:name="com.ort.servitodo.fragments.cliente.PedidosClienteFragment"
+        android:label="fragment_pedidos_cliente"
+        tools:layout="@layout/fragment_pedidos_cliente" />
 </navigation>
