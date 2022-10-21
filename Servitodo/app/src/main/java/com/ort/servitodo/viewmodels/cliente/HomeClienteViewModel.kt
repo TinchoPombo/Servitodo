@@ -27,7 +27,7 @@ class HomeClienteViewModel : ViewModel() {
     }
 
     fun emptyList(){
-        this.publicaciones.removeAll(this.publicaciones)
+        this.publicaciones.clear()
     }
 
     //-------------------------------------------------------------------------------
@@ -38,16 +38,20 @@ class HomeClienteViewModel : ViewModel() {
         viewModelScope.launch{
             publicaciones = repository.getPublicaciones()
 
-            recyclerPublicacion.setHasFixedSize(true)
-
-            cargando.value = ""
-
-            recyclerPublicacion.layoutManager  = LinearLayoutManager(view.context)
-
-            recyclerPublicacion.adapter = PublicacionAdapter(publicaciones){ pos ->
-                onItemClick(pos)
+            if(publicaciones.size < 1) {
+                cargando.value = "No hay publicaciones disponibles"
             }
+            else{
+                recyclerPublicacion.setHasFixedSize(true)
 
+                cargando.value = ""
+
+                recyclerPublicacion.layoutManager  = LinearLayoutManager(view.context)
+
+                recyclerPublicacion.adapter = PublicacionAdapter(publicaciones){ pos ->
+                    onItemClick(pos)
+                }
+            }
         }
     }
 

@@ -3,13 +3,13 @@
 
     <item
         android:id="@+id/homeClienteFragment"
-        android:icon="@drawable/home"
+        android:icon="@drawable/home_2"
         android:title="Home" />
 
     <item
-        android:id="@+id/fragment2"
-        android:icon="@drawable/google_maps_pointer"
-        android:title="Maps"
+        android:id="@+id/pedidosClienteFragment"
+        android:icon="@drawable/order"
+        android:title="Pedidos"
         />
     <item
         android:id="@+id/fragment3"
@@ -17,6 +17,6 @@
         android:title="Favoritos" />
     <item
         android:id="@+id/perfilClienteFragment"
-        android:icon="@drawable/account"
+        android:icon="@drawable/user_3"
         android:title="Perfil" />
 </menu>

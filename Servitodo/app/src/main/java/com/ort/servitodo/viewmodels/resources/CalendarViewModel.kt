@@ -2,6 +2,7 @@ package com.ort.servitodo.viewmodels.resources
 
 import android.icu.util.Calendar
 import android.icu.util.GregorianCalendar
+import android.icu.util.TimeZone
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.ViewModel
 import com.google.android.material.datepicker.CalendarConstraints
@@ -14,30 +15,27 @@ class CalendarViewModel : ViewModel() {
     private val calendar = Calendar.getInstance()
 
     //-------------------------------------------------------------------------------
-/*
-    private fun limitRange(today : Long): CalendarConstraints.Builder {
 
-        val constraintsBuilderRange = CalendarConstraints.Builder()
+    /*private fun constraint() : CalendarConstraints.Builder{
+        val today = MaterialDatePicker.todayInUtcMilliseconds()
+        val calendar = Calendar.getInstance(TimeZone.getTimeZone("UTC"))
 
-        val calendarStart: Calendar = GregorianCalendar.getInstance()
-        val calendarEnd: Calendar = GregorianCalendar.getInstance()
+        calendar.timeInMillis = today
+        calendar[Calendar.MONTH] = Calendar.JANUARY
+        val janThisYear = calendar.timeInMillis
 
-        val year = 2022
+        calendar.timeInMillis = today
+        calendar[Calendar.MONTH] = Calendar.DECEMBER
+        val decThisYear = calendar.timeInMillis
 
-        calendarStart.set(Calendar.YEAR, Calendar.MONTH, today.toInt())
-        calendarEnd.set(Calendar.YEAR, Calendar.MONTH+2, today.toInt())
+        val constraintsBuilder =
+            CalendarConstraints.Builder()
+                .setStart(janThisYear)
+                .setEnd(decThisYear)
+                .setValidator(DateValidatorPointForward.now())
 
-        val minDate = calendarStart.timeInMillis
-        val maxDate = calendarEnd.timeInMillis
-
-        constraintsBuilderRange.setStart(minDate)
-        constraintsBuilderRange.setEnd(maxDate)
-        constraintsBuilderRange.setValidator(DateValidatorPointForward.now())
-        //constraintsBuilderRange.setValidator(RangeValidator(minDate, maxDate))
-
-        return constraintsBuilderRange
-    }
-*/
+        return constraintsBuilder
+    }*/
 
     fun calendar(fm : FragmentManager) : MaterialDatePicker<Long>{
 
@@ -45,6 +43,8 @@ class CalendarViewModel : ViewModel() {
 
         val constraintsBuilder = CalendarConstraints.Builder()
             .setValidator(DateValidatorPointForward.now())
+
+        /* val constraintsBuilder = constraint() */
 
         val datePicker = MaterialDatePicker.Builder.datePicker()
             .setTitleText("Selecciona una fecha")

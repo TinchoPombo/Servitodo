@@ -22,7 +22,7 @@ class TimePickerViewModel : ViewModel() {
         var unavailableHours = arrayOf<String>()
 
         for(p in pedidos){
-            if(p.fecha == fecha && p.idServicio == servicio+1 && p.estado == TipoEstado.APROBADO){
+            if(p.fecha == fecha && p.idPublicacion == servicio+1 && p.estado == TipoEstado.APROBADO.toString()){
                 unavailableHours += p.hora
             }
         }

@@ -86,7 +86,7 @@ class DetallePublicacionViewModel : ViewModel() {
         val calendarLive = this.selectedDay.value
         val timeLive = this.selectedHour.value
 
-        if(calendarLive != null && timeLive != null){
+        if(!calendarLive.isNullOrEmpty() && !timeLive.isNullOrEmpty()){
             whatsAppViewModel.confirmRedirectionToWhatsapp(prestador, view)
         }
         else{
