@@ -36,10 +36,10 @@ class PedidosClienteViewModel : ViewModel() {
     //----------------------------------------------------------------------------------------
     fun recyclerView(recyclerPedidos : RecyclerView){
 
-        cargando.value = "Esta es la lista de pedidos solicitados por el cliente. " +
-                "Esta pantalla esta en desarrollo. Disculpe las molestias"
+        /*cargando.value = "Esta es la lista de pedidos solicitados por el cliente. " +
+                "Esta pantalla esta en desarrollo. Disculpe las molestias"*/
 
-        /*cargando.value = "Cargando..."
+        cargando.value = "Cargando..."
 
         viewModelScope.launch{
             pedidos = repository.getPedidos()
@@ -55,15 +55,17 @@ class PedidosClienteViewModel : ViewModel() {
                 recyclerPedidos.layoutManager  = LinearLayoutManager(view.context)
 
                 recyclerPedidos.adapter = PedidosAdapter(pedidos){ pos ->
-                    //onItemClick(pos)
+                    onItemClick(pos)
                 }
             }
-        }*/
+        }
     }
 
-    //--> Si queremos que aparezca en detalle el pedido solicitado
-    /*private fun onItemClick(position : Int){
-        val action = HomeClienteFragmentDirections.actionHomeClienteFragmentToDetallePublicacionFragment(position)
-        view.findNavController().navigate(action)
-    }*/
+    private fun onItemClick(position : Int){
+        /*val action = HomeClienteFragmentDirections.actionHomeClienteFragmentToDetallePublicacionFragment(position)
+        view.findNavController().navigate(action)*/
+
+
+
+    }
 }

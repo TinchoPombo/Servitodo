@@ -51,8 +51,8 @@
             android:id="@+id/action_detallePublicacionFragment_to_opinionesPrestadorFragment"
             app:destination="@id/opinionesPrestadorFragment" />
         <argument
-            android:name="publicacionIndex"
-            app:argType="integer" />
+            android:name="receivePublicacion"
+            app:argType="com.ort.servitodo.entities.Publicacion" />
     </fragment>
     <fragment
         android:id="@+id/pedidosClienteFragment"

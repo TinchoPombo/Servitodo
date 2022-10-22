@@ -35,8 +35,7 @@ class DetallePublicacionFragment : Fragment() {
     }
     */
 
-    private lateinit var publicacion : Publicacion
-    private var receiveIndex : Int = 0
+    private var receivePublicacion = Publicacion()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -47,8 +46,10 @@ class DetallePublicacionFragment : Fragment() {
         v = binding.root
 
         //--> Index recibido por parametro
-        receiveIndex = DetallePublicacionFragmentArgs.fromBundle(requireArguments()).publicacionIndex
-        detalleViewModel.initDetalle(receiveIndex)
+        receivePublicacion = DetallePublicacionFragmentArgs.fromBundle(requireArguments()).receivePublicacion
+        detalleViewModel.setPublicacion(receivePublicacion)
+
+        detalleViewModel.initLiveData()
 
         detalleViewModel.setView(v)
         detalleViewModel.setFragmentManager(activity?.supportFragmentManager!!)
@@ -84,7 +85,7 @@ class DetallePublicacionFragment : Fragment() {
         //----------------------------------------------------------------------------------
         detalleViewModel.selectedDay.observe(viewLifecycleOwner, Observer { result ->
             binding.fechaseleccionadaTextView.text = result.toString()
-            detalleViewModel.selectHour(receiveIndex)
+            detalleViewModel.selectHour()
         })
         detalleViewModel.selectedHour.observe(viewLifecycleOwner, Observer { result ->
             binding.horaseleccionadaTextView.text = result.toString()
@@ -95,7 +96,7 @@ class DetallePublicacionFragment : Fragment() {
         }
 
         binding.contratarButton.setOnClickListener{
-            detalleViewModel.whatsapp(receiveIndex)
+            detalleViewModel.whatsapp()
         }
 
     }
