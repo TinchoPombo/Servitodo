@@ -52,17 +52,17 @@ class PedidosAdapter (
             this.view = v
         }
 
-        suspend fun setRubro(rubro : String) {
+        fun setRubro(rubro : String) {
             var txtRubro: TextView = view.findViewById(R.id.txtRubro)
             txtRubro.text = rubro
         }
 
-        suspend fun setNombrePrestador(nombre : String) {
+        fun setNombrePrestador(nombre : String) {
             var txtNombrePrestador: TextView = view.findViewById(R.id.txtNombrePrestador)
             txtNombrePrestador.text = nombre
         }
 
-        suspend fun setImagenPrestador(img : String) {
+        fun setImagenPrestador(img : String) {
             var imgPedido: ImageView = view.findViewById(R.id.imgPedido)
             Glide
                 .with(view)
@@ -94,6 +94,10 @@ class PedidosAdapter (
 
         fun getCardView(): CardView {
             return view.findViewById(R.id.cardPedido)
+        }
+
+        fun whatsapp(){
+
         }
 
     }

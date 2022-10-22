@@ -4,9 +4,12 @@ import android.view.View
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.ort.servitodo.entities.Publicacion
 import com.ort.servitodo.entities.TipoEstado
 import com.ort.servitodo.repositories.PedidosRepository
+import kotlinx.coroutines.launch
 
 class TimePickerViewModel : ViewModel() {
 
@@ -14,18 +17,20 @@ class TimePickerViewModel : ViewModel() {
     private var calendar = CalendarViewModel()
 
     //----------------------------------------------------------------------
-    private fun getUnavailableHours(fecha : String, servicio : Int) : Array<String>{
-
-        //--> Array que obtiene las horas que ya estan reservadas TODO: SACAR DE LA DB
-        val pedidos = pedidos.getPedidos()
+    private suspend fun getUnavailableHours(fecha : String, publicacion : Publicacion) : Array<String>{
 
         var unavailableHours = arrayOf<String>()
+        val pedidos = pedidos.getPedidos()
+        val pedidoEncontrado = pedidos.find{p -> p.idPublicacion == publicacion.idServicio}
 
-        for(p in pedidos){
-            if(p.fecha == fecha && p.idPublicacion == servicio+1 && p.estado == TipoEstado.APROBADO.toString()){
-                unavailableHours += p.hora
+        if(pedidoEncontrado != null){
+            val condFecha = pedidoEncontrado.fecha == fecha
+            val condEstados = pedidoEncontrado.estado == TipoEstado.APROBADO.toString() || pedidoEncontrado.estado == TipoEstado.RESERVADO.toString() || pedidoEncontrado.estado == TipoEstado.EN_CURSO.toString()
+            if(condFecha && condEstados){
+                unavailableHours += pedidoEncontrado.hora
             }
         }
+
         return unavailableHours
     }
 
@@ -40,36 +45,38 @@ class TimePickerViewModel : ViewModel() {
     }
 
 
-    fun showTimePicker(view : View, date : String, service: Int, selectedHour : MutableLiveData<String>, fm : FragmentManager) {
+    fun showTimePicker(view : View, date : String, publicacion: Publicacion, selectedHour : MutableLiveData<String>) {
 
-        val unavailableHours = getUnavailableHours(date, service)
-        val availableHours = getAvailableHours(unavailableHours)
+        viewModelScope.launch {
+            val unavailableHours = getUnavailableHours(date, publicacion)
+            val availableHours = getAvailableHours(unavailableHours)
 
-        val checkedHour = 1
+            val checkedHour = 1
 
-        //--> En caso de no haber horarios, se cambia el mensaje
-        var title = "Horarios disponibles para el dia ${date}"
-        if(availableHours.size == 0){
-            title = "No hay horarios disponibles. Elija otra fecha"
+            //--> En caso de no haber horarios, se cambia el mensaje
+            var title = "Horarios disponibles para el dia ${date}"
+            if (availableHours.size == 0) {
+                title = "No hay horarios disponibles. Elija otra fecha"
+            }
+
+            MaterialAlertDialogBuilder(view.context)
+                .setTitle(title)
+                .setNegativeButton("cancelar") { dialog, which ->
+
+                }
+                /*
+                .setNeutralButton("cambiar fecha") { dialog, which ->
+
+                }
+                */
+                .setPositiveButton("ok") { dialog, which ->
+
+                }
+                .setSingleChoiceItems(availableHours, checkedHour) { dialog, which ->
+                    selectedHour.value = "${availableHours[which]} hs"
+                }
+                .show()
         }
-
-        MaterialAlertDialogBuilder(view.context)
-            .setTitle(title)
-            .setNegativeButton("cancelar") { dialog, which ->
-
-            }
-            /*
-            .setNeutralButton("cambiar fecha") { dialog, which ->
-                calendar.calendar(fm)
-            }
-            */
-            .setPositiveButton("ok") { dialog, which ->
-
-            }
-            .setSingleChoiceItems(availableHours, checkedHour) { dialog, which ->
-                selectedHour.value = "${availableHours[which]} hs"
-            }
-            .show()
     }
 
 }

@@ -27,11 +27,8 @@ class DetallePublicacionViewModel : ViewModel() {
 
     private lateinit var view : View
     private lateinit var fragmentManager: FragmentManager
+    private lateinit var publicacion: Publicacion
 
-    private var publicacionRepository = PublicacionRepository()
-
-    //--> Repositorios hardcodeados TODO: (cambiar por BD)
-    private var prestadorRepository = PrestadorRepository()
 
     //--> View Models
     private val calendarViewModel = CalendarViewModel()
@@ -58,36 +55,27 @@ class DetallePublicacionViewModel : ViewModel() {
         this.fragmentManager = fm
     }
 
-    //----------------------------------------------------------------------
-    fun initDetalle(index : Int){
-        viewModelScope.launch {
-            var publicacion = publicacionRepository.getPublicacionById(index)
-
-            initLiveData(publicacion)
-        }
+    fun setPublicacion(publicacion : Publicacion){
+        this.publicacion = publicacion
     }
 
-    fun initLiveData(publicacion : Publicacion){
-        nombre.value = "Nombre: ${publicacion.nombrePrestador}"
-        apellido.value = "Apellido: ${publicacion.apellidoPrestador}"
-        rubro.value = "Rubro: ${publicacion.nombreRubro}"
+    //----------------------------------------------------------------------
+    fun initLiveData(){
+        nombre.value = "Nombre: ${this.publicacion.nombrePrestador}"
+        apellido.value = "Apellido: ${this.publicacion.apellidoPrestador}"
+        rubro.value = "Rubro: ${this.publicacion.nombreRubro}"
         calificacion.value = "Calificacion: "
-        descripcion.value = "Descripcion: ${publicacion.descripcion}"
-        fotoPrestador.value = publicacion.fotoPrestador
+        descripcion.value = "Descripcion: ${this.publicacion.descripcion}"
+        fotoPrestador.value = this.publicacion.fotoPrestador
     }
 
     //-------------------- Redireccion a whatsapp --------------------------------------------------
-    fun getPrestadorById(index : Int) : Prestador {
-        return prestadorRepository.getPrestadores()[index]
-    }
-
-    fun whatsapp(index : Int){
-        val prestador = getPrestadorById(index)
+    fun whatsapp(){
         val calendarLive = this.selectedDay.value
         val timeLive = this.selectedHour.value
 
         if(!calendarLive.isNullOrEmpty() && !timeLive.isNullOrEmpty()){
-            whatsAppViewModel.confirmRedirectionToWhatsapp(prestador, view)
+            whatsAppViewModel.confirmRedirectionToWhatsapp(this.publicacion, view)
         }
         else{
             Snackbar.make(this.view, "Debes seleccionar el horario", Snackbar.LENGTH_SHORT).show()
@@ -100,10 +88,10 @@ class DetallePublicacionViewModel : ViewModel() {
         initializeCalendarMutableLiveData(calendar)
     }
 
-    fun selectHour(servicioIndex : Int){
+    fun selectHour(){
         val fecha = this.selectedDay.value
         if(fecha != null){
-            timeViewModel.showTimePicker(view, fecha, servicioIndex, this.selectedHour, this.fragmentManager)
+            timeViewModel.showTimePicker(view, fecha, this.publicacion, this.selectedHour)
         }
     }
 

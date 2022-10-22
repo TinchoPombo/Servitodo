@@ -56,8 +56,12 @@ class HomeClienteViewModel : ViewModel() {
     }
 
     private fun onItemClick(position : Int){
-        val action = HomeClienteFragmentDirections.actionHomeClienteFragmentToDetallePublicacionFragment(position)
-        view.findNavController().navigate(action)
+        viewModelScope.launch{
+            val publicacion = repository.getPublicacionByIndex(position)
+
+            val action = HomeClienteFragmentDirections.actionHomeClienteFragmentToDetallePublicacionFragment(publicacion)
+            view.findNavController().navigate(action)
+        }
     }
 
 }

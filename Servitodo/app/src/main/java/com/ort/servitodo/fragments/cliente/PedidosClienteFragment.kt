@@ -46,13 +46,21 @@ class PedidosClienteFragment : Fragment() {
     override fun onStart() {
         super.onStart()
 
-        //pedidosViewModel.emptyList()
+        pedidosViewModel.emptyList()
 
         pedidosViewModel.cargando.observe(viewLifecycleOwner, Observer { result ->
             binding.pedidosCargandotxt.text = result.toString()
         })
 
         pedidosViewModel.recyclerView(binding.recPedidos)
+
+        /*binding.whatsappPedidoButton.setOnClickListener{
+            pedidosViewModel.whatsapp()
+        }
+
+        binding.detallePedidoButton.setOnClickListener{
+            pedidosViewModel.detalle()
+        }*/
 
     }
 

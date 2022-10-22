@@ -9,10 +9,14 @@ import androidx.navigation.findNavController
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import com.ort.servitodo.entities.Prestador
+import com.ort.servitodo.entities.Publicacion
+import com.ort.servitodo.repositories.PrestadorRepository
 
 class WhatsAppViewModel : ViewModel() {
 
-    private fun whatsapp(prestador : Prestador, view : View){
+    private var prestadorRepository = PrestadorRepository()
+
+    private fun whatsapp(numtel : String, view : View){
 
         val msg = "Hola. Te quiero contratar"
         val packageWhatsApp = "com.whatsapp"
@@ -24,21 +28,21 @@ class WhatsAppViewModel : ViewModel() {
             action = Intent.ACTION_SEND
             putExtra(Intent.EXTRA_TEXT, msg)
             putExtra("jid", "${prestador.numtel}@s.whatsapp.net")
-            //putExtra("jid", "https://api.whatsapp.com/send/?phone=${prestador.numtel}")
+            //putExtra("jid", "https://api.whatsapp.com/send/?phone=${numtel}")
             type = "text/plain"
             setPackage(packageWhatsApp)
         }
         */
 
         /*--> TODO: Opcion 2
-        val gmnIntentUri = Uri.parse("https://api.whatsapp.com/send?phone=${prestador.numtel}&text=${msg}")
+        val gmnIntentUri = Uri.parse("https://api.whatsapp.com/send?phone=${numtel}&text=${msg}")
         val sendIntent = Intent(Intent.ACTION_VIEW, gmnIntentUri)
         sendIntent.setPackage(packageWhatsApp)
         view.context.startActivity(sendIntent)
         */
 
         //--> TODO: Opcion 3
-        val gmnIntentUri = Uri.parse("https://wa.me/${prestador.numtel}?text=${msg}")
+        val gmnIntentUri = Uri.parse("https://wa.me/${numtel}?text=${msg}")
         val sendIntent = Intent(Intent.ACTION_VIEW, gmnIntentUri)
         sendIntent.setPackage(packageWhatsApp)
         view.context.startActivity(sendIntent)
@@ -59,7 +63,7 @@ class WhatsAppViewModel : ViewModel() {
         }
     }
 
-    fun confirmRedirectionToWhatsapp(prestador : Prestador, view : View){
+    fun confirmRedirectionToWhatsapp(publicacion : Publicacion, view : View){
 
         MaterialAlertDialogBuilder(view.context)
             .setTitle("Confirmar")
@@ -68,9 +72,21 @@ class WhatsAppViewModel : ViewModel() {
 
             }
             .setPositiveButton("Aceptar") { dialog, which ->
-                this.whatsapp(prestador, view)
+                val numtel = getNumtel(publicacion)
+                this.whatsapp(numtel, view)
                 view.findNavController().navigateUp()
             }
             .show()
+    }
+
+    private fun getNumtel(publicacion : Publicacion) : String{
+        var numtel : String = ""
+        val prestadores = prestadorRepository.getPrestadores()
+        for(p in prestadores){
+            if(p.id == publicacion.idPrestador){
+                numtel = p.numtel
+            }
+        }
+        return numtel
     }
 }

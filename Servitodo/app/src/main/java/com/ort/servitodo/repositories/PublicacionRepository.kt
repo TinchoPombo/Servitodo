@@ -1,6 +1,7 @@
 package com.ort.servitodo.repositories
 
 
+import android.util.Log
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
@@ -14,7 +15,6 @@ class PublicacionRepository {
 
     suspend fun getPublicaciones () : MutableList<Publicacion>{
 
-        //listaPublicaciones : MutableList<Publicacion> = arrayListOf()
         val questionRef = db.collection("publicaciones")
 
         try {
@@ -27,15 +27,26 @@ class PublicacionRepository {
         return listaPublicaciones
     }
 
-    suspend fun getPublicacionById(id : Int) : Publicacion{
+     suspend fun getPublicacionById(id : Int) : Publicacion{
 
-        //var listaPublicaciones : MutableList<Publicacion> = arrayListOf()
         var publicacionEsperada = Publicacion()
-
          try {
              listaPublicaciones = getPublicaciones()
-             publicacionEsperada = listaPublicaciones.elementAt(id)
-         } catch (e : Exception) { }
+             publicacionEsperada = listaPublicaciones.find { p -> p.idServicio == id }!!
+         } catch (e : Exception) {
+             Log.d("ERROR. Publicacion no encontrada", "No se encontro la publicacion ${id}. ${e}")
+         }
+        return publicacionEsperada
+    }
+
+    suspend fun getPublicacionByIndex(index : Int) : Publicacion{
+
+        var publicacionEsperada = Publicacion()
+
+        try {
+            listaPublicaciones = getPublicaciones()
+            publicacionEsperada = listaPublicaciones.elementAt(index)
+        } catch (e : Exception) { }
 
         return publicacionEsperada
     }
