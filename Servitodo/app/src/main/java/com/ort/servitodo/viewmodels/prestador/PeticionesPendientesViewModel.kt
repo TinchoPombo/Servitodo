@@ -4,14 +4,20 @@ import android.view.View
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.ort.servitodo.adapters.PedidosAdapter
+import com.ort.servitodo.adapters.PublicacionAdapter
 import com.ort.servitodo.entities.Pedido
+import com.ort.servitodo.entities.Publicacion
+import com.ort.servitodo.fragments.cliente.HomeClienteFragmentDirections
 import com.ort.servitodo.repositories.PedidosRepository
+import com.ort.servitodo.repositories.PublicacionRepository
 import kotlinx.coroutines.launch
 
-class HomePrestadorViewModel : ViewModel() {
+class PeticionesPendientesViewModel : ViewModel() {
+
     private lateinit var view : View
     private var repository = PedidosRepository()
 
@@ -28,7 +34,7 @@ class HomePrestadorViewModel : ViewModel() {
     }
 
     //-------------------------------------------------------------------------------
-    fun recyclerView(recyclerPedidosAceptados : RecyclerView){
+    fun recyclerView(recyclerPedido : RecyclerView){
 
         cargando.value = "Cargando..."
 
@@ -39,13 +45,13 @@ class HomePrestadorViewModel : ViewModel() {
                 cargando.value = "No hay publicaciones disponibles"
             }
             else{
-                recyclerPedidosAceptados.setHasFixedSize(true)
+                recyclerPedido.setHasFixedSize(true)
 
                 cargando.value = ""
 
-                recyclerPedidosAceptados.layoutManager  = LinearLayoutManager(view.context)
+                recyclerPedido.layoutManager  = LinearLayoutManager(view.context)
 
-                recyclerPedidosAceptados.adapter = PedidosAdapter(pedidos){}
+                recyclerPedido.adapter = PedidosAdapter(pedidos){}
             }
         }
     }

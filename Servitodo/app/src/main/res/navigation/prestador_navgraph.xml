@@ -102,4 +102,9 @@
             android:name="idRubro"
             app:argType="integer" />
     </fragment>
+    <fragment
+        android:id="@+id/peticionesPendientesFragment2"
+        android:name="com.ort.servitodo.fragments.prestador.PeticionesPendientesFragment"
+        android:label="fragment_peticiones_pendientes"
+        tools:layout="@layout/fragment_peticiones_pendientes" />
 </navigation>

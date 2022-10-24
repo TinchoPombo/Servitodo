@@ -3,20 +3,20 @@
 
     <item
         android:id="@+id/homePrestadorFragment"
-        android:icon="@drawable/ic_launcher_foreground"
+        android:icon="@drawable/home_2"
         android:title="Home" />
 
-    <item
+    <!--<item
         android:id="@+id/publicacionesPrestadorFragment"
         android:icon="@drawable/ic_launcher_foreground"
         android:title="Publicaciones"
-        />
+        />-->
     <item
-        android:id="@+id/fragment3"
-        android:icon="@drawable/ic_launcher_foreground"
-        android:title="Favoritos" />
+        android:id="@+id/peticionesPendientesFragment2"
+        android:icon="@drawable/order"
+        android:title="Pendientes" />
     <item
         android:id="@+id/perfilPrestadorFragment"
-        android:icon="@drawable/ic_launcher_foreground"
+        android:icon="@drawable/user_3"
         android:title="Perfil" />
 </menu>
