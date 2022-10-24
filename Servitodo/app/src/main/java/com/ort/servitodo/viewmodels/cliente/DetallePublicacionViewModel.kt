@@ -2,6 +2,7 @@ package com.ort.servitodo.viewmodels.cliente
 
 import android.icu.util.Calendar
 import android.icu.util.TimeZone
+import android.util.Log
 import android.view.View
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.MutableLiveData
@@ -9,9 +10,16 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.findNavController
 import com.google.android.material.datepicker.MaterialDatePicker
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
+import com.ort.servitodo.entities.Pedido
 import com.ort.servitodo.entities.Prestador
 import com.ort.servitodo.entities.Publicacion
+import com.ort.servitodo.entities.TipoEstado
+import com.ort.servitodo.fragments.cliente.DetallePublicacionFragment
+import com.ort.servitodo.fragments.cliente.DetallePublicacionFragmentDirections
+import com.ort.servitodo.fragments.cliente.HomeClienteFragmentDirections
+import com.ort.servitodo.repositories.PedidosRepository
 import com.ort.servitodo.repositories.PrestadorRepository
 import com.ort.servitodo.repositories.PublicacionRepository
 import com.ort.servitodo.viewmodels.resources.CalendarViewModel
@@ -29,6 +37,7 @@ class DetallePublicacionViewModel : ViewModel() {
     private lateinit var fragmentManager: FragmentManager
     private lateinit var publicacion: Publicacion
 
+    private var pedidosRepository = PedidosRepository()
 
     //--> View Models
     private val calendarViewModel = CalendarViewModel()
@@ -69,19 +78,6 @@ class DetallePublicacionViewModel : ViewModel() {
         fotoPrestador.value = this.publicacion.fotoPrestador
     }
 
-    //-------------------- Redireccion a whatsapp --------------------------------------------------
-    fun whatsapp(){
-        val calendarLive = this.selectedDay.value
-        val timeLive = this.selectedHour.value
-
-        if(!calendarLive.isNullOrEmpty() && !timeLive.isNullOrEmpty()){
-            whatsAppViewModel.confirmRedirectionToWhatsapp(this.publicacion, view)
-        }
-        else{
-            Snackbar.make(this.view, "Debes seleccionar el horario", Snackbar.LENGTH_SHORT).show()
-        }
-    }
-
     //-------------------- Seleccion del Horario --------------------------------------------------
     fun selectDate(){
         val calendar = calendarViewModel.calendar(this.fragmentManager)
@@ -104,6 +100,34 @@ class DetallePublicacionViewModel : ViewModel() {
             this.selectedDay.value = "${calendar.get(Calendar.DAY_OF_MONTH)}-" +
                     "${calendar.get(Calendar.MONTH) + 1}-${calendar.get(Calendar.YEAR)}"
         }
+    }
+
+    //---------------- Contratacion de prestador ------------------------------------------
+    fun contratar(){
+        val calendarLive = this.selectedDay.value
+        val timeLive = this.selectedHour.value
+        if(!calendarLive.isNullOrEmpty() && !timeLive.isNullOrEmpty()){
+            popUpContratar()
+        }
+        else{
+            Snackbar.make(this.view, "Debes seleccionar el horario", Snackbar.LENGTH_SHORT).show()
+        }
+    }
+
+    private fun popUpContratar() : Int{
+        var result = 0
+        MaterialAlertDialogBuilder(view.context).setTitle("Confirmar").setMessage("Deseas confirmar el pedido?")
+            .setNegativeButton("Cancelar") { dialog, which ->
+
+            }
+            .setPositiveButton("Aceptar") { dialog, which ->
+                pedidosRepository.addPedido(publicacion, selectedDay.value!!, selectedHour.value!!)
+                /*val action = DetallePublicacionFragmentDirections.
+                view.findNavController().navigate()*/
+                Snackbar.make(this.view, "El pedido se agregó con exito", Snackbar.LENGTH_SHORT).show()
+            }
+            .show()
+        return result
     }
 
 }

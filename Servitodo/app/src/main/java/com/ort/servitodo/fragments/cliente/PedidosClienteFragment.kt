@@ -24,6 +24,7 @@ class PedidosClienteFragment : Fragment() {
     /*companion object {
         fun newInstance() = PedidosClienteFragment()
     }
+
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProvider(this).get(PedidosClienteViewModel::class.java)
@@ -54,16 +55,6 @@ class PedidosClienteFragment : Fragment() {
 
         pedidosViewModel.recyclerView(binding.recPedidos)
 
-        /*binding.whatsappPedidoButton.setOnClickListener{
-            pedidosViewModel.whatsapp()
-        }
-
-        binding.detallePedidoButton.setOnClickListener{
-            pedidosViewModel.detalle()
-        }*/
-
     }
-
-
 
 }
