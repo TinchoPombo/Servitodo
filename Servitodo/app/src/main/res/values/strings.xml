@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">Servitodo</string>
+
+    <string-array name="rubros">
+        <item>Mantenimiento</item>
+        <item>Pasea perros</item>
+        <item>Fletero</item>
+    </string-array>
 </resources>

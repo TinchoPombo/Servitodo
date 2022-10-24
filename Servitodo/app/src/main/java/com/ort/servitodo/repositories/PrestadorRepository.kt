@@ -1,6 +1,11 @@
 package com.ort.servitodo.repositories
 
+import android.util.Log
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.firestore.ktx.toObject
+import com.google.firebase.ktx.Firebase
 import com.ort.servitodo.entities.Prestador
+import kotlinx.coroutines.tasks.await
 
 class PrestadorRepository {
 
@@ -83,5 +88,49 @@ class PrestadorRepository {
         val encontrado = prestadores.find{p -> p.id == id}!!
         return encontrado
     }
+
+
+
+
+    /*private var listaPrestadores : MutableList<Prestador> = arrayListOf()
+    val db = Firebase.firestore
+
+    suspend fun getPrestadores () : MutableList<Prestador>{
+
+        val questionRef = db.collection("prestadores")
+
+        try {
+            val data = questionRef.get().await()
+            for(document in data){
+                listaPrestadores.add(document.toObject())
+            }
+        } catch (e : Exception){ }
+
+        return listaPrestadores
+    }
+
+    suspend fun getPrestadorById(id : Int) : Prestador {
+
+        var prestadorEsperado = Prestador()
+        try {
+            listaPrestadores = getPrestadores()
+            prestadorEsperado = listaPrestadores.find { p -> p.id == id }!!
+        } catch (e : Exception) {
+            Log.d("ERROR. Prestador no encontrado", "No se encontro al prestador ${id}. ${e}")
+        }
+        return prestadorEsperado
+    }
+
+    suspend fun getPrestadorByIndex(index : Int) : Prestador {
+
+        var prestadorEsperado = Prestador()
+
+        try {
+            listaPrestadores = getPrestadores()
+            prestadorEsperado = listaPrestadores.elementAt(index)
+        } catch (e : Exception) { }
+
+        return prestadorEsperado
+    }*/
 
 }

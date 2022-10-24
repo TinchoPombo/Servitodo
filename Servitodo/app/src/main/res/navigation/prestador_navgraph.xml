@@ -23,7 +23,17 @@
         android:id="@+id/crearPublicacionFragment"
         android:name="com.ort.servitodo.fragments.prestador.CrearPublicacionFragment"
         android:label="fragment_crear_publicacion"
-        tools:layout="@layout/fragment_crear_publicacion" />
+        tools:layout="@layout/fragment_crear_publicacion" >
+        <action
+            android:id="@+id/action_crearPublicacionFragment_to_fleteroFragment"
+            app:destination="@id/fleteroFragment" />
+        <action
+            android:id="@+id/action_crearPublicacionFragment_to_mantenimientoFragment"
+            app:destination="@id/mantenimientoFragment" />
+        <action
+            android:id="@+id/action_crearPublicacionFragment_to_paseaPerrosFragment"
+            app:destination="@id/paseaPerrosFragment" />
+    </fragment>
     <fragment
         android:id="@+id/historialPrestadorFragment"
         android:name="com.ort.servitodo.fragments.prestador.HistorialPrestadorFragment"
@@ -55,5 +65,41 @@
         <action
             android:id="@+id/action_publicacionesPrestadorFragment_to_modificarPublicacionFragment"
             app:destination="@id/modificarPublicacionFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/fleteroFragment"
+        android:name="com.ort.servitodo.fragments.rubro.FleteroFragment"
+        android:label="fragment_fletero"
+        tools:layout="@layout/fragment_fletero" >
+        <argument
+            android:name="descripcion"
+            app:argType="string" />
+        <argument
+            android:name="idRubro"
+            app:argType="integer" />
+    </fragment>
+    <fragment
+        android:id="@+id/mantenimientoFragment"
+        android:name="com.ort.servitodo.fragments.rubro.MantenimientoFragment"
+        android:label="fragment_mantenimiento"
+        tools:layout="@layout/fragment_mantenimiento" >
+        <argument
+            android:name="descripcion"
+            app:argType="string" />
+        <argument
+            android:name="idRubro"
+            app:argType="integer" />
+    </fragment>
+    <fragment
+        android:id="@+id/paseaPerrosFragment"
+        android:name="com.ort.servitodo.fragments.rubro.PaseaPerrosFragment"
+        android:label="fragment_pasea_perros"
+        tools:layout="@layout/fragment_pasea_perros" >
+        <argument
+            android:name="descripcion"
+            app:argType="string" />
+        <argument
+            android:name="idRubro"
+            app:argType="integer" />
     </fragment>
 </navigation>

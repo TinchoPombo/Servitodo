@@ -8,7 +8,10 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ArrayAdapter
 import android.widget.Button
+import androidx.fragment.app.viewModels
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -18,8 +21,10 @@ import com.google.firebase.ktx.Firebase
 import com.ort.servitodo.R
 import com.ort.servitodo.databinding.FragmentCrearPublicacionBinding
 import com.ort.servitodo.databinding.FragmentDetallePublicacionBinding
+import com.ort.servitodo.entities.Prestador
 import com.ort.servitodo.entities.Publicacion
 import com.ort.servitodo.entities.Usuario
+import com.ort.servitodo.fragments.login.LogInFragmentDirections
 import com.ort.servitodo.viewmodels.prestador.CrearPublicacionViewModel
 
 class CrearPublicacionFragment : Fragment() {
@@ -28,56 +33,54 @@ class CrearPublicacionFragment : Fragment() {
         fun newInstance() = CrearPublicacionFragment()
     }
 
-    private lateinit var viewModel: CrearPublicacionViewModel
+    private val viewModel: CrearPublicacionViewModel by viewModels()
     lateinit var v: View
     private lateinit var binding: FragmentCrearPublicacionBinding
 
     val db = Firebase.firestore
 
+
+    override fun onResume() {
+        super.onResume()
+        val rubros = resources.getStringArray(R.array.rubros)
+        val arrayAdapter = ArrayAdapter(requireContext(), R.layout.dropdown_item, rubros)
+        binding.autoCompleteTextView.setAdapter(arrayAdapter)
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        v = inflater.inflate(R.layout.fragment_crear_publicacion, container, false)
         binding = FragmentCrearPublicacionBinding.inflate(inflater, container, false)
+        v = binding.root
 
+        viewModel.setView(v)
 
-        return binding.root
+        return v
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
+    /*override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProvider(this).get(CrearPublicacionViewModel::class.java)
         // TODO: Use the ViewModel
-    }
+    }*/
 
     override fun onStart() {
         super.onStart()
 
-        viewModel.initTestList()
+       // val prestador : Prestador = Prestador(7,"messiChiquito","Lionel","Messi","20-10-1989","https://pbs.twimg.com/media/E8jxa-AWUAAPSX9.jpg:large","matricula","Paseador de Perros","1122766971")
 
-        binding.btnCrearPublicacionCp.setOnClickListener {
-            for (publicacion in viewModel.listaPublicaciones) {
-                db.collection("publicaciones").document(publicacion.nombrePrestador).set(publicacion)
+            binding.btnSiguienteCrearPublicacion.setOnClickListener {
+                /*val publicacion: Publicacion = Publicacion(viewModel.getPublicaciones().size + 1,prestador.id,prestador.img,prestador.name,prestador.lastname,2,prestador.rubro, binding.txtDescripcion.text.toString())
+                db.collection("publicaciones").add(publicacion)*/
+
+                when(binding.autoCompleteTextView.text.toString()){
+                    "Mantenimiento" -> v.findNavController().navigate( CrearPublicacionFragmentDirections.actionCrearPublicacionFragmentToMantenimientoFragment(binding.txtDescripcion.text.toString(),1))
+                    "Fletero" -> v.findNavController().navigate( CrearPublicacionFragmentDirections.actionCrearPublicacionFragmentToFleteroFragment(binding.txtDescripcion.text.toString(),2))
+                    "Pasea perros" -> v.findNavController().navigate( CrearPublicacionFragmentDirections.actionCrearPublicacionFragmentToPaseaPerrosFragment(binding.txtDescripcion.text.toString(),3))
+                }
+
             }
-        }
-
-        binding.btnTraerPublicaciones.setOnClickListener {
-            var docRef = db.collection("publicaciones").document("Pedro")
-
-            docRef.get()
-                .addOnSuccessListener { dataSnapshot ->
-                    if (dataSnapshot != null) {
-                        val publicacion  = dataSnapshot.toObject<Publicacion>()
-                        Log.d("Test", "DocumentSnapshot data: ${publicacion.toString()}")
-                    } else {
-                        Log.d("Test", "No such document")
-                    }
-                }
-                .addOnFailureListener { exception ->
-                    Log.d("Test", "get failed with ", exception)
-                }
-        }
 
     }
 
