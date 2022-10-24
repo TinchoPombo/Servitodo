@@ -1,11 +1,14 @@
 package com.ort.servitodo.adapters
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.cardview.widget.CardView
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.ort.servitodo.R
@@ -13,6 +16,8 @@ import com.ort.servitodo.entities.Pedido
 import com.ort.servitodo.entities.Publicacion
 import com.ort.servitodo.entities.TipoEstado
 import com.ort.servitodo.repositories.PublicacionRepository
+import com.ort.servitodo.viewmodels.cliente.DetallePedidoViewModel
+import com.ort.servitodo.viewmodels.resources.WhatsAppViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -34,10 +39,20 @@ class PedidosAdapter (
 
         holder.setHorario(listaPedidos[position].fecha, listaPedidos[position].hora)
         holder.setEstado(listaPedidos[position].estado)
+        holder.setPrecio(listaPedidos[position].precio)
 
         holder.getCardView().setOnClickListener {
             onClick(position)
         }
+
+        holder.getDetalleButton().setOnClickListener{
+            holder.detallesDelPedido(listaPedidos[position])
+        }
+
+        holder.enableWhatsappButton(listaPedidos[position].estado).setOnClickListener{
+            holder.redirectionToWhatsApp(listaPedidos[position].idPrestador)
+        }
+
     }
 
     override fun getItemCount(): Int {
@@ -53,31 +68,43 @@ class PedidosAdapter (
         }
 
         fun setRubro(rubro : String) {
-            var txtRubro: TextView = view.findViewById(R.id.txtRubro)
+            val txtRubro: TextView = view.findViewById(R.id.txtRubro)
             txtRubro.text = rubro
         }
 
         fun setNombrePrestador(nombre : String) {
-            var txtNombrePrestador: TextView = view.findViewById(R.id.txtNombrePrestador)
+            val txtNombrePrestador: TextView = view.findViewById(R.id.txtNombrePrestador)
             txtNombrePrestador.text = nombre
         }
 
         fun setImagenPrestador(img : String) {
-            var imgPedido: ImageView = view.findViewById(R.id.imgPedido)
+            val imgPedido: ImageView = view.findViewById(R.id.imgPedido)
             Glide
                 .with(view)
                 .load(img)
                 .into(imgPedido);
         }
 
+        @SuppressLint("SetTextI18n")
         fun setHorario(fecha: String, hora: String) {
             var txthorario: TextView = view.findViewById(R.id.txtHorario)
-            txthorario.text = "Fecha: ${fecha} - Hora: ${hora}"
+            txthorario.text = "Fecha: $fecha - Hora: $hora"
         }
 
         fun setEstado(estado: String) {
             var txtEstado: TextView = view.findViewById(R.id.txtEstado)
             txtEstado.text = estado
+        }
+
+        @SuppressLint("SetTextI18n")
+        fun setPrecio(precio : Double) {
+            var txtPrecio: TextView = view.findViewById(R.id.txtPrecio)
+            if(precio == 0.0){
+                txtPrecio.text = "--.--"
+            }
+            else{
+                txtPrecio.text = "$${precio}"
+            }
         }
 
         fun setDatos(id : Int){
@@ -92,12 +119,41 @@ class PedidosAdapter (
             }
         }
 
-        fun getCardView(): CardView {
-            return view.findViewById(R.id.cardPedido)
+        //--> WHATSAPP
+        fun redirectionToWhatsApp(idPrestador : Int){
+            val whatsAppViewModel = WhatsAppViewModel()
+            whatsAppViewModel.confirmRedirectionToWhatsapp(idPrestador, view)
         }
 
-        fun whatsapp(){
+        fun enableWhatsappButton(estado : String) : Button{
+            val button = getWhatsappButton()
+            val condition = estado == TipoEstado.PENDIENTE.toString()
+            if(condition){
+                button.isEnabled = !condition
+                button.setTextColor(ContextCompat.getColor(view.context, R.color.greyish))
+                button.setBackgroundColor(ContextCompat.getColor(view.context, R.color.light_grey))
+            }
+            return button
+        }
 
+        fun getWhatsappButton() : Button {
+            return view.findViewById(R.id.whatsappPedidoButton)
+        }
+
+        //--> DETALLE DEL PEDIDO
+        fun detallesDelPedido(pedido : Pedido){
+            val detalle = DetallePedidoViewModel()
+            detalle.setView(view)
+            detalle.detallesDelPedido(pedido)
+        }
+
+        fun getDetalleButton() : Button {
+            return view.findViewById(R.id.detallePedidoButton)
+        }
+
+        //-------------------------------------------------------
+        fun getCardView(): CardView {
+            return view.findViewById(R.id.cardPedido)
         }
 
     }

@@ -78,4 +78,10 @@ class PrestadorRepository {
         return listaPrestadores
     }
 
+    suspend fun getPrestadorById(id : Int) : Prestador{
+        var prestadores = getPrestadores()
+        val encontrado = prestadores.find{p -> p.id == id}!!
+        return encontrado
+    }
+
 }

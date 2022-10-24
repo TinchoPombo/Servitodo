@@ -3,34 +3,40 @@ package com.ort.servitodo.entities
 import android.os.Parcel
 import android.os.Parcelable
 
-class Pedido (id : Int, idPublicacion : Int, idCliente : Int, fecha : String, hora : String, estado : String)
+class Pedido (id : Int, idPublicacion : Int, idPrestador : Int, idCliente : Int, fecha : String, hora : String, estado : String, precio : Double)
     : Parcelable {
     var id : Int = 0
     var idPublicacion : Int = 0
+    var idPrestador : Int = 0
     var idCliente : Int = 0
     var fecha : String
     var hora : String
     var estado : String
+    var precio : Double = 0.0
 
-    constructor() : this(0,0,0,"","","")
+    constructor() : this(0,0,0,0,"","","",0.0)
 
     init {
         this.id = id
         this.idPublicacion = idPublicacion
         this.idCliente = idCliente
+        this.idPrestador = idPrestador
         this.fecha = fecha
         this.hora = hora
         this.estado = estado
+        this.precio = precio
     }
 
     constructor(source: Parcel) : this(
         source.readInt(),
         source.readInt(),
         source.readInt(),
+        source.readInt(),
         source.readString()!!,
         source.readString()!!,
-        source.readString()!!
-    )
+        source.readString()!!,
+        source.readDouble(),
+        )
 
     override fun describeContents() = 0
 
@@ -38,15 +44,17 @@ class Pedido (id : Int, idPublicacion : Int, idCliente : Int, fecha : String, ho
         writeInt(id)
         writeInt(idPublicacion)
         writeInt(idCliente)
+        writeInt(idPrestador)
         writeString(fecha)
         writeString(hora)
         writeString(estado)
+        writeDouble(precio)
     }
 
     override fun toString(): String {
-        return "Publicacion(idPublicacion='$idPublicacion', " +
+        return "Publicacion(idPublicacion='$idPublicacion', idPublicacion='$idPublicacion', "+
                 "idCliente='$idCliente', fecha='$fecha', " +
-                "hora=$hora, estado='$estado'"
+                "hora=$hora, estado='$estado', precio='$precio'"
     }
 
     companion object {

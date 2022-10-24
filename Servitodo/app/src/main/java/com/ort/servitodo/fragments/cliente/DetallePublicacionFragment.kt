@@ -96,7 +96,7 @@ class DetallePublicacionFragment : Fragment() {
         }
 
         binding.contratarButton.setOnClickListener{
-            detalleViewModel.whatsapp()
+            detalleViewModel.contratar()
         }
 
     }

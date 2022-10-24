@@ -1,12 +1,16 @@
 package com.ort.servitodo.viewmodels.cliente
 
 import android.view.View
+import android.widget.ImageView
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.google.android.material.bottomsheet.BottomSheetDialog
+import com.ort.servitodo.R
 import com.ort.servitodo.adapters.PedidosAdapter
 import com.ort.servitodo.adapters.PublicacionAdapter
 import com.ort.servitodo.entities.Pedido
@@ -36,9 +40,6 @@ class PedidosClienteViewModel : ViewModel() {
     //----------------------------------------------------------------------------------------
     fun recyclerView(recyclerPedidos : RecyclerView){
 
-        /*cargando.value = "Esta es la lista de pedidos solicitados por el cliente. " +
-                "Esta pantalla esta en desarrollo. Disculpe las molestias"*/
-
         cargando.value = "Cargando..."
 
         viewModelScope.launch{
@@ -62,10 +63,7 @@ class PedidosClienteViewModel : ViewModel() {
     }
 
     private fun onItemClick(position : Int){
-        /*val action = HomeClienteFragmentDirections.actionHomeClienteFragmentToDetallePublicacionFragment(position)
-        view.findNavController().navigate(action)*/
-
-
 
     }
+
 }
