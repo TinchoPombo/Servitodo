@@ -12,6 +12,7 @@ import androidx.navigation.findNavController
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
+import com.ort.servitodo.R
 import com.ort.servitodo.entities.Pedido
 import com.ort.servitodo.entities.Prestador
 import com.ort.servitodo.entities.Publicacion
@@ -42,7 +43,6 @@ class DetallePublicacionViewModel : ViewModel() {
     //--> View Models
     private val calendarViewModel = CalendarViewModel()
     private val timeViewModel = TimePickerViewModel()
-    private val whatsAppViewModel = WhatsAppViewModel()
 
     //--> Mutable Live Data
     val selectedDay = MutableLiveData<String>()
@@ -106,12 +106,8 @@ class DetallePublicacionViewModel : ViewModel() {
     fun contratar(){
         val calendarLive = this.selectedDay.value
         val timeLive = this.selectedHour.value
-        if(!calendarLive.isNullOrEmpty() && !timeLive.isNullOrEmpty()){
-            popUpContratar()
-        }
-        else{
-            Snackbar.make(this.view, "Debes seleccionar el horario", Snackbar.LENGTH_SHORT).show()
-        }
+        val cond = !calendarLive.isNullOrEmpty() && !timeLive.isNullOrEmpty()
+        if(cond) popUpContratar() else Snackbar.make(this.view, "Debes seleccionar el horario", Snackbar.LENGTH_SHORT).show()
     }
 
     private fun popUpContratar() : Int{
@@ -122,9 +118,8 @@ class DetallePublicacionViewModel : ViewModel() {
             }
             .setPositiveButton("Aceptar") { dialog, which ->
                 pedidosRepository.addPedido(publicacion, selectedDay.value!!, selectedHour.value!!)
-                /*val action = DetallePublicacionFragmentDirections.
-                view.findNavController().navigate()*/
                 Snackbar.make(this.view, "El pedido se agregó con exito", Snackbar.LENGTH_SHORT).show()
+                view.findNavController().navigateUp()
             }
             .show()
         return result

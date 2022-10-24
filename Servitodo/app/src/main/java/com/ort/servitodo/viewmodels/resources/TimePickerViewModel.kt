@@ -14,23 +14,21 @@ import kotlinx.coroutines.launch
 class TimePickerViewModel : ViewModel() {
 
     private var pedidos = PedidosRepository()
-    private var calendar = CalendarViewModel()
 
     //----------------------------------------------------------------------
     private suspend fun getUnavailableHours(fecha : String, publicacion : Publicacion) : Array<String>{
 
         var unavailableHours = arrayOf<String>()
         val pedidos = pedidos.getPedidos()
-        val pedidoEncontrado = pedidos.find{p -> p.idPublicacion == publicacion.idServicio}
+        val pedidosEncontrados = pedidos.filter{p -> p.idPublicacion == publicacion.idServicio}
 
-        if(pedidoEncontrado != null){
-            val condFecha = pedidoEncontrado.fecha == fecha
-            val condEstados = pedidoEncontrado.estado == TipoEstado.APROBADO.toString() || pedidoEncontrado.estado == TipoEstado.RESERVADO.toString() || pedidoEncontrado.estado == TipoEstado.EN_CURSO.toString()
-            if(condFecha && condEstados){
-                unavailableHours += pedidoEncontrado.hora
+        for(p in pedidosEncontrados){
+            val condFecha = p.fecha == fecha
+            val condEstados = p.estado == TipoEstado.RECHAZADO.toString() || p.estado == TipoEstado.FINALIZADO.toString()
+            if(condFecha && !condEstados){
+                unavailableHours += p.hora
             }
         }
-
         return unavailableHours
     }
 
@@ -38,10 +36,13 @@ class TimePickerViewModel : ViewModel() {
 
         //--> Rango de horarios (de 8 a 20)
         val hours = arrayOf("8:00", "9:00", "10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00", "18:00", "19:00", "20:00")
-
-        val availableHours = hours.filter { it !in unavailableHours}
-
-        return availableHours.toTypedArray()
+        var availableHours = arrayOf<String>()
+        for(h in hours){
+            if(!unavailableHours.contains(h)){
+                availableHours += h
+            }
+        }
+        return availableHours
     }
 
 
@@ -73,7 +74,7 @@ class TimePickerViewModel : ViewModel() {
 
                 }
                 .setSingleChoiceItems(availableHours, checkedHour) { dialog, which ->
-                    selectedHour.value = "${availableHours[which]} hs"
+                    selectedHour.value = "${availableHours[which]}"
                 }
                 .show()
         }

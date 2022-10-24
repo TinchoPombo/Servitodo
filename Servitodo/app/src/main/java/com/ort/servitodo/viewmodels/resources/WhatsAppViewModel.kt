@@ -52,7 +52,6 @@ class WhatsAppViewModel : ViewModel() {
             .setPositiveButton("Aceptar") { dialog, which ->
                 val numtel = getNumtel(idPrestador)
                 this.whatsapp(numtel, view)
-                view.findNavController().navigateUp()
             }
             .show()
     }
