@@ -38,18 +38,10 @@
             app:destination="@id/historialClienteFragment" />
     </fragment>
     <fragment
-        android:id="@+id/opinionesPrestadorFragment"
-        android:name="com.ort.servitodo.fragments.prestador.OpinionesPrestadorFragment"
-        android:label="fragment_opiniones_prestador"
-        tools:layout="@layout/fragment_opiniones_prestador" />
-    <fragment
         android:id="@+id/detallePublicacionFragment"
         android:name="com.ort.servitodo.fragments.cliente.DetallePublicacionFragment"
         android:label="fragment_detalle_publicacion"
         tools:layout="@layout/fragment_detalle_publicacion" >
-        <action
-            android:id="@+id/action_detallePublicacionFragment_to_opinionesPrestadorFragment"
-            app:destination="@id/opinionesPrestadorFragment" />
         <argument
             android:name="receivePublicacion"
             app:argType="com.ort.servitodo.entities.Publicacion" />

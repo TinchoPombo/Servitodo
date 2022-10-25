@@ -11,10 +11,10 @@
         android:icon="@drawable/order"
         android:title="Pedidos"
         />
-    <item
+    <!--<item
         android:id="@+id/fragment3"
         android:icon="@drawable/heart"
-        android:title="Favoritos" />
+        android:title="Favoritos" />-->
     <item
         android:id="@+id/perfilClienteFragment"
         android:icon="@drawable/user_3"

@@ -2,34 +2,18 @@ package com.ort.servitodo.viewmodels.cliente
 
 import android.icu.util.Calendar
 import android.icu.util.TimeZone
-import android.util.Log
 import android.view.View
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import androidx.navigation.findNavController
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
-import com.ort.servitodo.R
-import com.ort.servitodo.entities.Pedido
-import com.ort.servitodo.entities.Prestador
 import com.ort.servitodo.entities.Publicacion
-import com.ort.servitodo.entities.TipoEstado
-import com.ort.servitodo.fragments.cliente.DetallePublicacionFragment
-import com.ort.servitodo.fragments.cliente.DetallePublicacionFragmentDirections
-import com.ort.servitodo.fragments.cliente.HomeClienteFragmentDirections
 import com.ort.servitodo.repositories.PedidosRepository
-import com.ort.servitodo.repositories.PrestadorRepository
-import com.ort.servitodo.repositories.PublicacionRepository
 import com.ort.servitodo.viewmodels.resources.CalendarViewModel
 import com.ort.servitodo.viewmodels.resources.TimePickerViewModel
-import com.ort.servitodo.viewmodels.resources.WhatsAppViewModel
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.launch
 import java.util.*
 
 class DetallePublicacionViewModel : ViewModel() {
@@ -43,13 +27,13 @@ class DetallePublicacionViewModel : ViewModel() {
     //--> View Models
     private val calendarViewModel = CalendarViewModel()
     private val timeViewModel = TimePickerViewModel()
+    private val opiniones = OpinionesClienteViewModel()
 
     //--> Mutable Live Data
     val selectedDay = MutableLiveData<String>()
     val selectedHour = MutableLiveData<String>()
 
-    val nombre = MutableLiveData<String>()
-    val apellido = MutableLiveData<String>()
+    val nombreCompleto = MutableLiveData<String>()
     val rubro = MutableLiveData<String>()
     val calificacion = MutableLiveData<String>()
     val descripcion = MutableLiveData<String>()
@@ -70,10 +54,9 @@ class DetallePublicacionViewModel : ViewModel() {
 
     //----------------------------------------------------------------------
     fun initLiveData(){
-        nombre.value = "Nombre: ${this.publicacion.nombrePrestador}"
-        apellido.value = "Apellido: ${this.publicacion.apellidoPrestador}"
+        nombreCompleto.value = "${this.publicacion.nombrePrestador} ${this.publicacion.apellidoPrestador}"
         rubro.value = "Rubro: ${this.publicacion.nombreRubro}"
-        calificacion.value = "Calificacion: "
+        calificacion.value = ""
         descripcion.value = "Descripcion: ${this.publicacion.descripcion}"
         fotoPrestador.value = this.publicacion.fotoPrestador
     }
@@ -99,6 +82,8 @@ class DetallePublicacionViewModel : ViewModel() {
             calendar.time = Date(selection!!)
             this.selectedDay.value = "${calendar.get(Calendar.DAY_OF_MONTH)}-" +
                     "${calendar.get(Calendar.MONTH) + 1}-${calendar.get(Calendar.YEAR)}"
+
+            this.selectHour()
         }
     }
 
@@ -114,7 +99,8 @@ class DetallePublicacionViewModel : ViewModel() {
         var result = 0
         MaterialAlertDialogBuilder(view.context).setTitle("Confirmar").setMessage("Deseas confirmar el pedido?")
             .setNegativeButton("Cancelar") { dialog, which ->
-
+                this.selectedDay.value = ""
+                this.selectedHour.value = ""
             }
             .setPositiveButton("Aceptar") { dialog, which ->
                 pedidosRepository.addPedido(publicacion, selectedDay.value!!, selectedHour.value!!)
@@ -123,6 +109,11 @@ class DetallePublicacionViewModel : ViewModel() {
             }
             .show()
         return result
+    }
+
+    //---------------- Calificaciones de prestador ------------------------------------------
+    fun opinionesDelPrestador(){
+        opiniones.opinionesDelPrestador(this.view)
     }
 
 }

@@ -60,11 +60,8 @@ class DetallePublicacionFragment : Fragment() {
     override fun onStart() {
         super.onStart()
 
-        detalleViewModel.nombre.observe(viewLifecycleOwner, Observer { result ->
-            binding.txtNombrePublicacion.text = result.toString()
-        })
-        detalleViewModel.apellido.observe(viewLifecycleOwner, Observer { result ->
-            binding.txtApellidoPublicacion.text = result.toString()
+        detalleViewModel.nombreCompleto.observe(viewLifecycleOwner, Observer { result ->
+            binding.txtNombreCompletoPublicacion.text = result.toString()
         })
         detalleViewModel.rubro.observe(viewLifecycleOwner, Observer { result ->
             binding.txtRubroPublicacion.text = result.toString()
@@ -85,11 +82,14 @@ class DetallePublicacionFragment : Fragment() {
         //----------------------------------------------------------------------------------
         detalleViewModel.selectedDay.observe(viewLifecycleOwner, Observer { result ->
             binding.fechaseleccionadaTextView.text = result.toString()
-            detalleViewModel.selectHour()
         })
         detalleViewModel.selectedHour.observe(viewLifecycleOwner, Observer { result ->
             binding.horaseleccionadaTextView.text = result.toString()
         })
+
+        binding.verCalificacionesButton.setOnClickListener{
+            detalleViewModel.opinionesDelPrestador()
+        }
 
         binding.verhorariosButton.setOnClickListener{
             detalleViewModel.selectDate()

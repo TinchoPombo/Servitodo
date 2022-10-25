@@ -63,7 +63,7 @@ class TimePickerViewModel : ViewModel() {
             MaterialAlertDialogBuilder(view.context)
                 .setTitle(title)
                 .setNegativeButton("cancelar") { dialog, which ->
-
+                    selectedHour.value = ""
                 }
                 /*
                 .setNeutralButton("cambiar fecha") { dialog, which ->
