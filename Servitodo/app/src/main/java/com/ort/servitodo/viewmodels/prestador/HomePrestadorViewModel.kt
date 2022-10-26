@@ -6,7 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.ort.servitodo.adapters.PedidosAdapter
+import com.ort.servitodo.adapters.PedidosPrestadorAdapter
 import com.ort.servitodo.entities.Pedido
 import com.ort.servitodo.repositories.PedidosRepository
 import kotlinx.coroutines.launch
@@ -45,7 +45,7 @@ class HomePrestadorViewModel : ViewModel() {
 
                 recyclerPedidosAceptados.layoutManager  = LinearLayoutManager(view.context)
 
-                recyclerPedidosAceptados.adapter = PedidosAdapter(pedidos){}
+                recyclerPedidosAceptados.adapter = PedidosPrestadorAdapter(pedidos){}
             }
         }
     }
