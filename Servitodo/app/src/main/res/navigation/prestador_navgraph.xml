@@ -106,5 +106,18 @@
         android:id="@+id/peticionesPendientesFragment2"
         android:name="com.ort.servitodo.fragments.prestador.PeticionesPendientesFragment"
         android:label="fragment_peticiones_pendientes"
-        tools:layout="@layout/fragment_peticiones_pendientes" />
+        tools:layout="@layout/fragment_peticiones_pendientes" >
+        <action
+            android:id="@+id/action_peticionesPendientesFragment2_to_detallePedidoPendienteFragment"
+            app:destination="@id/detallePedidoPendienteFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/detallePedidoPendienteFragment"
+        android:name="com.ort.servitodo.fragments.prestador.DetallePedidoPendienteFragment"
+        android:label="fragment_detalle_pedido_pendiente"
+        tools:layout="@layout/fragment_detalle_pedido_pendiente" >
+        <argument
+            android:name="receivePedido"
+            app:argType="com.ort.servitodo.entities.Pedido" />
+    </fragment>
 </navigation>
