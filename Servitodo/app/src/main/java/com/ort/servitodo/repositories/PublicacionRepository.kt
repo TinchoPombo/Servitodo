@@ -51,6 +51,18 @@ class PublicacionRepository {
         return publicacionEsperada
     }
 
+    suspend fun getSize(): Int {
+        var cantidad : Int = 0
+
+        try {
+            listaPublicaciones = getPublicaciones()
+            cantidad = listaPublicaciones.count()
+        } catch (e : Exception) { }
+
+        return cantidad
+
+    }
+
     //----------------------------------------------------------------------------------------------------------//
     //----------------------------------------------------------------------------------------------------------//
     /*init

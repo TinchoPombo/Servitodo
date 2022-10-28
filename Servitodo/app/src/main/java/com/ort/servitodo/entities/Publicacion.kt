@@ -3,7 +3,7 @@ package com.ort.servitodo.entities
 import android.os.Parcel
 import android.os.Parcelable
 
-class Publicacion (idServicio : Int, idPrestador : Int, fotoPrestador : String, nombrePrestador : String, apellidoPrestador : String, idRubro : Int, nombreRubro : String, descripcion : String
+class Publicacion (idServicio : Int, idPrestador : Int, fotoPrestador : String, nombrePrestador : String, apellidoPrestador : String, rubro: Rubro, descripcion : String
     /*var listaPuntuaciones : MutableList<Puntuacion> = mutableListOf(),
     var imagenes : MutableList<String> = mutableListOf(),*/
 ) : Parcelable{
@@ -17,13 +17,11 @@ class Publicacion (idServicio : Int, idPrestador : Int, fotoPrestador : String, 
 
     var apellidoPrestador: String
 
-    var idRubro: Int = 0
-
-    var nombreRubro: String
+    var rubro : Rubro = Mantenimiento(0,0,"")
 
     var descripcion: String
 
-    constructor() : this(0,0,"","","",0,"","")
+    constructor() : this(0,0,"","","", Mantenimiento(0, 0,""),"")
 
     init {
         this.idServicio = idServicio!!
@@ -31,8 +29,7 @@ class Publicacion (idServicio : Int, idPrestador : Int, fotoPrestador : String, 
         this.fotoPrestador = fotoPrestador!!
         this.nombrePrestador = nombrePrestador!!
         this.apellidoPrestador = apellidoPrestador!!
-        this.idRubro = idRubro!!
-        this.nombreRubro = nombreRubro!!
+        this.rubro = rubro!!
         this.descripcion = descripcion!!
     }
 
@@ -42,8 +39,7 @@ class Publicacion (idServicio : Int, idPrestador : Int, fotoPrestador : String, 
         source.readString()!!,
         source.readString()!!,
         source.readString()!!,
-        source.readInt(),
-        source.readString()!!,
+        source.readParcelable(Publicacion::class.java.classLoader)!!,
         source.readString()!!
 
     )
@@ -56,13 +52,12 @@ class Publicacion (idServicio : Int, idPrestador : Int, fotoPrestador : String, 
         writeString(fotoPrestador)
         writeString(nombrePrestador)
         writeString(apellidoPrestador)
-        writeInt(idRubro)
-        writeString(nombreRubro)
+        writeParcelable(rubro, flags)
         writeString(descripcion)
     }
 
     override fun toString(): String {
-        return "Publicacion(idServicio='$idServicio', idPrestador='$idPrestador', fotoPrestador='$fotoPrestador', nombrePrestador=$nombrePrestador, apellidoPrestador='$apellidoPrestador', idRubro='$idRubro', nombreRubro='$nombreRubro', descripcion='$descripcion')"
+        return "Publicacion(idServicio='$idServicio', idPrestador='$idPrestador', fotoPrestador='$fotoPrestador', nombrePrestador=$nombrePrestador, apellidoPrestador='$apellidoPrestador', rubro='$rubro', descripcion='$descripcion')"
     }
 
     companion object {

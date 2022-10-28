@@ -23,7 +23,7 @@ class PublicacionAdapter (
 
     override fun onBindViewHolder(holder: PublicacionHolder, position: Int) {
         holder.setNombrePrestador(listaPublicaciones[position].nombrePrestador)
-        holder.setRubro(listaPublicaciones[position].nombreRubro)
+        holder.setRubro(listaPublicaciones[position].rubro.nombre)
         holder.setImagenPrestador(listaPublicaciones[position].fotoPrestador)
         holder.getCardView().setOnClickListener {
             onClick(position)

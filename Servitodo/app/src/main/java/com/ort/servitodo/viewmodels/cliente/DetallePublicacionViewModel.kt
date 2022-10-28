@@ -55,7 +55,7 @@ class DetallePublicacionViewModel : ViewModel() {
     //----------------------------------------------------------------------
     fun initLiveData(){
         nombreCompleto.value = "${this.publicacion.nombrePrestador} ${this.publicacion.apellidoPrestador}"
-        rubro.value = "Rubro: ${this.publicacion.nombreRubro}"
+        rubro.value = "Rubro: ${this.publicacion.rubro.nombre}"
         calificacion.value = ""
         descripcion.value = "Descripcion: ${this.publicacion.descripcion}"
         fotoPrestador.value = this.publicacion.fotoPrestador

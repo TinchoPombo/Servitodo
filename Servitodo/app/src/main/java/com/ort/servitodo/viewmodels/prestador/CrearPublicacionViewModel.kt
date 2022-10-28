@@ -18,6 +18,7 @@ class CrearPublicacionViewModel : ViewModel() {
     private lateinit var view : View
     private var repository = PublicacionRepository()
     private var publicaciones : MutableList<Publicacion> = arrayListOf()
+    val db = Firebase.firestore
 
 
     fun setView(v : View){
@@ -35,4 +36,5 @@ class CrearPublicacionViewModel : ViewModel() {
         }
         return publicaciones
     }
+
 }

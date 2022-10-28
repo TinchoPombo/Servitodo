@@ -114,7 +114,7 @@ class PedidosPrestadorAdapter (
             scope.launch() {
                 publicacion = publicacionRepository.getPublicacionById(id)
                 setNombrePrestador(publicacion.nombrePrestador)
-                setRubro(publicacion.nombreRubro)
+                setRubro(publicacion.rubro.nombre)
                 setImagenPrestador(publicacion.fotoPrestador)
             }
         }
