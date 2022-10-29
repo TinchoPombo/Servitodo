@@ -57,7 +57,7 @@ class DetallePublicacionViewModel : ViewModel() {
         nombreCompleto.value = "${this.publicacion.nombrePrestador} ${this.publicacion.apellidoPrestador}"
         rubro.value = "Rubro: ${this.publicacion.rubro.nombre}"
         calificacion.value = ""
-        descripcion.value = "Descripcion: ${this.publicacion.descripcion}"
+        descripcion.value = "${this.publicacion.descripcion}"
         fotoPrestador.value = this.publicacion.fotoPrestador
     }
 

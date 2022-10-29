@@ -67,14 +67,14 @@
         <entry key="..\:/SERVITODO/Servitodo/app/src/main/res/layout/activity_cliente.xml" value="0.2" />
         <entry key="..\:/SERVITODO/Servitodo/app/src/main/res/layout/activity_main.xml" value="0.2" />
         <entry key="..\:/SERVITODO/Servitodo/app/src/main/res/layout/fragment_blank.xml" value="0.2" />
-        <entry key="..\:/SERVITODO/Servitodo/app/src/main/res/layout/fragment_bottom_sheet_pedido_cliente.xml" value="0.33" />
+        <entry key="..\:/SERVITODO/Servitodo/app/src/main/res/layout/fragment_bottom_sheet_pedido_cliente.xml" value="0.25" />
         <entry key="..\:/SERVITODO/Servitodo/app/src/main/res/layout/fragment_calificar_cliente.xml" value="0.2" />
         <entry key="..\:/SERVITODO/Servitodo/app/src/main/res/layout/fragment_detalle_pedido_pendiente.xml" value="0.2" />
-        <entry key="..\:/SERVITODO/Servitodo/app/src/main/res/layout/fragment_detalle_publicacion.xml" value="0.33" />
+        <entry key="..\:/SERVITODO/Servitodo/app/src/main/res/layout/fragment_detalle_publicacion.xml" value="0.22" />
         <entry key="..\:/SERVITODO/Servitodo/app/src/main/res/layout/fragment_home_cliente.xml" value="0.33" />
         <entry key="..\:/SERVITODO/Servitodo/app/src/main/res/layout/fragment_modal_bottom_sheet.xml" value="0.2" />
         <entry key="..\:/SERVITODO/Servitodo/app/src/main/res/layout/fragment_opiniones_prestador.xml" value="0.2" />
-        <entry key="..\:/SERVITODO/Servitodo/app/src/main/res/layout/fragment_pedido.xml" value="0.25" />
+        <entry key="..\:/SERVITODO/Servitodo/app/src/main/res/layout/fragment_pedido.xml" value="0.5" />
         <entry key="..\:/SERVITODO/Servitodo/app/src/main/res/layout/fragment_pedidos_cliente.xml" value="0.1" />
         <entry key="..\:/SERVITODO/Servitodo/app/src/main/res/layout/fragment_publicacion.xml" value="0.2" />
         <entry key="..\:/SERVITODO/Servitodo/app/src/main/res/layout/fragment_time_picker.xml" value="0.1859375" />

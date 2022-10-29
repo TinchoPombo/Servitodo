@@ -1,5 +1,6 @@
 package com.ort.servitodo.repositories
 
+import android.content.ContentValues
 import android.content.ContentValues.TAG
 import android.util.Log
 import com.google.firebase.firestore.ktx.firestore
@@ -8,30 +9,85 @@ import com.google.firebase.ktx.Firebase
 import com.ort.servitodo.entities.Pedido
 import com.ort.servitodo.entities.Publicacion
 import com.ort.servitodo.entities.TipoEstado
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
 
 class PedidosRepository {
 
-    private var listaPedidos: MutableList<Pedido> = mutableListOf()
     val db = Firebase.firestore
 
+    var listaPedidos: MutableList<Pedido> = mutableListOf()
+
     //----------------------------------------------------------------------------------------------
+    //fun getPedidosFromDB () : MutableList<Pedido>{
+
+    /*fun getPedidos() : MutableList<Pedido> {
+        var listaPedidos: MutableList<Pedido> = mutableListOf()
+        db.collection("pedidos").get()
+            .addOnSuccessListener { snapshot ->
+                if (snapshot != null) {
+                    for (publicacion in snapshot) {
+                        listaPedidos.add(publicacion.toObject())
+                    }
+                    Log.d("tamaniolistapedidos1", "${listaPedidos.size}")
+                }
+                this.listaPedidos = listaPedidos
+                Log.d("tamaniolistapedidos2", "${listaPedidos.size}")
+            }
+            .addOnFailureListener { exception ->
+                Log.w(ContentValues.TAG, "Error getting documents: ", exception)
+            }
+
+        val col = db.collection("pedidos").addSnapshotListener { value, e ->
+                if (e != null) {
+                    Log.w(TAG, "Listen failed.", e)
+                    return@addSnapshotListener
+                }
+
+                //val cities = ArrayList<String>()
+                for (doc in value!!) {
+                    //doc.getString("name")?.let {
+                        listaPedidos.add(doc.toObject())
+                    //}
+                }
+                Log.d("pedidosConSnapshotListener", "Current pedidos in CA: $listaPedidos")
+            }
+        Log.d("tamaniolistapedidosConSnapList", "${listaPedidos.size}")
+
+        return listaPedidos
+    }*/
+
+    /*fun getPedidos() : MutableList<Pedido>{
+        val parent = Job()
+        val scope = CoroutineScope(Dispatchers.Main + parent)
+        var p : MutableList<Pedido> = mutableListOf()
+        scope.launch(){
+            getPedidosFromDB()
+            p = listaPedidos
+        }
+        return p
+    }*/
+
     suspend fun getPedidos(): MutableList<Pedido> {
         val questionRef = db.collection("pedidos")
-        var pedidos : MutableList<Pedido> = mutableListOf()
+        //var pedidos : MutableList<Pedido> = mutableListOf()
         try {
             val data = questionRef.get().await()
             for (document in data) {
-                pedidos.add(document.toObject())
+                listaPedidos.add(document.toObject())
             }
         } catch (e: Exception) { }
 
-        return pedidos
+        return listaPedidos
     }
 
     suspend fun getPedidoByIndex(id: Int): Pedido {
 
         var pedidoEsperado = Pedido()
+        var listaPedidos: MutableList<Pedido> = mutableListOf()
 
         try {
             listaPedidos = getPedidos()
@@ -63,19 +119,54 @@ class PedidosRepository {
     //----------------------------------------------------------------------------------------------
     /*init{
         listaPedidos.add(
-            Pedido(1, 1, 1, "29-10-2022", "8:00", TipoEstado.EN_CURSO.toString()))
+            Pedido(1, 1, 1, 1, "29-10-2022", "8:00", TipoEstado.EN_CURSO.toString(), 0.0))
 
         listaPedidos.add(
-            Pedido(2, 1, 2, "15-11-2022", "20:00", TipoEstado.APROBADO.toString()))
+            Pedido(2, 2, 2, 1, "15-11-2022", "20:00", TipoEstado.APROBADO.toString(), 0.0))
 
         listaPedidos.add(
-            Pedido(3, 2, 1, "19-10-2022", "8:00", TipoEstado.APROBADO.toString()))
+            Pedido(2, 3, 2, 1,"15-11-2022", "20:00", TipoEstado.APROBADO.toString(), 0.0))
 
         listaPedidos.add(
-            Pedido(4, 2, 3, "19-10-2022", "12:00", TipoEstado.APROBADO.toString()))
+            Pedido(2, 4, 2, 1,"15-11-2022", "20:00", TipoEstado.APROBADO.toString(), 0.0))
 
         listaPedidos.add(
-            Pedido(5, 3, 4, "18-11-2022", "17:00", TipoEstado.APROBADO.toString()))
+            Pedido(2, 1, 2, 1,"15-11-2022", "20:00", TipoEstado.APROBADO.toString(), 0.0))
+        listaPedidos.add(
+            Pedido(2, 1, 2, 1,"15-11-2022", "20:00", TipoEstado.APROBADO.toString(), 0.0))
+        listaPedidos.add(
+            Pedido(2, 2, 2, 1,"15-11-2022", "20:00", TipoEstado.APROBADO.toString(), 0.0))
+
+        listaPedidos.add(
+            Pedido(2, 2, 2, 1,"15-11-2022", "20:00", TipoEstado.APROBADO.toString(), 0.0))
+
+        listaPedidos.add(
+            Pedido(2, 2, 2, 1,"15-11-2022", "20:00", TipoEstado.APROBADO.toString(), 0.0))
+
+        listaPedidos.add(
+            Pedido(2, 1, 2, 1,"15-11-2022", "20:00", TipoEstado.APROBADO.toString(), 0.0))
+
+        listaPedidos.add(
+            Pedido(2, 1, 2, 1,"15-11-2022", "20:00", TipoEstado.APROBADO.toString(), 0.0))
+
+        listaPedidos.add(
+            Pedido(2, 4, 2, 1,"15-11-2022", "20:00", TipoEstado.APROBADO.toString(), 0.0))
+
+        listaPedidos.add(
+            Pedido(2, 3, 2, 1,"15-11-2022", "20:00", TipoEstado.APROBADO.toString(), 0.0))
+
+        listaPedidos.add(
+            Pedido(2, 1, 2, 1,"15-11-2022", "20:00", TipoEstado.APROBADO.toString(), 0.0))
+
+        listaPedidos.add(
+            Pedido(2, 1, 2, 1,"15-11-2022", "20:00", TipoEstado.APROBADO.toString(), 0.0))
+        listaPedidos.add(
+            Pedido(2, 4, 2, 1,"15-11-2022", "20:00", TipoEstado.APROBADO.toString(), 0.0))
+        listaPedidos.add(
+            Pedido(2, 1, 2, 1,"15-11-2022", "20:00", TipoEstado.APROBADO.toString(), 0.0))
+    }
+
+    fun getPedidos() : MutableList<Pedido>{
+        return listaPedidos
     }*/
-
 }
