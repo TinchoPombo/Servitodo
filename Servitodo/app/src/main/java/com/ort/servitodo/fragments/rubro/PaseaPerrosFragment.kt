@@ -1,6 +1,5 @@
 package com.ort.servitodo.fragments.rubro
 
-import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -9,13 +8,12 @@ import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
-import com.ort.servitodo.R
-import com.ort.servitodo.databinding.FragmentFleteroBinding
 import com.ort.servitodo.databinding.FragmentPaseaPerrosBinding
+import com.ort.servitodo.entities.PaseaPerros
 import com.ort.servitodo.entities.Prestador
 import com.ort.servitodo.entities.Publicacion
+import com.ort.servitodo.entities.Rubro
 import com.ort.servitodo.viewmodels.prestador.CrearPublicacionViewModel
-import com.ort.servitodo.viewmodels.rubro.PaseaPerrosViewModel
 
 class PaseaPerrosFragment : Fragment() {
 
@@ -45,10 +43,11 @@ class PaseaPerrosFragment : Fragment() {
 
         val descripcion : String = PaseaPerrosFragmentArgs.fromBundle(requireArguments()).descripcion
         val idRubro : Int = PaseaPerrosFragmentArgs.fromBundle(requireArguments()).idRubro
-        val prestador : Prestador = Prestador(7,"messiPaseaPerros","Lionel","Messi","20-10-1989","https://pbs.twimg.com/media/E8jxa-AWUAAPSX9.jpg:large","matricula","Paseador de perros","1122766971")
+        val prestador : Prestador = Prestador(2,"messiPaseaPerros","Andres","Gomez","20-10-1989","https://www.rockaxis.com/img/newsList/3070682.jpg","matricula","Paseador de perros","1122766971")
 
         binding.btnCrearPublicacion.setOnClickListener {
-            val publicacion: Publicacion = Publicacion((viewModel.getPublicaciones().size + 1), prestador.id, prestador.img, prestador.name,prestador.lastname, idRubro, prestador.rubro, descripcion)
+            val rubro : Rubro = PaseaPerros(Integer.parseInt(binding.txtCantidadPerros.text.toString()), Integer.parseInt(binding.txtPrecioPaseo.text.toString()), idRubro, "PaseaPerros")
+            val publicacion: Publicacion = Publicacion(/*(viewModel.getPublicaciones().size + 1)*/2, prestador.id, prestador.img, prestador.name,prestador.lastname, rubro, descripcion)
             db.collection("publicaciones").add(publicacion)
             viewModel.emptyList()
 

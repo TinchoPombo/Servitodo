@@ -48,11 +48,6 @@ class PedidosAdapter (
         holder.getDetalleButton().setOnClickListener{
             holder.detallesDelPedido(listaPedidos[position])
         }
-
-        holder.enableWhatsappButton(listaPedidos[position].estado).setOnClickListener{
-            holder.redirectionToWhatsApp(listaPedidos[position].idPrestador)
-        }
-
     }
 
     override fun getItemCount(): Int {
@@ -114,30 +109,9 @@ class PedidosAdapter (
             scope.launch() {
                 publicacion = publicacionRepository.getPublicacionById(id)
                 setNombrePrestador(publicacion.nombrePrestador)
-                setRubro(publicacion.nombreRubro)
+                setRubro(publicacion.rubro.nombre)
                 setImagenPrestador(publicacion.fotoPrestador)
             }
-        }
-
-        //--> WHATSAPP
-        fun redirectionToWhatsApp(idPrestador : Int){
-            val whatsAppViewModel = WhatsAppViewModel()
-            whatsAppViewModel.confirmRedirectionToWhatsapp(idPrestador, view)
-        }
-
-        fun enableWhatsappButton(estado : String) : Button{
-            val button = getWhatsappButton()
-            val condition = estado == TipoEstado.PENDIENTE.toString()
-            if(condition){
-                button.isEnabled = !condition
-                button.setTextColor(ContextCompat.getColor(view.context, R.color.greyish))
-                button.setBackgroundColor(ContextCompat.getColor(view.context, R.color.light_grey))
-            }
-            return button
-        }
-
-        fun getWhatsappButton() : Button {
-            return view.findViewById(R.id.whatsappPedidoButton)
         }
 
         //--> DETALLE DEL PEDIDO
@@ -148,7 +122,7 @@ class PedidosAdapter (
         }
 
         fun getDetalleButton() : Button {
-            return view.findViewById(R.id.detallePedidoButton)
+            return view.findViewById(R.id.detallePedidoClienteButton)
         }
 
         //-------------------------------------------------------

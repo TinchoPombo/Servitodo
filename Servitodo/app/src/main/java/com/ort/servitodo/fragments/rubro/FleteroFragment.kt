@@ -1,6 +1,5 @@
 package com.ort.servitodo.fragments.rubro
 
-import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -9,11 +8,11 @@ import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
-import com.ort.servitodo.R
-import com.ort.servitodo.databinding.FragmentCrearPublicacionBinding
 import com.ort.servitodo.databinding.FragmentFleteroBinding
+import com.ort.servitodo.entities.Fletero
 import com.ort.servitodo.entities.Prestador
 import com.ort.servitodo.entities.Publicacion
+import com.ort.servitodo.entities.Rubro
 import com.ort.servitodo.viewmodels.prestador.CrearPublicacionViewModel
 import com.ort.servitodo.viewmodels.rubro.FleteroViewModel
 
@@ -47,13 +46,13 @@ class FleteroFragment : Fragment() {
 
         val descripcion : String = FleteroFragmentArgs.fromBundle(requireArguments()).descripcion
         val idRubro : Int = FleteroFragmentArgs.fromBundle(requireArguments()).idRubro
-        val prestador : Prestador = Prestador(7,"messiFletero","Lionel","Messi","20-10-1989","https://pbs.twimg.com/media/E8jxa-AWUAAPSX9.jpg:large","matricula","Fletero","1122766971")
+        val prestador : Prestador = Prestador(4,"CharlySanchez3","Raul","Richi","20-10-1989","https://static-cdn.jtvnw.net/jtv_user_pictures/574228be-01ef-4eab-bc0e-a4f6b68bedba-profile_image-300x300.png","matricula","Fletero","1122766971")
+
 
         binding.btnCrearPublicacion.setOnClickListener {
-            val publicacion: Publicacion = Publicacion((viewModel.getPublicaciones().size + 1), prestador.id, prestador.img, prestador.name,prestador.lastname, idRubro, prestador.rubro, descripcion)
+            val rubro : Rubro = Fletero(Integer.parseInt(binding.txtCostoHora.text.toString()), Integer.parseInt(binding.txtPesoMaximo.text.toString()), idRubro, "Fletero")
+            val publicacion: Publicacion = Publicacion(/*(viewModel.getPublicaciones().size + 1)*/4, prestador.id, prestador.img, prestador.name,prestador.lastname, rubro, descripcion)
             db.collection("publicaciones").add(publicacion)
-            viewModel.emptyList()
-
         }
     }
 
