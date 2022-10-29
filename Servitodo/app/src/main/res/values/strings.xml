@@ -1,5 +1,22 @@
 <resources>
     <string name="app_name">Servitodo</string>
+    <string name="required" />
+    <string name="email" />
+    <string name="email2">Email</string>
+    <string name="telefono">Telefono</string>
+    <string name="requerido">Requerido</string>
+    <string name="password">Contraseña</string>
+    <string name="nombre">Nombre</string>
+    <string name="apellido">Apellido</string>
+    <string name="foto">Foto</string>
+    <string name="ubicacion">Ubicacion</string>
+    <string name="cliente">Cliente</string>
+    <string name="prestador">Prestador</string>
+    <string name="calleAltura">Calle y altura</string>
+    <string name="depto">Departamento</string>
+    <string name="depto2">Depto</string>
+    <string name="opcional">Opcional</string>
+    <string name="registrarse">Registrarse</string>
 
     <string-array name="rubros">
         <item>Mantenimiento</item>

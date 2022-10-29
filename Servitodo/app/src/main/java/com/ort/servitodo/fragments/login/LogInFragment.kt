@@ -9,8 +9,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import androidx.fragment.app.viewModels
 import androidx.navigation.findNavController
 import com.ort.servitodo.R
+import com.ort.servitodo.databinding.FragmentDetallePublicacionBinding
+import com.ort.servitodo.databinding.FragmentLogInBinding
 
 //import com.google.firebase.firestore.ktx.firestore
 //import com.google.firebase.ktx.Firebase
@@ -23,18 +26,21 @@ class LogInFragment : Fragment() {
         fun newInstance() = LogInFragment()
     }
 
+
+
     lateinit var v : View;
-    lateinit var btnLogin : Button
-    lateinit var btnLogin2 : Button
-    private lateinit var viewModel: LogInViewModel
+    private val viewModel: LogInViewModel by viewModels()
+
+    private lateinit var binding : FragmentLogInBinding
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        v= inflater.inflate(R.layout.fragment_log_in, container, false)
-        btnLogin = v.findViewById(R.id.btnLogin)
-        btnLogin2 = v.findViewById(R.id.btnLogin2)
+        binding = FragmentLogInBinding.inflate(inflater, container, false)
+        v = binding.root
+
         return v
     }
 
@@ -43,22 +49,27 @@ class LogInFragment : Fragment() {
 
 
 
-        btnLogin.setOnClickListener {
+        binding.btnLogin.setOnClickListener {
             val action = LogInFragmentDirections.actionLogInFragmentToPrestadorActivity()
             v.findNavController().navigate(action)
 
         }
 
-        btnLogin2.setOnClickListener {
+        binding.txtRegistroLogin.setOnClickListener {
+            val action = LogInFragmentDirections.actionLogInFragmentToSignUpFragment()
+            v.findNavController().navigate(action)
+        }
+
+        binding.btnLogin2.setOnClickListener {
             val action = LogInFragmentDirections.actionLogInFragmentToClienteActivity()
             v.findNavController().navigate(action)
         }
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
+    /*override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProvider(this).get(LogInViewModel::class.java)
         // TODO: Use the ViewModel
-    }
+    }*/
 
 }

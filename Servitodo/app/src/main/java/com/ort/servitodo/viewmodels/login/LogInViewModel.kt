@@ -1,8 +1,11 @@
 package com.ort.servitodo.viewmodels.login
 
 import androidx.lifecycle.ViewModel
+import com.google.firebase.auth.FirebaseAuth
 
 class LogInViewModel : ViewModel() {
+
+
 
     //val db = Firebase.firestore
 

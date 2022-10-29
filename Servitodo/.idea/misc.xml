@@ -76,6 +76,8 @@
         <entry key="..\:/SERVITODO/Servitodo/app/src/main/res/layout/fragment_time_picker.xml" value="0.1859375" />
         <entry key="..\:/SERVITODO/Servitodo/app/src/main/res/layout/fragment_whats_app.xml" value="0.1859375" />
         <entry key="..\:/SERVITODO/Servitodo/app/src/main/res/layout/fragment_whatsa_app.xml" value="0.2" />
+        <entry key="..\:/Users/tomas/Desktop/Servitodo2/Servitodo/Servitodo/app/src/main/res/layout/fragment_log_in.xml" value="0.21557971014492755" />
+        <entry key="..\:/Users/tomas/Desktop/Servitodo2/Servitodo/Servitodo/app/src/main/res/layout/fragment_sign_up.xml" value="0.33" />
       </map>
     </option>
   </component>
@@ -84,5 +86,12 @@
   </component>
   <component name="ProjectType">
     <option name="id" value="Android" />
+  </component>
+  <component name="VisualizationToolProject">
+    <option name="state">
+      <ProjectState>
+        <option name="scale" value="0.33" />
+      </ProjectState>
+    </option>
   </component>
 </project>

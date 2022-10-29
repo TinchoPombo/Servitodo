@@ -6,12 +6,14 @@ open class Usuario (
     var apellido : String,
     var mail : String,
     var password : String,
-    // var ubicacion :
     var telefono : String,
     var foto : String,
-    var puntuaciones : MutableList<Puntuacion> = mutableListOf(),
-    var listaHistorial : MutableList<Historial> = mutableListOf(),
-        ){
-    constructor():this(0,"","","","","","")
+    var ubicacion : String,
+    var esPrestador : Boolean
+//    var puntuaciones : MutableList<Puntuacion> = mutableListOf(),
+//    var listaHistorial : MutableList<Historial> = mutableListOf(),
+//
+    ){
+    constructor():this(0,"","","","","","","", false)
 
 }
