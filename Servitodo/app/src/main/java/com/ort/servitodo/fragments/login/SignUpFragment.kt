@@ -1,5 +1,6 @@
 package com.ort.servitodo.fragments.login
 
+import android.app.AlertDialog
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
 import android.util.Patterns
@@ -7,10 +8,13 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.viewModels
 import com.ort.servitodo.R
 import com.ort.servitodo.databinding.FragmentLogInBinding
 import com.ort.servitodo.databinding.FragmentSignUpBinding
+import com.ort.servitodo.entities.Usuario
+import com.ort.servitodo.repositories.UsuarioRepository
 import com.ort.servitodo.viewmodels.login.SignUpViewModel
 import java.util.regex.Pattern
 
@@ -31,8 +35,175 @@ class SignUpFragment : Fragment() {
         binding = FragmentSignUpBinding.inflate(inflater, container, false)
         v = binding.root
 
+        binding.radioGroup.clearCheck()
+        nombreFocusListener()
+        apellidoFocusListener()
+        calleAlturaFocusListener()
         emailFocusListener()
+        passwordFocusListener()
+        phoneFocusListener()
+        radioGroupListener()
+
+        binding.buttonRegister.setOnClickListener{
+            submitForm()
+        }
+
+
         return v
+    }
+
+    private fun radioGroupListener() {
+        binding.radioGroup.setOnCheckedChangeListener { _,change ->
+
+        }
+    }
+
+    private fun validRadio(): String?{
+        val radio = binding.radioGroup.getCheckedRadioButtonId()
+        if(radio == -1){
+            return "Seleccione una opcion de usuario"
+        }
+        return null
+    }
+
+    private fun calleAlturaFocusListener() {
+        binding.calleAlturaEditText.setOnFocusChangeListener{_,focused ->
+            binding.calleAlturaContainer.helperText = validCalleAltura()
+        }
+    }
+
+    private fun validCalleAltura(): String? {
+        val calleAlturaText = binding.calleAlturaEditText.text.toString()
+        if(calleAlturaText.isEmpty()){
+            return "Ingrese una direccion"
+        }
+
+        return null
+    }
+
+    private fun apellidoFocusListener() {
+        binding.apellidoEditText.setOnFocusChangeListener{_,focused ->
+            binding.apellidoContainer.helperText = validApellido()
+        }
+    }
+
+    private fun validApellido(): String? {
+        val apellidoText = binding.apellidoEditText.text.toString()
+        if(apellidoText.length < 3){
+            return "Ingrese un apellido valido"
+        }
+
+        return null
+    }
+
+    private fun nombreFocusListener() {
+        binding.nombreEditText.setOnFocusChangeListener{_,focused ->
+            binding.nombreContainer.helperText = validNombre()
+        }
+    }
+
+    private fun validNombre(): String? {
+        val nombreText = binding.nombreEditText.text.toString()
+        if(nombreText.length < 3){
+            return "Ingrese un nombre valido"
+        }
+
+        return null
+    }
+
+    private fun submitForm() {
+        binding.emailContainer.helperText = validEmail()
+        binding.passwordContainer.helperText = validPassword()
+        binding.phoneContainer.helperText = validPhone()
+        binding.apellidoContainer.helperText = validApellido()
+        binding.nombreContainer.helperText = validNombre()
+        binding.calleAlturaContainer.helperText = validCalleAltura()
+
+
+        val validEmail = binding.emailContainer.helperText == null
+        val validPassword = binding.passwordContainer.helperText == null
+        val validPhone = binding.phoneContainer.helperText == null
+        val validNombre = binding.nombreContainer.helperText == null
+        val validApellido = binding.apellidoContainer.helperText == null
+        val validCalleAltura = binding.calleAlturaContainer.helperText == null
+        val validRadio = validRadio() == null
+
+        if(validRadio && validPhone && validPassword && validEmail && validNombre && validApellido && validCalleAltura){
+            resetForm()
+        }else{
+            invalidForm()
+        }
+
+    }
+
+    private fun invalidForm() {
+        var msg = ""
+        if(binding.nombreContainer.helperText != null)
+            msg += "\n\nNombre: " + binding.nombreContainer.helperText
+        if(binding.apellidoContainer.helperText != null)
+            msg += "\n\nApellido: " + binding.apellidoContainer.helperText
+        if(binding.emailContainer.helperText != null)
+            msg += "\n\nEmail: " + binding.emailContainer.helperText
+        if(binding.passwordContainer.helperText != null)
+            msg += "\n\nContraseña: " + binding.passwordContainer.helperText
+        if(binding.phoneContainer.helperText != null)
+            msg += "\n\nTelefono: " + binding.phoneContainer.helperText
+        if(binding.calleAlturaContainer.helperText != null)
+            msg += "\n\nCalle: " + binding.calleAlturaContainer.helperText
+        if(validRadio() != null)
+            msg += "\n\nUsuario: " + validRadio()
+
+        AlertDialog.Builder(context)
+            .setTitle("Invalid Form")
+            .setMessage(msg)
+            .setPositiveButton("Okay"){ _,_ ->
+                // do nothing
+            }
+            .show()
+    }
+
+    private fun resetForm() {
+
+        val nombre = binding.nombreEditText.text.toString()
+        val apellido = binding.apellidoEditText.text.toString()
+        val mail = binding.emailEditText.text.toString()
+        val password = binding.passwordEditText.text.toString()
+        val telefono = binding.phoneEditText.text.toString()
+        val foto = binding.fotoEditText.text.toString()
+        val ubicacion = binding.calleAlturaEditText.text.toString()
+        val esPrestador = esPrestador()
+
+        viewModel.addUsuario(
+            nombre, apellido, mail,password, telefono,foto, ubicacion, esPrestador
+        )
+
+        AlertDialog.Builder(context)
+            .setTitle("Usuario creado")
+            .setPositiveButton("Okay"){ _,_ ->
+                binding.emailEditText.text = null
+                binding.passwordEditText.text = null
+                binding.phoneEditText.text = null
+                binding.apellidoEditText.text = null
+                binding.nombreEditText.text = null
+                binding.calleAlturaEditText.text = null
+
+                binding.emailContainer.helperText = getString(R.string.required)
+                binding.passwordContainer.helperText = getString(R.string.required)
+                binding.phoneContainer.helperText = getString(R.string.required)
+                binding.nombreContainer.helperText = getString(R.string.required)
+                binding.apellidoContainer.helperText = getString(R.string.required)
+                binding.calleAlturaContainer.helperText = getString(R.string.required)
+                binding.radioGroup.clearCheck()
+            }
+            .show()
+
+
+    }
+
+    private fun esPrestador(): Boolean {
+        if(binding.radioGroup.checkedRadioButtonId == binding.radioPrestador.id)
+            return true
+        return false
     }
 
     private fun emailFocusListener() {
@@ -50,14 +221,62 @@ class SignUpFragment : Fragment() {
         return null
     }
 
+    private fun passwordFocusListener() {
+        binding.passwordEditText.setOnFocusChangeListener{_,focused ->
+            binding.passwordContainer.helperText = validPassword()
+        }
+    }
+
+    private fun validPassword(): String? {
+        val passwordText = binding.passwordEditText.text.toString()
+        if(passwordText.length < 8)
+        {
+            return "Debe contener 8 caracteres minimo"
+        }
+        if(!passwordText.matches(".*[A-Z].*".toRegex()))
+        {
+            return "Debe contener 1 mayuscula"
+        }
+        if(!passwordText.matches(".*[a-z].*".toRegex()))
+        {
+            return "Debe contener 1 minuscula"
+        }
+        if(!passwordText.matches(".*[@#\$%^&+=].*".toRegex()))
+        {
+            return "Debe contener 1 caracter especial (@#\$%^&+=)"
+        }
+
+        return null
+    }
+
+    private fun phoneFocusListener()
+    {
+        binding.phoneEditText.setOnFocusChangeListener { _, focused ->
+            if(!focused)
+            {
+                binding.phoneContainer.helperText = validPhone()
+            }
+        }
+    }
+
+    private fun validPhone(): String?
+    {
+        val phoneText = binding.phoneEditText.text.toString()
+        if(phoneText.length != 10)
+        {
+            return "Debe tener 10 digitos"
+        }
+        return null
+    }
+
+
+
     override fun onStart() {
         super.onStart()
 
         viewModel.setView(v)
 
-        binding.buttonRegister.setOnClickListener{
 
-        }
 
     }
 

@@ -1,9 +1,17 @@
 package com.ort.servitodo.repositories
 
+import android.content.ContentValues.TAG
 import android.content.Context
 import android.content.SharedPreferences
+import android.util.Log
 import android.view.View
 import androidx.core.content.ContentProviderCompat.requireContext
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.firestore.ktx.toObject
+import com.google.firebase.ktx.Firebase
+import com.ort.servitodo.entities.Publicacion
+import com.ort.servitodo.entities.Usuario
+import kotlinx.coroutines.tasks.await
 
 class UsuarioRepository(view : View) {
 
@@ -19,6 +27,49 @@ class UsuarioRepository(view : View) {
     private val PREF_NAME = "myPreferences"
     private val sharedPref : SharedPreferences = view.context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE)
     private val editor = sharedPref.edit()
+
+
+    //FireStore
+    private var listaUsuarios : MutableList<Usuario> = arrayListOf()
+    val db = Firebase.firestore
+
+    suspend fun getUsuarios() : MutableList<Usuario>{
+        val questionRef = db.collection("usuarios")
+
+        try {
+            val data = questionRef.get().await()
+            for(document in data){
+                listaUsuarios.add(document.toObject())
+            }
+        }catch (e: Exception){}
+
+        return listaUsuarios
+    }
+
+    suspend fun getUsuarioById(id : Int) : Usuario {
+
+        var usuarioEsperado = Usuario()
+        try {
+            listaUsuarios = getUsuarios()
+            usuarioEsperado = listaUsuarios.find { p -> p.id == id }!!
+        } catch (e : Exception) {
+            Log.d("ERROR. Usuario no encontrado", "No se encontro el usuario ${id}. ${e}")
+        }
+        return usuarioEsperado
+    }
+
+    fun addUsuario(usuario: Usuario){
+        db.collection("usuarios").document().set(usuario)
+            .addOnSuccessListener { documentReference ->
+                Log.d(TAG,"DocumentSnapshot written with ID: ")
+            }
+            .addOnFailureListener{ e ->
+                Log.w(TAG, "Error adding document", e)
+            }
+    }
+
+
+
 
     //-----------> Setea el username y password en la shared preferences <------------------------------
 
