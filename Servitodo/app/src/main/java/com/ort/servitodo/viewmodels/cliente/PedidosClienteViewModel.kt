@@ -43,7 +43,9 @@ class PedidosClienteViewModel : ViewModel() {
         cargando.value = "Cargando..."
 
         viewModelScope.launch{
-            pedidos = repository.getPedidos()
+            repository.changeStateFinalizado()
+
+            pedidos = repository.getPedidosCliente()
 
             if(pedidos.size < 1) {
                 cargando.value = "Todavia no hay pedidos solicitados"
