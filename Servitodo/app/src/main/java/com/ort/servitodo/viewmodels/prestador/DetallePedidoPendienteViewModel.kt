@@ -16,6 +16,7 @@ import com.ort.servitodo.repositories.PedidosRepository
 import com.ort.servitodo.viewmodels.cliente.OpinionesClienteViewModel
 import com.ort.servitodo.viewmodels.resources.CalendarViewModel
 import com.ort.servitodo.viewmodels.resources.TimePickerViewModel
+import com.ort.servitodo.viewmodels.resources.WhatsAppViewModel
 import java.util.*
 
 class DetallePedidoPendienteViewModel : ViewModel() {
@@ -67,12 +68,19 @@ class DetallePedidoPendienteViewModel : ViewModel() {
         initializeCalendarMutableLiveData(calendar)
     }
 
+
+
 /*    fun selectHour(){
         val fecha = this.selectedDay.value
         if(fecha != null){
             timeViewModel.showTimePicker(view, fecha, this.pedido, this.selectedHour)
         }
     }*/
+
+    fun redirectionToWhatsApp(){
+        val whatsAppViewModel = WhatsAppViewModel()
+        whatsAppViewModel.confirmRedirectionToWhatsapp(this.pedido.idPrestador, view)
+    }
 
     //---------------- Calendario ------------------------------------------
     private fun initializeCalendarMutableLiveData(datePicker : MaterialDatePicker<Long>){
@@ -115,4 +123,6 @@ class DetallePedidoPendienteViewModel : ViewModel() {
     fun opinionesDelPrestador(){
         opiniones.opinionesDelPrestador(this.view)
     }
+
+
 }
