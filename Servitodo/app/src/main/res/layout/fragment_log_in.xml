@@ -7,23 +7,29 @@
     android:layout_height="match_parent"
     tools:context=".fragments.login.LogInFragment" >
 
+
     <ImageView
         android:id="@+id/ivLogo"
         android:layout_width="160dp"
         android:layout_height="120dp"
+        android:layout_marginTop="12dp"
         android:src="@drawable/logo1"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.501"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
-        android:id="@+id/etRegisterName"
+        android:id="@+id/inputMailLogIn"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_margin="12dp"
+        android:layout_marginTop="100dp"
         android:drawablePadding="12dp"
-        android:hint="Usuario"
+        android:hint="Email"
+        android:minHeight="48dp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/ivLogo" />
 
@@ -32,36 +38,33 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_margin="12dp"
+        android:layout_marginTop="10dp"
         android:drawablePadding="12dp"
         android:hint="Contraseña"
         android:inputType="textPassword"
+        android:minHeight="48dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/etRegisterName" />
+        app:layout_constraintTop_toBottomOf="@+id/inputMailLogIn" />
 
     <TextView
         android:id="@+id/txtRegistroLogin"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="101dp"
-        android:layout_marginEnd="104dp"
         android:text="No tiene una cuenta? Registrarse"
-        app:layout_constraintBottom_toTopOf="@+id/btnLogin"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/inputPasswordLogin" />
-
-
-
-
+        app:layout_constraintTop_toBottomOf="@+id/btnLoginTrue"
+        app:layout_constraintVertical_bias="0.167" />
 
     <Button
         android:id="@+id/btnLogin"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="212dp"
-        android:layout_marginBottom="100dp"
+        android:layout_marginStart="216dp"
+        android:layout_marginBottom="52dp"
         android:text="PRESTADOR"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
@@ -70,10 +73,107 @@
         android:id="@+id/btnLogin2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="72dp"
-        android:layout_marginBottom="100dp"
+        android:layout_marginStart="76dp"
+        android:layout_marginBottom="52dp"
         android:text="CLIENTE"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/btnLoginTrue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="LogIn"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.495"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/inputPasswordLogin"
+        app:layout_constraintVertical_bias="0.6" />
+
+    <Button
+        android:id="@+id/btnCliente1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="50dp"
+        android:layout_marginTop="53dp"
+        android:text="Cliente 1"
+        android:backgroundTint="#58d68d"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/inputPasswordLogin" />
+
+    <Button
+        android:id="@+id/btnPrest1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="105dp"
+        android:layout_marginTop="53dp"
+        android:layout_marginEnd="50dp"
+        android:text="Prest 1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/btnCliente1"
+        app:layout_constraintTop_toBottomOf="@+id/inputPasswordLogin"
+        android:backgroundTint="#2874a6"
+
+        />
+
+    <Button
+        android:id="@+id/btnCliente2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="50dp"
+        android:layout_marginTop="20dp"
+        android:text="Cliente 2"
+        android:backgroundTint="#58d68d"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnCliente1" />
+
+    <Button
+        android:id="@+id/btnCliente3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="50dp"
+        android:layout_marginTop="20dp"
+        android:text="Cliente 3"
+        android:backgroundTint="#58d68d"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnCliente2" />
+
+    <Button
+        android:id="@+id/btnPrest2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="105dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="50dp"
+        android:text="Prest 2"
+        android:backgroundTint="#2874a6"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/btnCliente2"
+        app:layout_constraintTop_toBottomOf="@+id/btnPrest1" />
+
+    <Button
+        android:id="@+id/btnPrest3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="105dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="50dp"
+        android:text="Prest 3"
+        android:backgroundTint="#2874a6"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toEndOf="@+id/btnCliente3"
+        app:layout_constraintTop_toBottomOf="@+id/btnPrest2" />
+
+    <Button
+        android:id="@+id/btnLogOut"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Cerrar Sesion"
+        android:backgroundTint="#7b241c"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

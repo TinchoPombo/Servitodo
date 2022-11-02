@@ -1,6 +1,7 @@
 package com.ort.servitodo.fragments.cliente
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -11,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.ort.servitodo.R
 import com.ort.servitodo.databinding.FragmentDetallePublicacionBinding
 import com.ort.servitodo.databinding.FragmentHomeClienteBinding
+import com.ort.servitodo.repositories.UsuarioRepository
 import com.ort.servitodo.viewmodels.cliente.HomeClienteViewModel
 
 class HomeClienteFragment : Fragment() {
@@ -56,6 +58,15 @@ class HomeClienteFragment : Fragment() {
         })
 
         homeClienteViewModel.recyclerView(binding.recPublicacion)
+
+
+
+
+        val userrepo = UsuarioRepository(v)
+        Log.d("clientecredentials", "mail: ${userrepo.getMailUserInSharedPreferences()} + " +
+                    "Ps: ${userrepo.getPasswordUserInSharedPreferences()} - Id: ${userrepo.getIdSession()}" )
+
+
 
     }
 

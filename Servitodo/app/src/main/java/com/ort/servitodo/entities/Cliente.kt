@@ -1,8 +1,8 @@
 package com.ort.servitodo.entities
 
-class Cliente(id : Int, username : String, name : String, lastname : String, birth: String, img : String, address : String) {
+class Cliente(id : String, username : String, name : String, lastname : String, birth: String, img : String, address : String) {
 
-    var id : Int
+    var id : String
     var username : String
     var name : String
     var lastname : String

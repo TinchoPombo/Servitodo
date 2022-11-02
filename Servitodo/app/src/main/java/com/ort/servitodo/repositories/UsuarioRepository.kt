@@ -24,7 +24,7 @@ class UsuarioRepository(view : View) {
 
     private var view = view
 
-    private val PREF_NAME = "myPreferences"
+    private val PREF_NAME = "session"
     private val sharedPref : SharedPreferences = view.context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE)
     private val editor = sharedPref.edit()
 
@@ -33,25 +33,28 @@ class UsuarioRepository(view : View) {
     private var listaUsuarios : MutableList<Usuario> = arrayListOf()
     val db = Firebase.firestore
 
-    suspend fun getUsuarios() : MutableList<Usuario>{
+    suspend fun getUsuarios() : MutableList<Usuario> {
+
+
         val questionRef = db.collection("usuarios")
 
         try {
             val data = questionRef.get().await()
-            for(document in data){
+            for (document in data) {
                 listaUsuarios.add(document.toObject())
+                Log.d("TestCo", "testFor")
             }
-        }catch (e: Exception){}
+        }catch (e:Exception){}
 
-        return listaUsuarios
+            return listaUsuarios
     }
 
-    suspend fun getUsuarioById(id : Int) : Usuario {
+    suspend fun getUsuarioById(id : String) : Usuario {
 
         var usuarioEsperado = Usuario()
         try {
             listaUsuarios = getUsuarios()
-            usuarioEsperado = listaUsuarios.find { p -> p.id == id }!!
+            usuarioEsperado = listaUsuarios.find { p -> p.id.equals(id) }!!
         } catch (e : Exception) {
             Log.d("ERROR. Usuario no encontrado", "No se encontro el usuario ${id}. ${e}")
         }
@@ -85,6 +88,17 @@ class UsuarioRepository(view : View) {
         editor.apply()
     }
 
+    fun setUserCredentialsInSharedPreferences(id:String, mail:String, password:String){
+        editor.putString("USER_ID", id)
+        editor.putString("USER_MAIL", mail)
+        editor.putString("USER_PW", password)
+        editor.apply()
+    }
+
+    fun deleteSharedPreferences(){    //<----- Para el logOut
+        editor.clear()
+    }
+
     //----------------------------------------> GETTERS <--------------------------------------------
 
     fun getUsernameClienteInSharedPreferences() : String{ //--> Getters de CLIENTE
@@ -102,6 +116,31 @@ class UsuarioRepository(view : View) {
     fun getPasswordPrestadorInSharedPreferences() : String{
         return sharedPref.getString("PASSWORD_PRESTADOR", "default")!!
     }
+
+    fun getMailUserInSharedPreferences() : String{ //--> Getters de USUARIO
+        return sharedPref.getString("USER_MAIL", "default")!!
+    }
+
+    fun getPasswordUserInSharedPreferences() : String{
+        return sharedPref.getString("USER_PW", "default")!!
+    }
+
+    fun getIdSession() : String{
+        return sharedPref.getString("USER_ID", "default")!!
+    }
+
+    suspend fun validarMailYPw(email: String, pw: String): Usuario {
+        var user = Usuario()
+
+        try{
+            listaUsuarios = getUsuarios()
+            user = listaUsuarios.find { u -> u.mail.equals(email) && u.password.equals(pw) }!!
+        }catch (e:Exception){}
+
+
+     return user
+    }
+
 
     /*TODO:
        Cuando el usuario se loguea, que haya algun checkbox que diga "queres mantener la sesion iniciada?"

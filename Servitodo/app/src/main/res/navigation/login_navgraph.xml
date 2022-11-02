@@ -24,7 +24,14 @@
         android:id="@+id/signUpFragment"
         android:name="com.ort.servitodo.fragments.login.SignUpFragment"
         android:label="fragment_sign_up"
-        tools:layout="@layout/fragment_sign_up" />
+        tools:layout="@layout/fragment_sign_up" >
+        <action
+            android:id="@+id/action_signUpFragment_to_clienteActivity"
+            app:destination="@id/clienteActivity" />
+        <action
+            android:id="@+id/action_signUpFragment_to_prestadorActivity"
+            app:destination="@id/prestadorActivity" />
+    </fragment>
     <activity
         android:id="@+id/prestadorActivity"
         android:name="com.ort.servitodo.activities.PrestadorActivity"

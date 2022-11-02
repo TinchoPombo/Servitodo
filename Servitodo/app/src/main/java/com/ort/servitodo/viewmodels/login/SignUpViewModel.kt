@@ -7,6 +7,7 @@ import android.widget.Toast
 import androidx.lifecycle.ViewModel
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
+import com.google.firebase.auth.ktx.userProfileChangeRequest
 import com.google.firebase.ktx.Firebase
 import com.ort.servitodo.entities.Prestador
 import com.ort.servitodo.entities.Usuario
@@ -17,7 +18,6 @@ class SignUpViewModel : ViewModel() {
 
 
     // Initialize Firebase Auth
-    private var auth: FirebaseAuth = Firebase.auth
     lateinit var v: View
     private lateinit var usuarioRepository : UsuarioRepository
 
@@ -33,6 +33,7 @@ class SignUpViewModel : ViewModel() {
     }
 
     fun addUsuario(
+        id : String,
         nombre : String,
         apellido :String,
         mail : String,
@@ -43,7 +44,7 @@ class SignUpViewModel : ViewModel() {
         esPrestador: Boolean
     ) {
        usuarioRepository.addUsuario(Usuario(
-           232,
+           id,
            nombre,
            apellido,
            mail,
@@ -52,5 +53,13 @@ class SignUpViewModel : ViewModel() {
            foto,
            ubicacion,
            esPrestador))
+    }
+
+    fun saveSession(id: String, mail: String, password: String) {
+        usuarioRepository.setUserCredentialsInSharedPreferences(id, mail, password)
+    }
+
+    fun logOut(){
+        usuarioRepository.deleteSharedPreferences()
     }
 }

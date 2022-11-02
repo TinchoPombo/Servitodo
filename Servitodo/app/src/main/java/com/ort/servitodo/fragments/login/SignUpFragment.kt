@@ -1,8 +1,10 @@
 package com.ort.servitodo.fragments.login
 
 import android.app.AlertDialog
+import android.content.ContentValues.TAG
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
+import android.util.Log
 import android.util.Patterns
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -10,12 +12,23 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.viewModels
+import androidx.navigation.NavDirections
+import androidx.navigation.findNavController
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 import com.ort.servitodo.R
 import com.ort.servitodo.databinding.FragmentLogInBinding
 import com.ort.servitodo.databinding.FragmentSignUpBinding
 import com.ort.servitodo.entities.Usuario
 import com.ort.servitodo.repositories.UsuarioRepository
 import com.ort.servitodo.viewmodels.login.SignUpViewModel
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
+import java.util.UUID
 import java.util.regex.Pattern
 
 class SignUpFragment : Fragment() {
@@ -27,6 +40,11 @@ class SignUpFragment : Fragment() {
     private val viewModel: SignUpViewModel by viewModels()
     private lateinit var binding : FragmentSignUpBinding
     lateinit var v : View
+
+
+
+
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -51,6 +69,8 @@ class SignUpFragment : Fragment() {
 
         return v
     }
+
+
 
     private fun radioGroupListener() {
         binding.radioGroup.setOnCheckedChangeListener { _,change ->
@@ -119,6 +139,7 @@ class SignUpFragment : Fragment() {
         binding.nombreContainer.helperText = validNombre()
         binding.calleAlturaContainer.helperText = validCalleAltura()
 
+        //TODO Agregar validacion de mail ya existente
 
         val validEmail = binding.emailContainer.helperText == null
         val validPassword = binding.passwordContainer.helperText == null
@@ -127,6 +148,8 @@ class SignUpFragment : Fragment() {
         val validApellido = binding.apellidoContainer.helperText == null
         val validCalleAltura = binding.calleAlturaContainer.helperText == null
         val validRadio = validRadio() == null
+
+
 
         if(validRadio && validPhone && validPassword && validEmail && validNombre && validApellido && validCalleAltura){
             resetForm()
@@ -172,9 +195,37 @@ class SignUpFragment : Fragment() {
         val foto = binding.fotoEditText.text.toString()
         val ubicacion = binding.calleAlturaEditText.text.toString()
         val esPrestador = esPrestador()
+        var id = UUID.randomUUID().toString()
+
+//        auth.createUserWithEmailAndPassword(mail, password)
+//            .addOnCompleteListener(requireActivity()) { task ->
+//                if (task.isSuccessful) {
+//                    // Sign in success, update UI with the signed-in user's information
+//                    Log.d(TAG, "createUserWithEmail:success")
+//                    val user = auth.currentUser
+//                    //updateUI(user)
+//                    if (user != null) {
+//                        scope.launch {
+//                            setUid(user)
+//
+//                        }
+//
+//                    }
+//                } else {
+//                    // If sign in fails, display a message to the user.
+//                    Log.w(TAG, "createUserWithEmail:failure", task.exception)
+//                    Toast.makeText(
+//                        context, "Authentication failed.",
+//                        Toast.LENGTH_SHORT
+//                    ).show()
+//                    //updateUI(null)
+//                }
+//            }
+
+        viewModel.saveSession(id, mail, password)
 
         viewModel.addUsuario(
-            nombre, apellido, mail,password, telefono,foto, ubicacion, esPrestador
+           id, nombre, apellido, mail,password, telefono,foto, ubicacion, esPrestador
         )
 
         AlertDialog.Builder(context)
@@ -186,6 +237,7 @@ class SignUpFragment : Fragment() {
                 binding.apellidoEditText.text = null
                 binding.nombreEditText.text = null
                 binding.calleAlturaEditText.text = null
+                binding.fotoEditText.text = null
 
                 binding.emailContainer.helperText = getString(R.string.required)
                 binding.passwordContainer.helperText = getString(R.string.required)
@@ -197,7 +249,19 @@ class SignUpFragment : Fragment() {
             }
             .show()
 
+        redirect(esPrestador)
 
+    }
+
+    private fun redirect(esPrestador: Boolean) {
+        val action : NavDirections
+        if(esPrestador){
+            action = SignUpFragmentDirections.actionSignUpFragmentToPrestadorActivity()
+            v.findNavController().navigate(action)
+        }else{
+            action = SignUpFragmentDirections.actionSignUpFragmentToClienteActivity()
+            v.findNavController().navigate(action)
+        }
     }
 
     private fun esPrestador(): Boolean {

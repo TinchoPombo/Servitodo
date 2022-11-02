@@ -1,7 +1,7 @@
 package com.ort.servitodo.entities
 
 open class Usuario (
-    var id : Int,
+    var id : String,
     var nombre : String,
     var apellido : String,
     var mail : String,
@@ -14,6 +14,6 @@ open class Usuario (
 //    var listaHistorial : MutableList<Historial> = mutableListOf(),
 //
     ){
-    constructor():this(0,"","","","","","","", false)
+    constructor():this("0","","","","","","","", false)
 
 }
