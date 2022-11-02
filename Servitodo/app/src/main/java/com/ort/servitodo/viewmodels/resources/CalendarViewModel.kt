@@ -1,20 +1,40 @@
 package com.ort.servitodo.viewmodels.resources
 
 import android.icu.util.Calendar
-import android.icu.util.GregorianCalendar
 import android.icu.util.TimeZone
+import android.util.Log
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.ViewModel
 import com.google.android.material.datepicker.CalendarConstraints
 import com.google.android.material.datepicker.DateValidatorPointForward
 import com.google.android.material.datepicker.MaterialDatePicker
-import kotlin.time.milliseconds
+import java.text.ParseException
+import java.text.SimpleDateFormat
+import java.util.*
 
 class CalendarViewModel : ViewModel() {
 
-    private val calendar = Calendar.getInstance()
+    private val calendar = Calendar.getInstance(TimeZone.getTimeZone("UTC"))
 
     //-------------------------------------------------------------------------------
+    fun calendar(fm : FragmentManager) : MaterialDatePicker<Long>{
+
+        val today = MaterialDatePicker.todayInUtcMilliseconds()
+
+        val constraintsBuilder = CalendarConstraints.Builder()
+            .setValidator(DateValidatorPointForward.now())
+
+        /* val constraintsBuilder = constraint() */
+
+        val datePicker = MaterialDatePicker.Builder.datePicker()
+            .setTitleText("Selecciona una fecha")
+            .setSelection(today)
+            .setCalendarConstraints(constraintsBuilder.build())
+            .build()
+        datePicker.show(fm, "datePicker")
+
+        return datePicker
+    }
 
     /*private fun constraint() : CalendarConstraints.Builder{
         val today = MaterialDatePicker.todayInUtcMilliseconds()
@@ -37,25 +57,28 @@ class CalendarViewModel : ViewModel() {
         return constraintsBuilder
     }*/
 
-    fun calendar(fm : FragmentManager) : MaterialDatePicker<Long>{
-
+    //-------------------------------------------------------------------------------
+    fun getToday() : String{
         val today = MaterialDatePicker.todayInUtcMilliseconds()
 
-        val constraintsBuilder = CalendarConstraints.Builder()
-            .setValidator(DateValidatorPointForward.now())
+        this.calendar.timeInMillis = today
+        val month = this.calendar.get(Calendar.MONTH) + 1
+        val year = this.calendar.get(Calendar.YEAR)
+        val day = this.calendar.get(Calendar.DAY_OF_MONTH)
 
-        /* val constraintsBuilder = constraint() */
+        val datenow = "${day}-${month}-${year}"  //--> Trae el string con el formato "dd-mm-aaaa"
 
-        val datePicker = MaterialDatePicker.Builder.datePicker()
-            .setTitleText("Selecciona una fecha")
-            .setSelection(today)
-            .setCalendarConstraints(constraintsBuilder.build())
-            .build()
-        datePicker.show(fm, "datePicker")
-
-        return datePicker
+        return datenow
     }
 
+    fun getTodayInTimeMillis() : Long{
+        return this.getDateInTimeInMillis(getToday())
+    }
 
+    fun getDateInTimeInMillis(dateToParse : String) : Long{
+        val dateFormat = SimpleDateFormat("dd-MM-yyyy")
+        val mDate: Date = dateFormat.parse(dateToParse)
+        return mDate.time
+    }
 
 }

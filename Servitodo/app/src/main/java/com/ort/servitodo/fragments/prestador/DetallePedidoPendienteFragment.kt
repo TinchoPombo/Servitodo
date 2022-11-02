@@ -58,7 +58,7 @@ class DetallePedidoPendienteFragment : Fragment() {
         super.onStart()
 
         detalleViewModel.nombreCompleto.observe(viewLifecycleOwner, Observer { result ->
-            binding.txtNombreCompletoPublicacion.text = result.toString()
+            binding.txtNombreCompletoCliente.text = result.toString()
         })
         detalleViewModel.rubro.observe(viewLifecycleOwner, Observer { result ->
             binding.txtRubroPublicacion.text = result.toString()
@@ -66,14 +66,12 @@ class DetallePedidoPendienteFragment : Fragment() {
         detalleViewModel.calificacion.observe(viewLifecycleOwner, Observer { result ->
             binding.txtCalificacionPublicacion.text = result.toString()
         })
-        detalleViewModel.descripcion.observe(viewLifecycleOwner, Observer { result ->
-            binding.txtDescripcionPublicacion.text = result.toString()
-        })
+
         detalleViewModel.fotoPrestador.observe(viewLifecycleOwner, Observer { result ->
             Glide
                 .with(v)
                 .load(result.toString())
-                .into(binding.imgPrestadorPublicacion);
+                .into(binding.imgClientePedido);
         })
 
         //----------------------------------------------------------------------------------
@@ -92,9 +90,9 @@ class DetallePedidoPendienteFragment : Fragment() {
             detalleViewModel.selectDate()
         }
 
-        /*binding.contratarButton.setOnClickListener{
-            detalleViewModel.contratar()
-        }*/
+        binding.whatsappButton.setOnClickListener{
+            detalleViewModel.redirectionToWhatsApp()
+        }
 
     }
 

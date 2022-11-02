@@ -24,28 +24,29 @@
             android:id="@+id/txtRubro"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="16dp"
-            android:layout_marginBottom="8dp"
+            android:layout_marginStart="112dp"
+            android:layout_marginTop="13dp"
+            android:layout_marginEnd="106dp"
             android:text="Rubro"
             android:textSize="14sp"
-            app:layout_constraintBottom_toTopOf="@+id/guideline7"
+            app:layout_constraintBottom_toTopOf="@+id/txtHorario"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/txtNombrePrestador"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintStart_toEndOf="@+id/imgPedido"
+            app:layout_constraintTop_toBottomOf="@+id/txtNombreCliente" />
 
         <TextView
-            android:id="@+id/txtNombrePrestador"
+            android:id="@+id/txtNombreCliente"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp"
-            android:text="Nombre Prestador"
+            android:layout_marginStart="60dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginEnd="56dp"
+            android:text="Nombre Cliente"
             android:textSize="20sp"
-            app:layout_constraintBottom_toTopOf="@+id/guideline7"
-            app:layout_constraintEnd_toStartOf="@+id/txtRubro"
-            app:layout_constraintStart_toStartOf="@+id/guideline6"
+            app:layout_constraintBottom_toTopOf="@+id/txtRubro"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toEndOf="@+id/imgPedido"
             app:layout_constraintTop_toTopOf="parent" />
 
         <ImageView
@@ -63,38 +64,15 @@
             android:id="@+id/txtHorario"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="106dp"
             android:layout_marginTop="8dp"
+            android:layout_marginEnd="102dp"
             android:layout_marginBottom="8dp"
             android:text="Horario"
-            app:layout_constraintBottom_toTopOf="@+id/txtEstado"
+            app:layout_constraintBottom_toTopOf="@+id/txtEstado2"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="@+id/guideline6"
-            app:layout_constraintTop_toTopOf="@+id/guideline7" />
-
-        <TextView
-            android:id="@+id/txtPrecio"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp"
-            android:text="Precio"
-            app:layout_constraintBottom_toTopOf="@+id/guideline10"
-            app:layout_constraintEnd_toStartOf="@+id/txtEstado"
-            app:layout_constraintStart_toStartOf="@+id/guideline6" />
-
-        <TextView
-            android:id="@+id/txtEstado"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp"
-            android:text="estado"
-            app:layout_constraintBottom_toTopOf="@+id/guideline10"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.49"
-            app:layout_constraintStart_toStartOf="@+id/guideline6"
-            app:layout_constraintTop_toBottomOf="@+id/txtHorario" />
+            app:layout_constraintStart_toEndOf="@+id/imgPedido"
+            app:layout_constraintTop_toBottomOf="@+id/txtRubro" />
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/guideline7"
@@ -110,39 +88,18 @@
             android:orientation="horizontal"
             app:layout_constraintGuide_begin="106dp" />
 
-        <Button
-            android:id="@+id/detallePedidoButton"
+        <TextView
+            android:id="@+id/txtEstado2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:backgroundTint="#6C6C6C"
-            android:text="Detalle"
-            android:textSize="12sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/whatsappPedidoButton"
-            app:layout_constraintStart_toStartOf="@+id/guideline6"
-            app:layout_constraintTop_toTopOf="@+id/guideline10" />
-
-        <Button
-            android:id="@+id/whatsappPedidoButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="16dp"
-            android:backgroundTint="#4CAF50"
-            android:text="Whatsapp"
-            android:textSize="12sp"
+            android:layout_marginStart="246dp"
+            android:layout_marginEnd="106dp"
+            android:layout_marginBottom="16dp"
+            android:text="estado"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/detallePedidoButton"
-            app:layout_constraintTop_toTopOf="@+id/guideline10" />
-
-        <TextView
-            android:id="@+id/textView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="PRESTADOR"
-            tools:layout_editor_absoluteX="147dp"
-            tools:layout_editor_absoluteY="63dp" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/txtHorario" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -56,7 +56,7 @@ class DetallePedidoViewModel : ViewModel() {
 
             setImgPrestador(publicacion.fotoPrestador, img)
             nombre.text = "${publicacion.nombrePrestador} ${publicacion.apellidoPrestador}"
-            rubro.text = "Rubro: ${publicacion.rubro.nombre}"
+            rubro.text = "Rubro: ${publicacion.rubro!!.nombre}"
             fecha.text = "Fecha: ${pedido.fecha} - Hora: ${pedido.hora}"
             precio.text = "Precio: $${setPrecio(pedido.precio)}"
             estado.text = "Estado: ${pedido.estado}"

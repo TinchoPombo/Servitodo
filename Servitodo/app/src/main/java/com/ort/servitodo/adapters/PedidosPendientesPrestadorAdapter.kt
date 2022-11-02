@@ -4,7 +4,6 @@ import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.cardview.widget.CardView
@@ -20,13 +19,13 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 
-class PedidosAdapter (
+class PedidosPendientesPrestadorAdapter (
     var listaPedidos : MutableList <Pedido>,
     var onClick : (Int) -> Unit
-) : RecyclerView.Adapter<PedidosAdapter.PedidosHolder>() {
+) : RecyclerView.Adapter<PedidosPendientesPrestadorAdapter.PedidosHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PedidosHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.fragment_pedido, parent, false)
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.peticion_pendiente_prestador, parent, false)
         return (PedidosHolder(view))
     }
 
@@ -36,15 +35,14 @@ class PedidosAdapter (
 
         holder.setHorario(listaPedidos[position].fecha, listaPedidos[position].hora)
         holder.setEstado(listaPedidos[position].estado)
-        holder.setPrecio(listaPedidos[position].precio)
+
 
         holder.getCardView().setOnClickListener {
             onClick(position)
         }
 
-        holder.getDetalleButton().setOnClickListener{
-            holder.detallesDelPedido(listaPedidos[position])
-        }
+
+
     }
 
     override fun getItemCount(): Int {
@@ -64,12 +62,12 @@ class PedidosAdapter (
             txtRubro.text = rubro
         }
 
-        fun setNombrePrestador(nombre : String) {
-            val txtNombrePrestador: TextView = view.findViewById(R.id.txtNombreCliente)
-            txtNombrePrestador.text = nombre
+        fun setNombreCliente(nombre : String) {
+            val txtNombreCliente: TextView = view.findViewById(R.id.txtNombreCliente)
+            txtNombreCliente.text = nombre
         }
 
-        fun setImagenPrestador(img : String) {
+        fun setImagenCliente(img : String) {
             val imgPedido: ImageView = view.findViewById(R.id.imgPedido)
             Glide
                 .with(view)
@@ -84,20 +82,10 @@ class PedidosAdapter (
         }
 
         fun setEstado(estado: String) {
-            var txtEstado: TextView = view.findViewById(R.id.txtEstado)
+            var txtEstado: TextView = view.findViewById(R.id.txtEstado2)
             txtEstado.text = estado
         }
 
-        @SuppressLint("SetTextI18n")
-        fun setPrecio(precio : Double) {
-            var txtPrecio: TextView = view.findViewById(R.id.txtPrecio)
-            if(precio == 0.0){
-                txtPrecio.text = "--.--"
-            }
-            else{
-                txtPrecio.text = "$${precio}"
-            }
-        }
 
         fun setDatos(id : Int){
             var publicacion: Publicacion
@@ -105,26 +93,38 @@ class PedidosAdapter (
             val scope = CoroutineScope(Dispatchers.Main + parent)
             scope.launch() {
                 publicacion = publicacionRepository.getPublicacionById(id)
-                setNombrePrestador(publicacion.nombrePrestador)
+                setNombreCliente(publicacion.nombrePrestador)
                 setRubro(publicacion.rubro.nombre)
-                setImagenPrestador(publicacion.fotoPrestador)
+                setImagenCliente(publicacion.fotoPrestador)
             }
         }
 
+        //--> WHATSAPP
+/*        fun redirectionToWhatsApp(idPrestador : Int){
+            val whatsAppViewModel = WhatsAppViewModel()
+            whatsAppViewModel.confirmRedirectionToWhatsapp(idPrestador, view)
+        }
+
+
+
+        fun getWhatsappButton() : Button {
+            return view.findViewById(R.id.whatsappPedidoButton)
+        }*/
+
         //--> DETALLE DEL PEDIDO
-        fun detallesDelPedido(pedido : Pedido){
+      /*  fun detallesDelPedido(pedido : Pedido){
             val detalle = DetallePedidoViewModel()
             detalle.setView(view)
             detalle.detallesDelPedido(pedido)
-        }
+        }*/
 
-        fun getDetalleButton() : Button {
-            return view.findViewById(R.id.detallePedidoClienteButton)
-        }
+       /* fun getDetalleButton() : Button {
+            return view.findViewById(R.id.detallePedidoButton)
+        }*/
 
         //-------------------------------------------------------
         fun getCardView(): CardView {
-            return view.findViewById(R.id.cardPedido)
+            return view.findViewById(R.id.cardPedidoPendiente)
         }
 
     }

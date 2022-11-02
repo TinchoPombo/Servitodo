@@ -2,30 +2,16 @@
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/cardPedido"
+    android:id="@+id/cardPedidoAceptado"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="15dp"
+    android:layout_margin="8dp"
     android:elevation="8dp"
     app:cardCornerRadius="8dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <com.google.android.material.divider.MaterialDivider
-            android:id="@+id/materialDivider7"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginEnd="8dp"
-            app:dividerInsetEnd="8dp"
-            app:dividerInsetStart="8dp"
-            app:dividerThickness="2dp"
-            app:layout_constraintBottom_toTopOf="@+id/detallePedidoClienteButton"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="@+id/guideline6"
-            app:layout_constraintTop_toTopOf="@+id/guideline10" />
+        android:layout_height="160dp">
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/guideline6"
@@ -38,9 +24,8 @@
             android:id="@+id/txtRubro"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="4dp"
             android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
+            android:layout_marginEnd="16dp"
             android:layout_marginBottom="8dp"
             android:text="Rubro"
             android:textSize="14sp"
@@ -53,13 +38,11 @@
             android:id="@+id/txtNombreCliente"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
+            android:layout_marginStart="16dp"
             android:layout_marginTop="8dp"
-            android:layout_marginEnd="4dp"
             android:layout_marginBottom="8dp"
             android:text="Nombre Prestador"
             android:textSize="20sp"
-            android:textStyle="bold"
             app:layout_constraintBottom_toTopOf="@+id/guideline7"
             app:layout_constraintEnd_toStartOf="@+id/txtRubro"
             app:layout_constraintStart_toStartOf="@+id/guideline6"
@@ -68,27 +51,13 @@
         <ImageView
             android:id="@+id/imgPedido"
             android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_margin="4dp"
+            android:layout_height="wrap_content"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/guideline6"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.4"
             tools:src="@tools:sample/avatars" />
-
-        <TextView
-            android:id="@+id/txtEstado"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="16dp"
-            android:layout_marginBottom="8dp"
-            android:text="Estado"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toTopOf="@+id/guideline10"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/txtPrecio"
-            app:layout_constraintTop_toTopOf="@+id/guideline11" />
 
         <TextView
             android:id="@+id/txtHorario"
@@ -97,7 +66,7 @@
             android:layout_marginTop="8dp"
             android:layout_marginBottom="8dp"
             android:text="Horario"
-            app:layout_constraintBottom_toTopOf="@+id/guideline11"
+            app:layout_constraintBottom_toTopOf="@+id/txtEstado"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@+id/guideline6"
             app:layout_constraintTop_toTopOf="@+id/guideline7" />
@@ -112,8 +81,20 @@
             android:text="Precio"
             app:layout_constraintBottom_toTopOf="@+id/guideline10"
             app:layout_constraintEnd_toStartOf="@+id/txtEstado"
+            app:layout_constraintStart_toStartOf="@+id/guideline6" />
+
+        <TextView
+            android:id="@+id/txtEstado"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:text="estado"
+            app:layout_constraintBottom_toTopOf="@+id/guideline10"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.49"
             app:layout_constraintStart_toStartOf="@+id/guideline6"
-            app:layout_constraintTop_toTopOf="@+id/guideline11" />
+            app:layout_constraintTop_toBottomOf="@+id/txtHorario" />
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/guideline7"
@@ -123,33 +104,45 @@
             app:layout_constraintGuide_begin="40dp" />
 
         <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/guideline11"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            app:layout_constraintGuide_begin="67dp" />
-
-        <androidx.constraintlayout.widget.Guideline
             android:id="@+id/guideline10"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            app:layout_constraintGuide_begin="103dp" />
+            app:layout_constraintGuide_begin="106dp" />
 
         <Button
-            android:id="@+id/detallePedidoClienteButton"
-            android:layout_width="0dp"
-            android:layout_height="35dp"
+            android:id="@+id/detallePedidoButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
+            android:backgroundTint="#6C6C6C"
+            android:text="Detalle"
+            android:textSize="12sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/whatsappPedidoButton"
+            app:layout_constraintStart_toStartOf="@+id/guideline6"
+            app:layout_constraintTop_toTopOf="@+id/guideline10" />
+
+        <Button
+            android:id="@+id/whatsappPedidoButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_marginEnd="16dp"
-            android:backgroundTint="#FFFFFF"
-            android:rotationX="180"
-            android:text="^"
-            android:textColor="#808080"
+            android:backgroundTint="#4CAF50"
+            android:text="Whatsapp"
+            android:textSize="12sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="@+id/guideline6"
-            app:layout_constraintTop_toBottomOf="@+id/materialDivider7" />
+            app:layout_constraintStart_toEndOf="@+id/detallePedidoButton"
+            app:layout_constraintTop_toTopOf="@+id/guideline10" />
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="PRESTADOR ACEPTADA"
+            tools:layout_editor_absoluteX="147dp"
+            tools:layout_editor_absoluteY="63dp" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

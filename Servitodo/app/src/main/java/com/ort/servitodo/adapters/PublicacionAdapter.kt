@@ -46,7 +46,7 @@ class PublicacionAdapter (
         }
 
         fun setNombrePrestador (nombrePrestador : String){
-            var txtNombrePrestador : TextView = view.findViewById(R.id.txtNombrePrestador)
+            var txtNombrePrestador : TextView = view.findViewById(R.id.txtNombreCliente)
             txtNombrePrestador.text = nombrePrestador
         }
 

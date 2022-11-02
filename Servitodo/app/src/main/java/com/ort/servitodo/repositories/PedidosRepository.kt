@@ -1,86 +1,70 @@
 package com.ort.servitodo.repositories
 
-import android.content.ContentValues
 import android.content.ContentValues.TAG
 import android.util.Log
+import com.google.firebase.firestore.SetOptions
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
 import com.ort.servitodo.entities.Pedido
 import com.ort.servitodo.entities.Publicacion
 import com.ort.servitodo.entities.TipoEstado
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.launch
+import com.ort.servitodo.viewmodels.resources.CalendarViewModel
 import kotlinx.coroutines.tasks.await
 
 class PedidosRepository {
 
     val db = Firebase.firestore
+    private var questionRef = db.collection("pedidos")
 
-    var listaPedidos: MutableList<Pedido> = mutableListOf()
+    private var listaPedidos: MutableList<Pedido> = mutableListOf()
+
+    private var calendar = CalendarViewModel()
 
     //----------------------------------------------------------------------------------------------
-    //fun getPedidosFromDB () : MutableList<Pedido>{
-
-    /*fun getPedidos() : MutableList<Pedido> {
-        var listaPedidos: MutableList<Pedido> = mutableListOf()
-        db.collection("pedidos").get()
-            .addOnSuccessListener { snapshot ->
-                if (snapshot != null) {
-                    for (publicacion in snapshot) {
-                        listaPedidos.add(publicacion.toObject())
-                    }
-                    Log.d("tamaniolistapedidos1", "${listaPedidos.size}")
-                }
-                this.listaPedidos = listaPedidos
-                Log.d("tamaniolistapedidos2", "${listaPedidos.size}")
-            }
-            .addOnFailureListener { exception ->
-                Log.w(ContentValues.TAG, "Error getting documents: ", exception)
-            }
-
-        val col = db.collection("pedidos").addSnapshotListener { value, e ->
-                if (e != null) {
-                    Log.w(TAG, "Listen failed.", e)
-                    return@addSnapshotListener
-                }
-
-                //val cities = ArrayList<String>()
-                for (doc in value!!) {
-                    //doc.getString("name")?.let {
-                        listaPedidos.add(doc.toObject())
-                    //}
-                }
-                Log.d("pedidosConSnapshotListener", "Current pedidos in CA: $listaPedidos")
-            }
-        Log.d("tamaniolistapedidosConSnapList", "${listaPedidos.size}")
-
-        return listaPedidos
-    }*/
-
-    /*fun getPedidos() : MutableList<Pedido>{
-        val parent = Job()
-        val scope = CoroutineScope(Dispatchers.Main + parent)
-        var p : MutableList<Pedido> = mutableListOf()
-        scope.launch(){
-            getPedidosFromDB()
-            p = listaPedidos
-        }
-        return p
-    }*/
-
-    suspend fun getPedidos(): MutableList<Pedido> {
-        val questionRef = db.collection("pedidos")
-        //var pedidos : MutableList<Pedido> = mutableListOf()
+    fun changeStateFinalizado(){
         try {
-            val data = questionRef.get().await()
+         this.questionRef.get().addOnCompleteListener { task ->
+            if (task.isSuccessful) {
+                for (document in task.result) {
+
+                    val pedido = document.toObject<Pedido>()
+                    val cond = calendar.getDateInTimeInMillis(pedido.fecha) < calendar.getTodayInTimeMillis()
+
+                    if(cond){
+                        val update: MutableMap<String, Any> = HashMap()
+                        update["estado"] = TipoEstado.FINALIZADO.toString()
+                        questionRef.document(document.id).set(update, SetOptions.merge())
+                    }
+                }
+            }
+         }
+        } catch (e: Exception) { }
+    }
+
+    //----------------------------------------------------------------
+    suspend fun getPedidos(): MutableList<Pedido> {
+        try {
+            val data = this.questionRef.get().await()
             for (document in data) {
                 listaPedidos.add(document.toObject())
             }
         } catch (e: Exception) { }
 
+        return listaPedidos
+    }
+
+    suspend fun getPedidosCliente() : MutableList<Pedido>{
+        try {
+            listaPedidos = getPedidos().filter{ p -> p.estado != TipoEstado.FINALIZADO.toString() && p.estado != TipoEstado.RECHAZADO.toString()}.toMutableList()
+        } catch (e: Exception) { }
+        return listaPedidos
+    }
+
+    suspend fun getHistorialPedidos(): MutableList<Pedido> {
+        try {
+            listaPedidos = getPedidos().filter{ p -> p.estado == TipoEstado.FINALIZADO.toString() && p.estado == TipoEstado.RECHAZADO.toString()}.toMutableList()
+        } catch (e: Exception) { }
         return listaPedidos
     }
 

@@ -16,80 +16,118 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <ImageView
-            android:id="@+id/imgPrestadorPublicacion"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            app:layout_constraintBottom_toTopOf="@+id/guideline4"
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardRubroDescripcion"
+            android:layout_width="251dp"
+            android:layout_height="240dp"
+            android:layout_marginEnd="30dp"
+            android:layout_marginBottom="8dp"
+            android:backgroundTint="#FFFFFF"
+            android:elevation="8dp"
+            app:cardCornerRadius="8dp"
+            app:layout_constraintBottom_toTopOf="@+id/cardCalificaciones"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/guideline2"
-            tools:src="@tools:sample/avatars" />
-
-        <TextView
-            android:id="@+id/txtDescripcionPublicacion"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp"
-            android:text="Descripcion:"
-            android:textColor="#000000"
-            android:textSize="16sp"
-            app:layout_constraintBottom_toTopOf="@+id/materialDivider3"
             app:layout_constraintStart_toStartOf="@+id/guideline8"
-            app:layout_constraintTop_toBottomOf="@+id/txtRubroPublicacion" />
+            app:layout_constraintTop_toBottomOf="@+id/guideline2">
 
-        <TextView
-            android:id="@+id/txtNombreCompletoPublicacion"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp"
-            android:text="Nombre Completo"
-            android:textColor="#000000"
-            android:textSize="20sp"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toTopOf="@+id/materialDivider"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/guideline4" />
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="240dp">
 
-        <TextView
-            android:id="@+id/txtRubroPublicacion"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp"
-            android:text="Rubro:"
-            android:textColor="#000000"
-            android:textSize="16sp"
-            app:layout_constraintBottom_toTopOf="@+id/txtDescripcionPublicacion"
-            app:layout_constraintStart_toStartOf="@+id/guideline8"
-            app:layout_constraintTop_toBottomOf="@+id/materialDivider" />
+                <ImageView
+                    android:id="@+id/imgClientePedido"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_marginTop="16dp"
+                    app:layout_constraintBottom_toTopOf="@+id/guideline4"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:src="@tools:sample/avatars" />
+
+                <TextView
+                    android:id="@+id/txtNombreCompletoCliente"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Nombre Completo"
+                    android:textColor="#000000"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toTopOf="@+id/materialDivider"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/guideline4" />
+
+                <com.google.android.material.divider.MaterialDivider
+                    android:id="@+id/materialDivider"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginEnd="16dp"
+                    app:dividerInsetEnd="16dp"
+                    app:dividerInsetStart="16dp"
+                    app:dividerThickness="2dp"
+                    app:layout_constraintBottom_toTopOf="@+id/txtRubroPublicacion"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/txtNombreCompletoCliente" />
+
+                <androidx.constraintlayout.widget.Guideline
+                    android:id="@+id/guideline4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    app:layout_constraintGuide_begin="170dp" />
+
+                <TextView
+                    android:id="@+id/txtRubroPublicacion"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:text="Rubro:"
+                    android:textColor="#000000"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/materialDivider" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.cardview.widget.CardView>
 
         <androidx.cardview.widget.CardView
             android:id="@+id/cardCalificaciones"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
+            android:layout_marginTop="8dp"
             android:layout_marginEnd="30dp"
-            android:layout_marginBottom="4dp"
+            android:layout_marginBottom="8dp"
             android:backgroundTint="#FFF8B6"
             android:elevation="8dp"
             app:cardCornerRadius="8dp"
             app:layout_constraintBottom_toTopOf="@+id/cardHorarios"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@+id/guideline8"
-            app:layout_constraintTop_toBottomOf="@+id/materialDivider3">
+            app:layout_constraintTop_toBottomOf="@+id/cardRubroDescripcion">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
+                <androidx.constraintlayout.widget.Guideline
+                    android:id="@+id/guideline12"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    app:layout_constraintGuide_begin="150dp" />
+
                 <TextView
                     android:id="@+id/txtCalificacionPublicacion"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
                     android:layout_marginEnd="8dp"
                     android:textColor="#000000"
                     android:textSize="16sp"
@@ -104,7 +142,6 @@
                     style="@style/Widget.MaterialComponents.Button.Icon"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
                     android:layout_marginTop="4dp"
                     android:layout_marginBottom="4dp"
                     android:backgroundTint="#FFEB3B"
@@ -120,13 +157,6 @@
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintVertical_bias="0.0" />
 
-                <androidx.constraintlayout.widget.Guideline
-                    android:id="@+id/guideline12"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    app:layout_constraintGuide_begin="150dp" />
-
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.cardview.widget.CardView>
 
@@ -134,15 +164,14 @@
             android:id="@+id/cardHorarios"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
+            android:layout_marginTop="8dp"
             android:layout_marginEnd="30dp"
-            android:layout_marginBottom="4dp"
+            android:layout_marginBottom="8dp"
             android:backgroundTint="#ACACAC"
             android:elevation="8dp"
             app:cardCornerRadius="8dp"
-            app:layout_constraintBottom_toTopOf="@+id/materialDivider2"
+            app:layout_constraintBottom_toTopOf="@+id/whatsappButton"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="@+id/guideline8"
             app:layout_constraintTop_toBottomOf="@+id/cardCalificaciones">
 
@@ -161,6 +190,7 @@
                     android:id="@+id/horaseleccionadaTextView"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
                     android:layout_marginTop="4dp"
                     android:layout_marginEnd="8dp"
                     android:layout_marginBottom="8dp"
@@ -176,6 +206,7 @@
                     android:id="@+id/fechaseleccionadaTextView"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
                     android:layout_marginTop="8dp"
                     android:layout_marginEnd="8dp"
                     android:layout_marginBottom="4dp"
@@ -190,9 +221,8 @@
                 <Button
                     android:id="@+id/verhorariosButton"
                     style="@style/Widget.MaterialComponents.Button.Icon"
-                    android:layout_width="0dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
                     android:backgroundTint="#6C6C6C"
                     android:text="horarios"
                     android:textColor="#FFFFFF"
@@ -211,21 +241,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            app:layout_constraintGuide_begin="20dp" />
-
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/guideline4"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            app:layout_constraintGuide_begin="180dp" />
-
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/guideline9"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            app:layout_constraintGuide_begin="600dp" />
+            app:layout_constraintGuide_begin="30dp" />
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/guideline8"
@@ -234,67 +250,38 @@
             android:orientation="vertical"
             app:layout_constraintGuide_begin="30dp" />
 
-        <com.google.android.material.divider.MaterialDivider
-            android:id="@+id/materialDivider"
+        <Button
+            android:id="@+id/whatsappButton"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginEnd="16dp"
-            android:layout_marginBottom="8dp"
-            app:dividerInsetEnd="16dp"
-            app:dividerInsetStart="16dp"
-            app:dividerThickness="2dp"
-            app:layout_constraintBottom_toTopOf="@+id/txtRubroPublicacion"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/txtNombreCompletoPublicacion" />
-
-        <com.google.android.material.divider.MaterialDivider
-            android:id="@+id/materialDivider2"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginEnd="16dp"
-            app:dividerInsetEnd="16dp"
-            app:dividerInsetStart="16dp"
-            app:dividerThickness="2dp"
-            app:layout_constraintBottom_toTopOf="@+id/contratarButton"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/cardHorarios" />
-
-        <com.google.android.material.divider.MaterialDivider
-            android:id="@+id/materialDivider3"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="16dp"
-            app:dividerInsetEnd="16dp"
-            app:dividerInsetStart="16dp"
-            app:dividerThickness="2dp"
-            app:layout_constraintBottom_toTopOf="@+id/cardCalificaciones"
+            android:layout_marginTop="21dp"
+            android:layout_marginEnd="30dp"
+            android:layout_marginBottom="108dp"
+            android:backgroundTint="#4CAF50"
+            android:padding="15dp"
+            android:text="Whatsapp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/txtDescripcionPublicacion" />
-
+            app:layout_constraintStart_toStartOf="@+id/guideline8"
+            app:layout_constraintTop_toBottomOf="@+id/cardHorarios" />
 
         <Button
-            android:id="@+id/contratarButton"
+            android:id="@+id/aceptarButton"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="30dp"
-            android:layout_marginBottom="8dp"
+            android:layout_marginBottom="24dp"
             android:backgroundTint="#4CAF50"
-            android:text="Contratar"
+            android:padding="15dp"
+            android:text="Aceptar"
             android:textStyle="bold"
-            app:layout_constraintBottom_toTopOf="@+id/guideline9"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@+id/guideline8"
-            app:layout_constraintTop_toBottomOf="@+id/materialDivider2" />
+            app:layout_constraintTop_toBottomOf="@+id/whatsappButton" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-
 </androidx.cardview.widget.CardView>

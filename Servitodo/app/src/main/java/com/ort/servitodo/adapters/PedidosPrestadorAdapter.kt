@@ -8,13 +8,11 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.cardview.widget.CardView
-import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.ort.servitodo.R
 import com.ort.servitodo.entities.Pedido
 import com.ort.servitodo.entities.Publicacion
-import com.ort.servitodo.entities.TipoEstado
 import com.ort.servitodo.repositories.PublicacionRepository
 import com.ort.servitodo.viewmodels.cliente.DetallePedidoViewModel
 import com.ort.servitodo.viewmodels.resources.WhatsAppViewModel
@@ -29,7 +27,7 @@ class PedidosPrestadorAdapter (
 ) : RecyclerView.Adapter<PedidosPrestadorAdapter.PedidosHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PedidosHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.peticion_pendiente_prestador, parent, false)
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.peticion_aceptada_prestador, parent, false)
         return (PedidosHolder(view))
     }
 
@@ -73,7 +71,7 @@ class PedidosPrestadorAdapter (
         }
 
         fun setNombrePrestador(nombre : String) {
-            val txtNombrePrestador: TextView = view.findViewById(R.id.txtNombrePrestador)
+            val txtNombrePrestador: TextView = view.findViewById(R.id.txtNombreCliente)
             txtNombrePrestador.text = nombre
         }
 
@@ -150,7 +148,7 @@ class PedidosPrestadorAdapter (
 
         //-------------------------------------------------------
         fun getCardView(): CardView {
-            return view.findViewById(R.id.cardPedidoPendiente)
+            return view.findViewById(R.id.cardPedidoAceptado)
         }
 
     }
