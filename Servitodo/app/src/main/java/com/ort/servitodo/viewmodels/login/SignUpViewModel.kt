@@ -5,9 +5,6 @@ import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.lifecycle.ViewModel
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.ktx.auth
-import com.google.firebase.auth.ktx.userProfileChangeRequest
 import com.google.firebase.ktx.Firebase
 import com.ort.servitodo.entities.Prestador
 import com.ort.servitodo.entities.Usuario
@@ -16,18 +13,17 @@ import com.ort.servitodo.repositories.UsuarioRepository
 
 class SignUpViewModel : ViewModel() {
 
-
     // Initialize Firebase Auth
     lateinit var v: View
     private lateinit var usuarioRepository : UsuarioRepository
 
-
-
+    //---------------------------------------------------------------------------------------------------------
     fun setView(v: View) {
         this.v = v
         usuarioRepository = UsuarioRepository(v)
     }
 
+    //---------------------------------------------------------------------------------------------------------
     fun createAccount(email: String, password: String) {
 
     }

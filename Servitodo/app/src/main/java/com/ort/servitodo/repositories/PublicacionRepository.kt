@@ -1,6 +1,7 @@
 package com.ort.servitodo.repositories
 
 
+import android.content.ContentValues.TAG
 import android.util.Log
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
@@ -11,6 +12,8 @@ import kotlinx.coroutines.tasks.await
 class PublicacionRepository {
 
     private var listaPublicaciones : MutableList<Publicacion> = arrayListOf()
+    private var rubro : Any? = Any()
+
     val db = Firebase.firestore
 
     suspend fun getPublicaciones () : MutableList<Publicacion>{
@@ -21,10 +24,37 @@ class PublicacionRepository {
             val data = questionRef.get().await()
             for(document in data){
                 listaPublicaciones.add(document.toObject())
+                //Log.d("RubroPublicacion", "${document}")
+                getRubro(document.id)
+                //Log.d("RubroPublicacion", "${rubro}")
+
             }
         } catch (e : Exception){ }
 
         return listaPublicaciones
+    }
+
+    private fun getRubro(id : String){
+        val questionRef = db.collection("publicaciones").document(id)
+
+        questionRef.get().addOnCompleteListener {
+            if (it.isSuccessful) {
+                val data = it.result.data
+                if (data != null) {
+
+                    rubro = data.get("rubro")
+                    Log.d("RubroPublicacion", "${rubro}")
+
+                }
+                /*data?.let {
+                    for ((key, value) in data) {
+                        val v = value as Map<*, *>
+                        val time = v["time"]
+                        Log.d("rubrotag", "$key -> $time")
+                    }
+                }*/
+            }
+        }
     }
 
      suspend fun getPublicacionById(id : Int) : Publicacion{

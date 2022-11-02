@@ -24,17 +24,19 @@ import com.ort.servitodo.viewmodels.login.LogInViewModel
 
 class LogInFragment : Fragment() {
 
-    companion object {
+    /*companion object {
         fun newInstance() = LogInFragment()
-    }
-
-
+    }*/
+    /*override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        viewModel = ViewModelProvider(this).get(LogInViewModel::class.java)
+        // TODO: Use the ViewModel
+    }*/
 
     lateinit var v : View;
     private val viewModel: LogInViewModel by viewModels()
 
     private lateinit var binding : FragmentLogInBinding
-
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -52,67 +54,39 @@ class LogInFragment : Fragment() {
         viewModel.setView(v)
 
         binding.btnLoginTrue.setOnClickListener{
-
-            var user : Usuario = viewModel.validarCuenta(
-                binding.inputMailLogIn.text.toString(),
-                binding.inputPasswordLogin.text.toString()
-            )
-
-            if(user.mail != ""){
-                viewModel.logOut()
-                viewModel.saveSession(user.id, user.mail, user.password)
-                redirect(user.esPrestador)
-            }else{
-                Toast.makeText(context, "Datos ingresados incorrectos", Toast.LENGTH_SHORT).show()
-                Log.d("TestCo", "testFail")
-            }
+            viewModel.validarCuenta(binding.inputMailLogIn.text.toString(), binding.inputPasswordLogin.text.toString())
         }
 
         binding.btnLogin.setOnClickListener {
-            val action = LogInFragmentDirections.actionLogInFragmentToPrestadorActivity()
-            v.findNavController().navigate(action)
+            viewModel.login()
 
         }
 
         binding.txtRegistroLogin.setOnClickListener {
-            val action = LogInFragmentDirections.actionLogInFragmentToSignUpFragment()
-            v.findNavController().navigate(action)
+            viewModel.registroLogin()
         }
 
         binding.btnLogin2.setOnClickListener {
-            val action = LogInFragmentDirections.actionLogInFragmentToClienteActivity()
-            v.findNavController().navigate(action)
+            viewModel.login2()
         }
 
         binding.btnCliente1.setOnClickListener{
-            viewModel.saveSession("b2427b10-989c-4a4c-9bf4-40a16799d2bc", "martinpombo@gmail.com", "12344Xdd+")
-            val action = LogInFragmentDirections.actionLogInFragmentToClienteActivity()
-            v.findNavController().navigate(action)
+            viewModel.cliente1()
         }
         binding.btnCliente2.setOnClickListener{
-            viewModel.saveSession("92aa99d2-9eab-4a6f-a9ae-04f7e3859753", "tomas.berias1@hotmail.com", "1234@Aaa")
-            val action = LogInFragmentDirections.actionLogInFragmentToClienteActivity()
-            v.findNavController().navigate(action)
+            viewModel.cliente2()
         }
         binding.btnCliente3.setOnClickListener{
-            viewModel.saveSession("2bcc236a-27b9-4d16-9cee-0f073b76f7cc", "frandesalvo@gmail.com", "12345@Aa")
-            val action = LogInFragmentDirections.actionLogInFragmentToClienteActivity()
-            v.findNavController().navigate(action)
+            viewModel.cliente3()
         }
         binding.btnPrest1.setOnClickListener{
-            viewModel.saveSession("0123b583-cf9d-442f-8eec-bb164cd90ffa", "ladanyneta@gmail.com", "12345@Aa")
-            val action = LogInFragmentDirections.actionLogInFragmentToPrestadorActivity()
-            v.findNavController().navigate(action)
+            viewModel.prest1()
         }
         binding.btnPrest2.setOnClickListener{
-            viewModel.saveSession("83dd325a-580d-4a49-bcc4-44f7acdeabcc", "robertitofunes@gmail.com", "12345@Aa")
-            val action = LogInFragmentDirections.actionLogInFragmentToPrestadorActivity()
-            v.findNavController().navigate(action)
+            viewModel.prest2()
         }
         binding.btnPrest3.setOnClickListener{
-            viewModel.saveSession("1f305a50-bb73-4aea-8bf9-ec436fd31384", "josejose@gmail.com", "12345@Aa")
-            val action = LogInFragmentDirections.actionLogInFragmentToPrestadorActivity()
-            v.findNavController().navigate(action)
+            viewModel.prest3()
         }
 
         binding.btnLogOut.setOnClickListener{
@@ -120,22 +94,4 @@ class LogInFragment : Fragment() {
         }
 
     }
-
-    private fun redirect(esPrestador: Boolean) {
-        val action : NavDirections
-        if(esPrestador){
-            action = LogInFragmentDirections.actionLogInFragmentToPrestadorActivity()
-            v.findNavController().navigate(action)
-        }else{
-            action = LogInFragmentDirections.actionLogInFragmentToClienteActivity()
-            v.findNavController().navigate(action)
-        }
-    }
-
-    /*override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProvider(this).get(LogInViewModel::class.java)
-        // TODO: Use the ViewModel
-    }*/
-
 }

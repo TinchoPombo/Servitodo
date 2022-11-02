@@ -14,9 +14,6 @@ import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.navigation.NavDirections
 import androidx.navigation.findNavController
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseUser
-import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import com.ort.servitodo.R
 import com.ort.servitodo.databinding.FragmentLogInBinding
@@ -40,11 +37,6 @@ class SignUpFragment : Fragment() {
     private val viewModel: SignUpViewModel by viewModels()
     private lateinit var binding : FragmentSignUpBinding
     lateinit var v : View
-
-
-
-
-
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
