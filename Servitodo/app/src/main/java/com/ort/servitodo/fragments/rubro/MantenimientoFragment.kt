@@ -10,7 +10,6 @@ import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.ort.servitodo.databinding.FragmentMantenimientoBinding
 import com.ort.servitodo.entities.Mantenimiento
-import com.ort.servitodo.entities.Prestador
 import com.ort.servitodo.entities.Publicacion
 import com.ort.servitodo.entities.Rubro
 import com.ort.servitodo.viewmodels.prestador.CrearPublicacionViewModel

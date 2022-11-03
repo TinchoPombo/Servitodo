@@ -21,7 +21,6 @@ import com.google.firebase.ktx.Firebase
 import com.ort.servitodo.R
 import com.ort.servitodo.databinding.FragmentCrearPublicacionBinding
 import com.ort.servitodo.databinding.FragmentDetallePublicacionBinding
-import com.ort.servitodo.entities.Prestador
 import com.ort.servitodo.entities.Publicacion
 import com.ort.servitodo.entities.Usuario
 import com.ort.servitodo.fragments.login.LogInFragmentDirections

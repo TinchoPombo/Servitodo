@@ -6,7 +6,6 @@ import android.view.View
 import android.widget.Toast
 import androidx.lifecycle.ViewModel
 import com.google.firebase.ktx.Firebase
-import com.ort.servitodo.entities.Prestador
 import com.ort.servitodo.entities.Usuario
 import com.ort.servitodo.repositories.PedidosRepository
 import com.ort.servitodo.repositories.UsuarioRepository

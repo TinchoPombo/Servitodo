@@ -2,6 +2,7 @@ package com.ort.servitodo.repositories
 
 import android.content.ContentValues.TAG
 import android.util.Log
+import android.view.View
 import com.google.firebase.firestore.SetOptions
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
@@ -21,6 +22,10 @@ class PedidosRepository {
     private var listaPedidos: MutableList<Pedido> = mutableListOf()
 
     private var calendar = CalendarViewModel()
+
+    private lateinit var view : View
+
+
 
     //----------------------------------------------------------------------------------------------
     fun changeStateFinalizado(){
@@ -124,7 +129,7 @@ class PedidosRepository {
     //----------------------------------------------------------------
     fun addPedido(publicacion : Publicacion, fecha : String, hora : String)
     {
-        val idCliente = 1 //--> TODO: Una vez que se loguea se debe obtener el ID del cliente
+        val idCliente = UsuarioRepository().getIdSession()
         val idPedido = 5 //--> TODO: ramdon id para el atributo (no id del documento)
 
         val pedido = Pedido(idPedido, publicacion.idServicio, publicacion.idPrestador, idCliente, fecha,

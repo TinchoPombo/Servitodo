@@ -5,12 +5,10 @@ import android.content.pm.PackageManager
 import android.net.Uri
 import android.view.View
 import androidx.lifecycle.ViewModel
-import androidx.navigation.findNavController
+import androidx.lifecycle.viewModelScope
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import com.google.android.material.snackbar.Snackbar
-import com.ort.servitodo.entities.Prestador
-import com.ort.servitodo.entities.Publicacion
-import com.ort.servitodo.repositories.PrestadorRepository
+import com.ort.servitodo.repositories.UsuarioRepository
+import kotlinx.coroutines.launch
 
 class WhatsAppViewModel : ViewModel() {
 
@@ -50,16 +48,20 @@ class WhatsAppViewModel : ViewModel() {
 
             }
             .setPositiveButton("Aceptar") { dialog, which ->
-                val numtel = getNumtel(idPrestador)
+                val numtel = getNumtel(idPrestador, view)
                 this.whatsapp(numtel, view)
             }
             .show()
     }
 
-    private fun getNumtel(idPrestador : String) : String{
-        val prestadores = PrestadorRepository().getPrestadores()
-        val prestadorEncontrado = prestadores.find{p-> p.id.equals(idPrestador)}
-        val numtel = prestadorEncontrado?.numtel!!
+    private fun getNumtel(idPrestador : String, v : View) : String{
+        var numtel : String = ""
+        viewModelScope.launch {
+            val prestadores = UsuarioRepository(v).getUsuarios()
+            val prestadorEncontrado = prestadores.find{p-> p.id.equals(idPrestador)}
+            numtel = prestadorEncontrado?.telefono!!
+        }
+
         return numtel
     }
 }

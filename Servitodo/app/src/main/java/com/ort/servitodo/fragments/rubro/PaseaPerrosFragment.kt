@@ -10,7 +10,6 @@ import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.ort.servitodo.databinding.FragmentPaseaPerrosBinding
 import com.ort.servitodo.entities.PaseaPerros
-import com.ort.servitodo.entities.Prestador
 import com.ort.servitodo.entities.Publicacion
 import com.ort.servitodo.entities.Rubro
 import com.ort.servitodo.viewmodels.prestador.CrearPublicacionViewModel

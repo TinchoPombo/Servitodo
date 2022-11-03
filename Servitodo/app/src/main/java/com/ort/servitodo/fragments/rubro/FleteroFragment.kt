@@ -11,7 +11,6 @@ import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.ort.servitodo.databinding.FragmentFleteroBinding
 import com.ort.servitodo.entities.Fletero
-import com.ort.servitodo.entities.Prestador
 import com.ort.servitodo.entities.Publicacion
 import com.ort.servitodo.entities.Rubro
 import com.ort.servitodo.fragments.prestador.CrearPublicacionFragmentDirections
