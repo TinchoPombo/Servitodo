@@ -14,6 +14,7 @@ import com.ort.servitodo.fragments.prestador.HomePrestadorFragmentDirections
 import com.ort.servitodo.fragments.prestador.PeticionesPendientesFragment
 import com.ort.servitodo.fragments.prestador.PeticionesPendientesFragmentDirections
 import com.ort.servitodo.repositories.PedidosRepository
+import com.ort.servitodo.repositories.UsuarioRepository
 import kotlinx.coroutines.launch
 import java.text.FieldPosition
 
@@ -21,6 +22,7 @@ class PeticionesPendientesViewModel : ViewModel() {
 
     private lateinit var view : View
     private var repository = PedidosRepository()
+    private lateinit var usuarioRep : UsuarioRepository
 
     val cargando = MutableLiveData<String>()
     var pedidos : MutableList<Pedido> = arrayListOf()
@@ -28,6 +30,7 @@ class PeticionesPendientesViewModel : ViewModel() {
     //-------------------------------------------------------------------------------
     fun setView(v : View){
         this.view = v
+        usuarioRep = UsuarioRepository(this.view)
     }
 
     fun emptyList(){
@@ -40,7 +43,7 @@ class PeticionesPendientesViewModel : ViewModel() {
         cargando.value = "Cargando..."
 
         viewModelScope.launch{
-            pedidos = repository.getPedidos()
+            pedidos = repository.getPedidosPendientesByPrestadorId(usuarioRep.getIdSession())
 
             if(pedidos.size < 1) {
                 cargando.value = "No hay publicaciones disponibles"
