@@ -1,33 +1,46 @@
 package com.ort.servitodo.fragments.prestador
 
-import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.ort.servitodo.R
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
+import androidx.navigation.findNavController
+import com.ort.servitodo.databinding.FragmentHistorialPrestadorBinding
 import com.ort.servitodo.viewmodels.prestador.HistorialPrestadorViewModel
 
 class HistorialPrestadorFragment : Fragment() {
 
-    companion object {
-        fun newInstance() = HistorialPrestadorFragment()
-    }
+    private val historialPrestadorViewModel : HistorialPrestadorViewModel by viewModels()
 
-    private lateinit var viewModel: HistorialPrestadorViewModel
+    lateinit var v : View
+    private lateinit var binding : FragmentHistorialPrestadorBinding
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_historial_prestador, container, false)
+        binding = FragmentHistorialPrestadorBinding.inflate(inflater, container, false)
+
+        v = binding.root
+
+        historialPrestadorViewModel.setView(v)
+
+
+        return v
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProvider(this).get(HistorialPrestadorViewModel::class.java)
-        // TODO: Use the ViewModel
+    override fun onStart() {
+        super.onStart()
+
+        historialPrestadorViewModel.emptyList()
+
+        historialPrestadorViewModel.recyclerView(binding.historialPrestadorRV)
+
+
     }
 
 }

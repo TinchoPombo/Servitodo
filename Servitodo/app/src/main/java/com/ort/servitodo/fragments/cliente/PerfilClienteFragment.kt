@@ -7,37 +7,49 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
+import androidx.navigation.findNavController
 import com.ort.servitodo.R
+import com.ort.servitodo.databinding.FragmentPerfilClienteBinding
+import com.ort.servitodo.databinding.FragmentPerfilPrestadorBinding
+import com.ort.servitodo.fragments.prestador.PerfilPrestadorFragmentDirections
 import com.ort.servitodo.viewmodels.cliente.PerfilClienteViewModel
+import com.ort.servitodo.viewmodels.prestador.PerfilPrestadorViewModel
 
 class PerfilClienteFragment : Fragment() {
 
+    private val perfilViewModel: PerfilClienteViewModel by viewModels()
+
     lateinit var v : View
-    private val viewModel: PerfilClienteViewModel by viewModels()
+    private lateinit var binding : FragmentPerfilClienteBinding
 
-    /*
-    companion object {
-        fun newInstance() = PerfilClienteFragment()
-    }
+    private lateinit var viewModel: PerfilClienteViewModel
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProvider(this).get(PerfilClienteViewModel::class.java)
-        // TODO: Use the ViewModel
-    }
-    */
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        v = inflater.inflate(R.layout.fragment_perfil_cliente, container, false)
+        binding = FragmentPerfilClienteBinding.inflate(inflater, container, false)
 
+        v = binding.root
 
+        perfilViewModel.setView(v)
 
         return v
     }
 
 
+    override fun onStart() {
+        super.onStart()
+
+        binding.btnHistorial.setOnClickListener {
+            val action = PerfilClienteFragmentDirections.actionPerfilClienteFragmentToHistorialClienteFragment()
+            v.findNavController().navigate(action)
+        }
+
+
+
+
+    }
 
 }

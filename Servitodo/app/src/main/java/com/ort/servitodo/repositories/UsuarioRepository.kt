@@ -126,6 +126,7 @@ class UsuarioRepository(view : View) {
     }
 
     fun getIdSession() : String{
+
         return sharedPref.getString("USER_ID", "default")!!
     }
 

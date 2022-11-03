@@ -71,7 +71,7 @@ class PedidosPrestadorAdapter (
         }
 
         fun setNombrePrestador(nombre : String) {
-            val txtNombrePrestador: TextView = view.findViewById(R.id.txtNombreCliente)
+            val txtNombrePrestador: TextView = view.findViewById(R.id.txtNombrePrestador)
             txtNombrePrestador.text = nombre
         }
 

@@ -13,7 +13,6 @@ import com.ort.servitodo.R
 import com.ort.servitodo.entities.Pedido
 import com.ort.servitodo.entities.Publicacion
 import com.ort.servitodo.repositories.PublicacionRepository
-import com.ort.servitodo.viewmodels.cliente.DetallePedidoViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -23,6 +22,8 @@ class PedidosPendientesPrestadorAdapter (
     var listaPedidos : MutableList <Pedido>,
     var onClick : (Int) -> Unit
 ) : RecyclerView.Adapter<PedidosPendientesPrestadorAdapter.PedidosHolder>() {
+
+
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PedidosHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.peticion_pendiente_prestador, parent, false)
@@ -63,7 +64,7 @@ class PedidosPendientesPrestadorAdapter (
         }
 
         fun setNombreCliente(nombre : String) {
-            val txtNombreCliente: TextView = view.findViewById(R.id.txtNombreCliente)
+            val txtNombreCliente: TextView = view.findViewById(R.id.txtNombrePrestador)
             txtNombreCliente.text = nombre
         }
 
