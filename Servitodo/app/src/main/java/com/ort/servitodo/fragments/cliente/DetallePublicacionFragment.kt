@@ -66,6 +66,9 @@ class DetallePublicacionFragment : Fragment() {
         detalleViewModel.rubro.observe(viewLifecycleOwner, Observer { result ->
             binding.txtRubroPublicacion.text = result.toString()
         })
+        detalleViewModel.rubroDetalle.observe(viewLifecycleOwner, Observer{result ->
+            binding.txtRubroDetallePublicacion.text = result.toString()
+        })
         detalleViewModel.calificacion.observe(viewLifecycleOwner, Observer { result ->
             binding.txtCalificacionPublicacion.text = result.toString()
         })

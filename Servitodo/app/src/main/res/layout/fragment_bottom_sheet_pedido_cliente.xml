@@ -108,7 +108,7 @@
                 app:layout_constraintBottom_toTopOf="@+id/precioBottomSheet"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/rubroBottomSheet" />
+                app:layout_constraintTop_toBottomOf="@+id/rubroDetalleBottomSheet" />
 
             <TextView
                 android:id="@+id/rubroBottomSheet"
@@ -117,10 +117,23 @@
                 android:layout_marginTop="8dp"
                 android:layout_marginBottom="8dp"
                 android:text="Rubro"
-                app:layout_constraintBottom_toTopOf="@+id/fechaBottomSheet"
+                app:layout_constraintBottom_toTopOf="@+id/rubroDetalleBottomSheet"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/materialDivider2" />
+
+            <TextView
+                android:id="@+id/rubroDetalleBottomSheet"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                android:text="RubroDetalle"
+                android:textAlignment="center"
+                app:layout_constraintBottom_toTopOf="@+id/fechaBottomSheet"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/rubroBottomSheet" />
 
             <TextView
                 android:id="@+id/nombreBottomSheet"

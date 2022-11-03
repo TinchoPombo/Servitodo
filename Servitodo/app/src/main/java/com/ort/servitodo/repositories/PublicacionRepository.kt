@@ -6,13 +6,13 @@ import android.util.Log
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
-import com.ort.servitodo.entities.Publicacion
+import com.ort.servitodo.entities.*
 import kotlinx.coroutines.tasks.await
 
 class PublicacionRepository {
 
     private var listaPublicaciones : MutableList<Publicacion> = arrayListOf()
-    private var rubro : Any? = Any()
+    private var rubro = Rubro()
 
     val db = Firebase.firestore
 
@@ -24,37 +24,36 @@ class PublicacionRepository {
             val data = questionRef.get().await()
             for(document in data){
                 listaPublicaciones.add(document.toObject())
-                //Log.d("RubroPublicacion", "${document}")
-                getRubro(document.id)
-                //Log.d("RubroPublicacion", "${rubro}")
-
             }
         } catch (e : Exception){ }
 
         return listaPublicaciones
     }
 
-    private fun getRubro(id : String){
-        val questionRef = db.collection("publicaciones").document(id)
+    suspend fun getRubro(idServicio : Int) : Rubro{
 
-        questionRef.get().addOnCompleteListener {
-            if (it.isSuccessful) {
-                val data = it.result.data
-                if (data != null) {
+        val questionRef = db.collection("publicaciones").whereEqualTo("idServicio", idServicio)
 
-                    rubro = data.get("rubro")
-                    Log.d("RubroPublicacion", "${rubro}")
+        try {
+            val data = questionRef.get().await()
+            val document = data.first()
+            val map = document["rubro"]!! as Map<String, Long>
 
+            val id = map["id"]!!.toInt() //--> IDs: 1 Mantenimiento, 2 Fletero, 3 Paseaperros
+            val nombre = map["nombre"]!! as String
+
+            when (id) {
+                1 -> rubro = Mantenimiento(map["precioConsulta"]!!.toInt(), id, nombre)
+                2 -> rubro = Fletero(map["costoXHora"]!!.toInt(), map["pesoMax"]!!.toInt(), id,nombre)
+                3 -> rubro = PaseaPerros(map["cantPerros"]!!.toInt(), map["precioPaseo"]!!.toInt(), id, nombre)
+                else -> {
+                    print(Log.d("ID Rubro incorrecto", "No existe el rubro ${nombre}"))
                 }
-                /*data?.let {
-                    for ((key, value) in data) {
-                        val v = value as Map<*, *>
-                        val time = v["time"]
-                        Log.d("rubrotag", "$key -> $time")
-                    }
-                }*/
             }
-        }
+
+        } catch (e : Exception){ }
+
+        return rubro
     }
 
      suspend fun getPublicacionById(id : Int) : Publicacion{

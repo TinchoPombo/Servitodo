@@ -6,14 +6,17 @@ import android.view.View
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import androidx.navigation.findNavController
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import com.ort.servitodo.entities.Publicacion
 import com.ort.servitodo.repositories.PedidosRepository
+import com.ort.servitodo.repositories.PublicacionRepository
 import com.ort.servitodo.viewmodels.resources.CalendarViewModel
 import com.ort.servitodo.viewmodels.resources.TimePickerViewModel
+import kotlinx.coroutines.launch
 import java.util.*
 
 class DetallePublicacionViewModel : ViewModel() {
@@ -23,6 +26,7 @@ class DetallePublicacionViewModel : ViewModel() {
     private lateinit var publicacion: Publicacion
 
     private var pedidosRepository = PedidosRepository()
+    private var publicacionRepository = PublicacionRepository()
 
     //--> View Models
     private val calendarViewModel = CalendarViewModel()
@@ -35,6 +39,7 @@ class DetallePublicacionViewModel : ViewModel() {
 
     val nombreCompleto = MutableLiveData<String>()
     val rubro = MutableLiveData<String>()
+    val rubroDetalle = MutableLiveData<String>()
     val calificacion = MutableLiveData<String>()
     val descripcion = MutableLiveData<String>()
     val fotoPrestador = MutableLiveData<String>()
@@ -54,11 +59,14 @@ class DetallePublicacionViewModel : ViewModel() {
 
     //----------------------------------------------------------------------
     fun initLiveData(){
-        nombreCompleto.value = "${this.publicacion.nombrePrestador} ${this.publicacion.apellidoPrestador}"
-        rubro.value = "Rubro: ${this.publicacion.rubro.nombre}"
-        calificacion.value = ""
-        descripcion.value = "${this.publicacion.descripcion}"
-        fotoPrestador.value = this.publicacion.fotoPrestador
+        viewModelScope.launch {
+            rubroDetalle.value = publicacionRepository.getRubro(publicacion.idServicio).toString()
+            nombreCompleto.value = "${publicacion.nombrePrestador} ${publicacion.apellidoPrestador}"
+            rubro.value = publicacion.rubro.nombre.uppercase()
+            calificacion.value = ""
+            descripcion.value = publicacion.descripcion
+            fotoPrestador.value = publicacion.fotoPrestador
+        }
     }
 
     //-------------------- Seleccion del Horario --------------------------------------------------

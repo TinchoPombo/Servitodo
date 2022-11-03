@@ -42,13 +42,16 @@ class DetallePedidoViewModel : ViewModel() {
     suspend fun getPublicacion(id : Int) : Publicacion{
         return PublicacionRepository().getPublicacionById(id)
     }
+    suspend fun getRubroDetails(id : Int) : String {
+        return PublicacionRepository().getRubro(id).toString()
+    }
     suspend fun getUsuario(id: Int) : Usuario{
         return UsuarioRepository(view).getUsuarioById(getPedido(id).idCliente.toString())
     }
 //---------------------------------------------------------------
   //metodo de prueba
 
-     fun detallesDelPedidoCliente(pedido : Pedido){
+     /*fun detallesDelPedidoCliente(pedido : Pedido){
 
 
         val dialog = BottomSheetDialog(view.context)
@@ -77,8 +80,7 @@ class DetallePedidoViewModel : ViewModel() {
             }
 
             dialog.show()
-        }
-
+        }*/
 
     fun detallesDelPedido(pedido : Pedido){
         val dialog = BottomSheetDialog(view.context)
@@ -89,6 +91,7 @@ class DetallePedidoViewModel : ViewModel() {
         val img = dialog.findViewById<ImageView>(R.id.imgBottomSheet)!!
         val nombre = dialog.findViewById<TextView>(R.id.nombreBottomSheet)!!
         val rubro = dialog.findViewById<TextView>(R.id.rubroBottomSheet)!!
+        val rubroDetalle = dialog.findViewById<TextView>(R.id.rubroDetalleBottomSheet)!!
         val fecha = dialog.findViewById<TextView>(R.id.fechaBottomSheet)!!
         val precio = dialog.findViewById<TextView>(R.id.precioBottomSheet)!!
         val estado = dialog.findViewById<TextView>(R.id.estadoBottomSheet)!!
@@ -97,7 +100,7 @@ class DetallePedidoViewModel : ViewModel() {
 
         viewModelScope.launch {
             val publicacion = getPublicacion(pedido.idPublicacion)
-
+            val rubrodetails = getRubroDetails(publicacion.idServicio)
             setImg(publicacion.fotoPrestador, img)
             nombre.text = "${publicacion.nombrePrestador} ${publicacion.apellidoPrestador}"
             rubro.text = "Rubro: ${publicacion.rubro!!.nombre}"
@@ -105,6 +108,7 @@ class DetallePedidoViewModel : ViewModel() {
             precio.text = "Precio: $${setPrecio(pedido.precio)}"
             estado.text = "Estado: ${pedido.estado}"
             descripcion.text = "${publicacion.descripcion}"
+            rubroDetalle.text = rubrodetails
 
             enableWhatsappButton(whatsapp, pedido.estado).setOnClickListener{
                 redirectionToWhatsApp(pedido.idPrestador)
