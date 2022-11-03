@@ -9,12 +9,14 @@ import androidx.recyclerview.widget.RecyclerView
 import com.ort.servitodo.adapters.PedidosPrestadorAdapter
 import com.ort.servitodo.entities.Pedido
 import com.ort.servitodo.repositories.PedidosRepository
+import com.ort.servitodo.repositories.UsuarioRepository
 import kotlinx.coroutines.launch
 
 class HomePrestadorViewModel : ViewModel() {
 
     private lateinit var view : View
     private var repository = PedidosRepository()
+    private lateinit var usuarioRep : UsuarioRepository
 
     val cargando = MutableLiveData<String>()
     var pedidos : MutableList<Pedido> = arrayListOf()
@@ -22,6 +24,7 @@ class HomePrestadorViewModel : ViewModel() {
     //-------------------------------------------------------------------------------
     fun setView(v : View){
         this.view = v
+       usuarioRep = UsuarioRepository(this.view)
     }
 
     fun emptyList(){
@@ -34,7 +37,7 @@ class HomePrestadorViewModel : ViewModel() {
         cargando.value = "Cargando..."
 
         viewModelScope.launch{
-            pedidos = repository.getPedidos()
+            pedidos = repository.getPedidosAprobadosByPrestadorId(usuarioRep.getIdSession())
 
             if(pedidos.size < 1) {
                 cargando.value = "No hay publicaciones disponibles"

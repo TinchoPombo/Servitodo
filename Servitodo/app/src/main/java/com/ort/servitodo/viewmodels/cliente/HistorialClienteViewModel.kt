@@ -45,7 +45,7 @@ class HistorialClienteViewModel : ViewModel() {
 
         viewModelScope.launch{
            //    pedidos = repository.getPedidosByUserIndex(getId())
-          pedidos = repository.getPedidosByUserIndex("5".toInt())
+          // pedidos = repository.getPedidosByUserIndex("5")
 
             if(pedidos.size < 1) {
                 cargando.value = "No hay publicaciones disponibles"

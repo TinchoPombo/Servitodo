@@ -51,11 +51,11 @@ class PedidosRepository {
                 listaPedidos.add(document.toObject())
             }
         } catch (e: Exception) { }
-
+        Log.d("PEDIDOS DB", "pedidos encotrados ${listaPedidos} ")
         return listaPedidos
     }
 
-    suspend fun getPedidosByUserIndex(pos : Int): MutableList<Pedido>{
+/*    suspend fun getPedidosByUserIndex(pos : Int): MutableList<Pedido>{
         var listaPedidos : MutableList<Pedido> = mutableListOf()
         var lista : MutableList<Pedido> = getPedidos()
 
@@ -71,7 +71,7 @@ class PedidosRepository {
         }
 
         return listaPedidos
-    }
+    }*/
 
     suspend fun getPedidosCliente() : MutableList<Pedido>{
         try {
@@ -102,6 +102,26 @@ class PedidosRepository {
         return pedidoEsperado
     }
 
+
+    //----------------------------------------------------------------
+
+    suspend fun getPedidosPendientesByPrestadorId(idPrestador: String):MutableList<Pedido> {
+        try {
+            listaPedidos = getPedidos().filter{ p -> p.idPrestador == idPrestador && p.estado != TipoEstado.FINALIZADO.toString() && p.estado != TipoEstado.RECHAZADO.toString() && p.estado != TipoEstado.APROBADO.toString()}.toMutableList()
+        } catch (e: Exception) { }
+        return listaPedidos
+    }
+
+    suspend fun getPedidosAprobadosByPrestadorId(idPrestador: String):MutableList<Pedido> {
+        try {
+            listaPedidos = getPedidos().filter {  p -> p.idPrestador == idPrestador && p.estado == TipoEstado.APROBADO.toString() }.toMutableList()
+
+        } catch (e: Exception) { }
+        Log.d("PEDIDOS APROBADOS PRESTADOR", "usuarios encotrados ${listaPedidos} ")
+        return listaPedidos
+    }
+
+    //----------------------------------------------------------------
     fun addPedido(publicacion : Publicacion, fecha : String, hora : String)
     {
         val idCliente = 1 //--> TODO: Una vez que se loguea se debe obtener el ID del cliente
