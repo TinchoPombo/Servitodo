@@ -41,15 +41,10 @@ class PaseaPerrosFragment : Fragment() {
     override fun onStart() {
         super.onStart()
 
-        val descripcion : String = PaseaPerrosFragmentArgs.fromBundle(requireArguments()).descripcion
-        val idRubro : Int = PaseaPerrosFragmentArgs.fromBundle(requireArguments()).idRubro
-        val prestador : Prestador = Prestador(2,"messiPaseaPerros","Andres","Gomez","20-10-1989","https://www.rockaxis.com/img/newsList/3070682.jpg","matricula","Paseador de perros","1122766971")
-
         binding.btnCrearPublicacion.setOnClickListener {
-            val rubro : Rubro = PaseaPerros(Integer.parseInt(binding.txtCantidadPerros.text.toString()), Integer.parseInt(binding.txtPrecioPaseo.text.toString()), idRubro, "PaseaPerros")
-            val publicacion: Publicacion = Publicacion(/*(viewModel.getPublicaciones().size + 1)*/2, prestador.id, prestador.img, prestador.name,prestador.lastname, rubro, descripcion)
-            db.collection("publicaciones").add(publicacion)
-            viewModel.emptyList()
+            val rubro : Rubro = PaseaPerros(Integer.parseInt(binding.txtCantidadPerros.text.toString()), Integer.parseInt(binding.txtPrecioPaseo.text.toString()), PaseaPerrosFragmentArgs.fromBundle(requireArguments()).idRubro, "PaseaPerros")
+            val descripcion : String = PaseaPerrosFragmentArgs.fromBundle(requireArguments()).descripcion
+            viewModel.crearPublicacion(descripcion, rubro)
 
         }
     }

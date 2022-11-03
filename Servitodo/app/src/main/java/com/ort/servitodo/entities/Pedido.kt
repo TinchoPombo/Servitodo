@@ -3,18 +3,18 @@ package com.ort.servitodo.entities
 import android.os.Parcel
 import android.os.Parcelable
 
-class Pedido (id : Int, idPublicacion : Int, idPrestador : Int, idCliente : Int, fecha : String, hora : String, estado : String, precio : Double)
+class Pedido (id : Int, idPublicacion : Int, idPrestador : String, idCliente : Int, fecha : String, hora : String, estado : String, precio : Double)
     : Parcelable {
     var id : Int = 0
     var idPublicacion : Int = 0
-    var idPrestador : Int = 0
+    var idPrestador : String
     var idCliente : Int = 0
     var fecha : String
     var hora : String
     var estado : String
     var precio : Double = 0.0
 
-    constructor() : this(0,0,0,0,"","","",0.0)
+    constructor() : this(0,0,"",0,"","","",0.0)
 
     init {
         this.id = id
@@ -30,7 +30,7 @@ class Pedido (id : Int, idPublicacion : Int, idPrestador : Int, idCliente : Int,
     constructor(source: Parcel) : this(
         source.readInt(),
         source.readInt(),
-        source.readInt(),
+        source.readString()!!,
         source.readInt(),
         source.readString()!!,
         source.readString()!!,
@@ -44,7 +44,7 @@ class Pedido (id : Int, idPublicacion : Int, idPrestador : Int, idCliente : Int,
         writeInt(id)
         writeInt(idPublicacion)
         writeInt(idCliente)
-        writeInt(idPrestador)
+        writeString(idPrestador)
         writeString(fecha)
         writeString(hora)
         writeString(estado)

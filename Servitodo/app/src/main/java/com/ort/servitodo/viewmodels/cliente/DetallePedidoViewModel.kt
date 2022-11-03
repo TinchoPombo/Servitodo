@@ -86,7 +86,7 @@ class DetallePedidoViewModel : ViewModel() {
     }
 
     //--> WHATSAPP
-    fun redirectionToWhatsApp(idPrestador : Int){
+    fun redirectionToWhatsApp(idPrestador : String){
         val whatsAppViewModel = WhatsAppViewModel()
         whatsAppViewModel.confirmRedirectionToWhatsapp(idPrestador, view)
     }

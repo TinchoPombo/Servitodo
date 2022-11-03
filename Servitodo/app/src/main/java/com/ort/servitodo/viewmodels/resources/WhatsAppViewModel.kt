@@ -41,7 +41,7 @@ class WhatsAppViewModel : ViewModel() {
         }
     }
 
-    fun confirmRedirectionToWhatsapp(idPrestador: Int, view : View){
+    fun confirmRedirectionToWhatsapp(idPrestador: String, view : View){
 
         MaterialAlertDialogBuilder(view.context)
             .setTitle("Confirmar")
@@ -56,9 +56,9 @@ class WhatsAppViewModel : ViewModel() {
             .show()
     }
 
-    private fun getNumtel(idPrestador : Int) : String{
+    private fun getNumtel(idPrestador : String) : String{
         val prestadores = PrestadorRepository().getPrestadores()
-        val prestadorEncontrado = prestadores.find{p-> p.id == idPrestador}
+        val prestadorEncontrado = prestadores.find{p-> p.id.equals(idPrestador)}
         val numtel = prestadorEncontrado?.numtel!!
         return numtel
     }

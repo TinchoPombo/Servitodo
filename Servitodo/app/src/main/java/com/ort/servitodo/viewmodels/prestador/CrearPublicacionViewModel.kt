@@ -10,31 +10,34 @@ import com.google.firebase.ktx.Firebase
 import com.ort.servitodo.adapters.PublicacionAdapter
 import com.ort.servitodo.entities.Prestador
 import com.ort.servitodo.entities.Publicacion
+import com.ort.servitodo.entities.Rubro
 import com.ort.servitodo.repositories.PrestadorRepository
 import com.ort.servitodo.repositories.PublicacionRepository
+import com.ort.servitodo.repositories.UsuarioRepository
 import kotlinx.coroutines.launch
+import kotlin.properties.Delegates
 
 class CrearPublicacionViewModel : ViewModel() {
     private lateinit var view : View
     private var repository = PublicacionRepository()
-    private var publicaciones : MutableList<Publicacion> = arrayListOf()
+    private lateinit var usuarioRepository : UsuarioRepository
+
     val db = Firebase.firestore
 
 
     fun setView(v : View){
         this.view = v
+        usuarioRepository = UsuarioRepository(v)
     }
 
-    fun emptyList(){
-        this.publicaciones.clear()
-    }
+    fun crearPublicacion(descripcion: String, rubro: Rubro){
+        viewModelScope.launch {
+            val idPublicacion = repository.getSize() + 1
+            val user = usuarioRepository.getUsuarioById(usuarioRepository.getIdSession())
+            val publicacion = Publicacion(idPublicacion, user.id, user.foto, user.nombre, user.apellido, rubro, descripcion)
 
-    fun getPublicaciones(): MutableList<Publicacion> {
-
-        viewModelScope.launch{
-            publicaciones = repository.getPublicaciones()
+            db.collection("publicaciones").document(idPublicacion.toString()).set(publicacion)
         }
-        return publicaciones
     }
 
 }

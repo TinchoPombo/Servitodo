@@ -3,13 +3,13 @@ package com.ort.servitodo.entities
 import android.os.Parcel
 import android.os.Parcelable
 
-class Publicacion (idServicio : Int, idPrestador : Int, fotoPrestador : String, nombrePrestador : String, apellidoPrestador : String, rubro: Rubro, descripcion : String
+class Publicacion (idServicio : Int, idPrestador : String, fotoPrestador : String, nombrePrestador : String, apellidoPrestador : String, rubro: Rubro, descripcion : String
     /*var listaPuntuaciones : MutableList<Puntuacion> = mutableListOf(),
     var imagenes : MutableList<String> = mutableListOf(),*/
 ) : Parcelable{
     var idServicio: Int = 0
 
-    var idPrestador: Int = 0
+    var idPrestador: String
 
     var fotoPrestador: String
 
@@ -21,7 +21,7 @@ class Publicacion (idServicio : Int, idPrestador : Int, fotoPrestador : String, 
 
     var descripcion: String
 
-    constructor() : this(0,0,"","","", Mantenimiento(0, 0,""),"")
+    constructor() : this(0,"","","","", Mantenimiento(0, 0,""),"")
 
     init {
         this.idServicio = idServicio!!
@@ -35,7 +35,7 @@ class Publicacion (idServicio : Int, idPrestador : Int, fotoPrestador : String, 
 
     constructor(source: Parcel) : this(
         source.readInt(),
-        source.readInt(),
+        source.readString()!!,
         source.readString()!!,
         source.readString()!!,
         source.readString()!!,
@@ -48,7 +48,7 @@ class Publicacion (idServicio : Int, idPrestador : Int, fotoPrestador : String, 
 
     override fun writeToParcel(dest: Parcel, flags: Int) = with(dest) {
         writeInt(idServicio)
-        writeInt(idPrestador)
+        writeString(idPrestador)
         writeString(fotoPrestador)
         writeString(nombrePrestador)
         writeString(apellidoPrestador)

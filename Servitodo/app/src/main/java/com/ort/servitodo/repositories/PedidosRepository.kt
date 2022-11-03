@@ -15,7 +15,7 @@ import kotlinx.coroutines.tasks.await
 class PedidosRepository {
 
     val db = Firebase.firestore
-    private var questionRef = db.collection("pedidos")
+    private var questionRef = db.collection("pedidos2")
 
     private var listaPedidos: MutableList<Pedido> = mutableListOf()
 
@@ -90,7 +90,7 @@ class PedidosRepository {
             hora, TipoEstado.PENDIENTE.toString(), 0.0)
 
         //--> Esto se hace para recuperar el documento (en caso de querer usarlo). Se obtiene el obj guardado
-        val pedidoGuardado = db.collection("pedidos").document()
+        val pedidoGuardado = db.collection("pedidos2").document()
         pedidoGuardado.set(pedido)
             .addOnSuccessListener { documentReference ->
                 Log.d(TAG, "DocumentSnapshot written with ID: ${pedidoGuardado.id}")

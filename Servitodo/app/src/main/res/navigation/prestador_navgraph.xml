@@ -77,6 +77,9 @@
         <argument
             android:name="idRubro"
             app:argType="integer" />
+        <action
+            android:id="@+id/action_fleteroFragment_to_homePrestadorFragment"
+            app:destination="@id/homePrestadorFragment" />
     </fragment>
     <fragment
         android:id="@+id/mantenimientoFragment"

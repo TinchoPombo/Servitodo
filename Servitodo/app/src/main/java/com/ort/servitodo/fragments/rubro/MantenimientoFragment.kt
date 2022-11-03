@@ -42,16 +42,10 @@ class MantenimientoFragment : Fragment() {
     override fun onStart() {
         super.onStart()
 
-        val descripcion : String = MantenimientoFragmentArgs.fromBundle(requireArguments()).descripcion
-        val idRubro : Int = MantenimientoFragmentArgs.fromBundle(requireArguments()).idRubro
-        val prestador : Prestador = Prestador(5,"messiMantenimiento","Tomas","Muno","20-10-1989","https://cpad.ask.fm/846/535/880/910003015-1qn3b2f-71rh9nlgnba3l3a/original/file.jpg","matricula","Mantenimiento","1122766971")
-
         binding.btnCrearPublicacion.setOnClickListener {
-            val rubro : Rubro = Mantenimiento(Integer.parseInt(binding.txtPrecioConsulta.text.toString()), idRubro, "Mantenimiento")
-            val publicacion: Publicacion = Publicacion(5/*(viewModel.getPublicaciones().size + 1)*/, prestador.id, prestador.img, prestador.name,prestador.lastname, rubro, descripcion)
-            db.collection("publicaciones").add(publicacion)
-            viewModel.emptyList()
-
+            val rubro : Rubro = Mantenimiento(Integer.parseInt(binding.txtPrecioConsulta.text.toString()), MantenimientoFragmentArgs.fromBundle(requireArguments()).idRubro, "Mantenimiento")
+            val descripcion : String = MantenimientoFragmentArgs.fromBundle(requireArguments()).descripcion
+            viewModel.crearPublicacion(descripcion, rubro)
         }
     }
 
