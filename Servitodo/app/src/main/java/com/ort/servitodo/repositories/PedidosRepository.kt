@@ -10,6 +10,7 @@ import com.ort.servitodo.entities.Pedido
 import com.ort.servitodo.entities.Publicacion
 import com.ort.servitodo.entities.TipoEstado
 import com.ort.servitodo.viewmodels.resources.CalendarViewModel
+import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.tasks.await
 
 class PedidosRepository {
@@ -54,6 +55,24 @@ class PedidosRepository {
         return listaPedidos
     }
 
+    suspend fun getPedidosByUserIndex(pos : Int): MutableList<Pedido>{
+        var listaPedidos : MutableList<Pedido> = mutableListOf()
+        var lista : MutableList<Pedido> = getPedidos()
+
+        try {
+
+            for(doc in lista){
+                if(doc.idPrestador == pos ){
+                    listaPedidos.add(doc)
+                }
+            }
+        }catch(e: Exception) {
+
+        }
+
+        return listaPedidos
+    }
+
     suspend fun getPedidosCliente() : MutableList<Pedido>{
         try {
             listaPedidos = getPedidos().filter{ p -> p.estado != TipoEstado.FINALIZADO.toString() && p.estado != TipoEstado.RECHAZADO.toString()}.toMutableList()
@@ -67,6 +86,8 @@ class PedidosRepository {
         } catch (e: Exception) { }
         return listaPedidos
     }
+
+
 
     suspend fun getPedidoByIndex(id: Int): Pedido {
 

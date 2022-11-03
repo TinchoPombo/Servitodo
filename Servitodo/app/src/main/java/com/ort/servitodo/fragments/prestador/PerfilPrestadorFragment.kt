@@ -6,28 +6,51 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
+import androidx.navigation.findNavController
 import com.ort.servitodo.R
+import com.ort.servitodo.databinding.FragmentHistorialPrestadorBinding
+import com.ort.servitodo.databinding.FragmentPerfilPrestadorBinding
+import com.ort.servitodo.viewmodels.prestador.HistorialPrestadorViewModel
 import com.ort.servitodo.viewmodels.prestador.PerfilPrestadorViewModel
 
 class PerfilPrestadorFragment : Fragment() {
 
-    companion object {
-        fun newInstance() = PerfilPrestadorFragment()
-    }
+    private val perfilViewModel: PerfilPrestadorViewModel by viewModels()
+
+    lateinit var v : View
+    private lateinit var binding : FragmentPerfilPrestadorBinding
 
     private lateinit var viewModel: PerfilPrestadorViewModel
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_perfil_prestador, container, false)
+        binding = FragmentPerfilPrestadorBinding.inflate(inflater, container, false)
+
+        v = binding.root
+
+        perfilViewModel.setView(v)
+
+        return v
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProvider(this).get(PerfilPrestadorViewModel::class.java)
-        // TODO: Use the ViewModel
+    override fun onStart() {
+        super.onStart()
+
+        binding.btnHistorial.setOnClickListener {
+            val action = PerfilPrestadorFragmentDirections.actionPerfilPrestadorFragmentToHistorialPrestadorFragment()
+            v.findNavController().navigate(action)
+        }
+
+
+
+
     }
+
 
 }
+

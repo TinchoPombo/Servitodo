@@ -13,7 +13,10 @@ import com.ort.servitodo.R
 import com.ort.servitodo.entities.Pedido
 import com.ort.servitodo.entities.Publicacion
 import com.ort.servitodo.entities.TipoEstado
+import com.ort.servitodo.entities.Usuario
+import com.ort.servitodo.repositories.PedidosRepository
 import com.ort.servitodo.repositories.PublicacionRepository
+import com.ort.servitodo.repositories.UsuarioRepository
 import com.ort.servitodo.viewmodels.resources.WhatsAppViewModel
 import kotlinx.coroutines.launch
 
@@ -21,6 +24,7 @@ class DetallePedidoViewModel : ViewModel() {
 
     private lateinit var view : View
     private lateinit var pedido : Pedido
+    private lateinit var usuario : Usuario
 
     //----------------------------------------------------------------------------------------
     fun setView(v : View){
@@ -32,9 +36,49 @@ class DetallePedidoViewModel : ViewModel() {
     }
 
     //----------------------------------------------------------------------------------------
+    suspend fun getPedido(id : Int) : Pedido{
+        return PedidosRepository().getPedidoByIndex(id)
+    }
     suspend fun getPublicacion(id : Int) : Publicacion{
         return PublicacionRepository().getPublicacionById(id)
     }
+    suspend fun getUsuario(id: Int) : Usuario{
+        return UsuarioRepository(view).getUsuarioById(getPedido(id).idCliente.toString())
+    }
+//---------------------------------------------------------------
+  //metodo de prueba
+
+     fun detallesDelPedidoCliente(pedido : Pedido){
+
+
+        val dialog = BottomSheetDialog(view.context)
+        dialog.setContentView(R.layout.fragment_card_historial_prestador)
+
+        setPedido(pedido)
+
+        val img = dialog.findViewById<ImageView>(R.id.imgPedido)!!
+        val nombre = dialog.findViewById<TextView>(R.id.txtNombrePrestador)!!
+        val fecha = dialog.findViewById<TextView>(R.id.txtHorario)!!
+        val precio = dialog.findViewById<TextView>(R.id.txtPrecio)!!
+        val estado = dialog.findViewById<TextView>(R.id.txtEstado)!!
+
+        viewModelScope.launch {
+            val pedido = getPedido(pedido.id)
+            val user = getUsuario(pedido.idCliente)
+
+            setImg(user.foto, img )
+            nombre.text = "${user.nombre} ${user.apellido}"
+            fecha.text = "Fecha: ${pedido.fecha} - Hora: ${pedido.hora}"
+            precio.text = "Precio: $${setPrecio(pedido.precio)}"
+            estado.text = "Estado: ${pedido.estado}"
+
+
+
+            }
+
+            dialog.show()
+        }
+
 
     fun detallesDelPedido(pedido : Pedido){
         val dialog = BottomSheetDialog(view.context)
@@ -54,7 +98,7 @@ class DetallePedidoViewModel : ViewModel() {
         viewModelScope.launch {
             val publicacion = getPublicacion(pedido.idPublicacion)
 
-            setImgPrestador(publicacion.fotoPrestador, img)
+            setImg(publicacion.fotoPrestador, img)
             nombre.text = "${publicacion.nombrePrestador} ${publicacion.apellidoPrestador}"
             rubro.text = "Rubro: ${publicacion.rubro!!.nombre}"
             fecha.text = "Fecha: ${pedido.fecha} - Hora: ${pedido.hora}"
@@ -70,7 +114,7 @@ class DetallePedidoViewModel : ViewModel() {
         }
     }
 
-    private fun setImgPrestador(img : String, imageView : ImageView){
+    private fun setImg(img : String, imageView : ImageView){
         Glide
             .with(view)
             .load(img)
