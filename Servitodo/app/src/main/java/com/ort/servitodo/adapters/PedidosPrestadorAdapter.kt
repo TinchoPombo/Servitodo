@@ -40,16 +40,16 @@ class PedidosPrestadorAdapter (
         holder.setPrecio(listaPedidos[position].precio)
 
         holder.getCardView().setOnClickListener {
-            onClick(position)
+            holder.detallesDelPedido(listaPedidos[position])
         }
 
-        holder.getDetalleButton().setOnClickListener{
+     /*   holder.getDetalleButton().setOnClickListener{
             holder.detallesDelPedido(listaPedidos[position])
         }
 
         holder.getWhatsappButton().setOnClickListener{
             holder.redirectionToWhatsApp(listaPedidos[position].idPrestador)
-        }
+        }*/
 
     }
 
@@ -131,9 +131,9 @@ class PedidosPrestadorAdapter (
             return button
         }*/
 
-        fun getWhatsappButton() : Button {
+       /* fun getWhatsappButton() : Button {
             return view.findViewById(R.id.whatsappPedidoButton)
-        }
+        }*/
 
         //--> DETALLE DEL PEDIDO
         fun detallesDelPedido(pedido : Pedido){
@@ -142,9 +142,9 @@ class PedidosPrestadorAdapter (
             detalle.detallesDelPedido(pedido)
         }
 
-        fun getDetalleButton() : Button {
+        /*fun getDetalleButton() : Button {
             return view.findViewById(R.id.detallePedidoButton)
-        }
+        }*/
 
         //-------------------------------------------------------
         fun getCardView(): CardView {

@@ -56,10 +56,11 @@ class DetallePedidoPendienteViewModel : ViewModel() {
 
     //----------------------------------------------------------------------
     fun initLiveData(){
-        nombreCompleto.value = "${this.pedido.id} ${this.pedido.estado}"
-        rubro.value = "Rubro: ${this.pedido.fecha}"
+        nombreCompleto.value = "NOMBRE CLIENTE"
+        rubro.value = "Rubro: ${this.rubro.value}"
         calificacion.value = ""
         descripcion.value = "Descripcion: ${this.pedido.hora}"
+        fotoPrestador.value = "https://i.pravatar.cc/250"
     }
 
     //-------------------- Seleccion del Horario --------------------------------------------------

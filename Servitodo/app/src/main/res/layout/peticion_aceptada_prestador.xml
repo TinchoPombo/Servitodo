@@ -110,39 +110,19 @@
             android:orientation="horizontal"
             app:layout_constraintGuide_begin="106dp" />
 
-        <Button
-            android:id="@+id/detallePedidoButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:backgroundTint="#6C6C6C"
-            android:text="Detalle"
-            android:textSize="12sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/whatsappPedidoButton"
-            app:layout_constraintStart_toStartOf="@+id/guideline6"
-            app:layout_constraintTop_toTopOf="@+id/guideline10" />
-
-        <Button
-            android:id="@+id/whatsappPedidoButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="16dp"
-            android:backgroundTint="#4CAF50"
-            android:text="Whatsapp"
-            android:textSize="12sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/detallePedidoButton"
-            app:layout_constraintTop_toTopOf="@+id/guideline10" />
-
         <TextView
             android:id="@+id/textView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="43dp"
+            android:layout_marginTop="25dp"
+            android:layout_marginEnd="60dp"
+            android:layout_marginBottom="15dp"
             android:text="PRESTADOR ACEPTADA"
-            tools:layout_editor_absoluteX="147dp"
-            tools:layout_editor_absoluteY="63dp" />
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/imgPedido"
+            app:layout_constraintTop_toBottomOf="@+id/txtEstado" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
