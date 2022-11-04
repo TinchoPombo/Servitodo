@@ -126,5 +126,11 @@
         <argument
             android:name="receivePedido"
             app:argType="com.ort.servitodo.entities.Pedido" />
+        <argument
+            android:name="reciveCliente"
+            app:argType="string[]" />
+        <argument
+            android:name="receivePublicacion"
+            app:argType="com.ort.servitodo.entities.Publicacion" />
     </fragment>
 </navigation>

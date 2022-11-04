@@ -8,8 +8,10 @@ import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import com.bumptech.glide.Glide
+import com.google.android.gms.common.api.Api
 import com.ort.servitodo.databinding.FragmentDetallePedidoPendienteBinding
 import com.ort.servitodo.entities.Pedido
+import com.ort.servitodo.entities.Publicacion
 
 import com.ort.servitodo.viewmodels.prestador.DetallePedidoPendienteViewModel
 
@@ -33,6 +35,9 @@ class DetallePedidoPendienteFragment : Fragment() {
     */
 
     private var receivePedido = Pedido()
+    private lateinit var reciveCliente : Array<String>
+    private var receivePublicacion = Publicacion()
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -44,7 +49,11 @@ class DetallePedidoPendienteFragment : Fragment() {
 
         //--> Index recibido por parametro
         receivePedido = DetallePedidoPendienteFragmentArgs.fromBundle(requireArguments()).receivePedido
+        reciveCliente = DetallePedidoPendienteFragmentArgs.fromBundle(requireArguments()).reciveCliente
+        receivePublicacion = DetallePedidoPendienteFragmentArgs.fromBundle(requireArguments()).receivePublicacion
         detalleViewModel.setPedido(receivePedido)
+        detalleViewModel.setUsuario(reciveCliente)
+        detalleViewModel.setPublicacion(receivePublicacion)
 
         detalleViewModel.initLiveData()
 
@@ -56,6 +65,7 @@ class DetallePedidoPendienteFragment : Fragment() {
 
     override fun onStart() {
         super.onStart()
+
 
         detalleViewModel.nombreCompleto.observe(viewLifecycleOwner, Observer { result ->
             binding.txtNombreCompletoCliente.text = result.toString()

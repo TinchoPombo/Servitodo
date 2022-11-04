@@ -6,6 +6,7 @@ import android.view.View
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import androidx.navigation.findNavController
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -20,14 +21,16 @@ import com.ort.servitodo.viewmodels.cliente.OpinionesClienteViewModel
 import com.ort.servitodo.viewmodels.resources.CalendarViewModel
 import com.ort.servitodo.viewmodels.resources.TimePickerViewModel
 import com.ort.servitodo.viewmodels.resources.WhatsAppViewModel
+import kotlinx.coroutines.launch
 import java.util.*
 
 class DetallePedidoPendienteViewModel : ViewModel() {
     private lateinit var view : View
     private lateinit var fragmentManager: FragmentManager
     private lateinit var pedido: Pedido
-    private lateinit var usuario: Usuario
-    //private lateinit var usuarioRepository : UsuarioRepository
+    private lateinit var usuario: Array<String>
+    private lateinit var usuarioRepository : UsuarioRepository
+    private lateinit var publicacion : Publicacion
 
 
     private var pedidosRepository = PedidosRepository()
@@ -50,7 +53,7 @@ class DetallePedidoPendienteViewModel : ViewModel() {
     //----------------------------------------------------------------------
     fun setView(v : View){
         this.view = v
-        //usuarioRepository = UsuarioRepository(v)
+        usuarioRepository = UsuarioRepository(v)
     }
 
     fun setFragmentManager(fm : FragmentManager){
@@ -61,17 +64,20 @@ class DetallePedidoPendienteViewModel : ViewModel() {
         this.pedido = pedido
     }
 
-    fun setUsuario(usuario : Usuario){
-        this.pedido = pedido
+    fun setUsuario(us : Array<String>){
+        this.usuario = us
+    }
+
+    fun setPublicacion (publicacion : Publicacion){
+        this.publicacion = publicacion
     }
 
     //----------------------------------------------------------------------
     fun initLiveData(){
-        nombreCompleto.value = "NOMBRE CLIENTE"
-        rubro.value = "Rubro: ${this.rubro.value}"
-        calificacion.value = ""
-        descripcion.value = "Descripcion: ${this.pedido.hora}"
-        fotoPrestador.value = "https://ayudawp.com/wp-content/uploads/2014/01/mantenimiento.jpg"
+        nombreCompleto.value = "${this.usuario[0]} ${this.usuario[1]}"
+        rubro.value = "${this.publicacion.rubro.nombre}"
+        descripcion.value = "Descripcion: ${this.publicacion.descripcion}"
+        fotoPrestador.value = this.usuario[3]
     }
 
     //-------------------- Seleccion del Horario --------------------------------------------------

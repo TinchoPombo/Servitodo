@@ -14,6 +14,7 @@ import com.ort.servitodo.fragments.prestador.HomePrestadorFragmentDirections
 import com.ort.servitodo.fragments.prestador.PeticionesPendientesFragment
 import com.ort.servitodo.fragments.prestador.PeticionesPendientesFragmentDirections
 import com.ort.servitodo.repositories.PedidosRepository
+import com.ort.servitodo.repositories.PublicacionRepository
 import com.ort.servitodo.repositories.UsuarioRepository
 import kotlinx.coroutines.launch
 import java.text.FieldPosition
@@ -21,7 +22,8 @@ import java.text.FieldPosition
 class PeticionesPendientesViewModel : ViewModel() {
 
     private lateinit var view : View
-    private var repository = PedidosRepository()
+    private var repositoryPedidos = PedidosRepository()
+    private var repositoryPublicaciones = PublicacionRepository()
     private lateinit var usuarioRep : UsuarioRepository
 
     val cargando = MutableLiveData<String>()
@@ -43,7 +45,7 @@ class PeticionesPendientesViewModel : ViewModel() {
         cargando.value = "Cargando..."
 
         viewModelScope.launch{
-            pedidos = repository.getPedidosPendientesByPrestadorId(usuarioRep.getIdSession())
+            pedidos = repositoryPedidos.getPedidosPendientesByPrestadorId(usuarioRep.getIdSession())
 
             if(pedidos.size < 1) {
                 cargando.value = "No hay publicaciones disponibles"
@@ -64,8 +66,11 @@ class PeticionesPendientesViewModel : ViewModel() {
 // parametro position en el onClick arriba y abajo
     private fun onItemClick(position: Int){
         viewModelScope.launch{
-            val pedido = repository.getPedidoByIndex(position)
-            val action = PeticionesPendientesFragmentDirections.actionPeticionesPendientesFragment2ToDetallePedidoPendienteFragment(pedido)
+            val pedido = repositoryPedidos.getPedidoByIndex(position)
+            val cliente = usuarioRep.getUsuarioById(pedido.idCliente)
+            val publicacion = repositoryPublicaciones.getPublicacionByIndex(pedido.idPublicacion)
+            val arrayCliente = arrayOf(cliente.nombre, cliente.apellido, cliente.ubicacion, cliente.foto)
+            val action = PeticionesPendientesFragmentDirections.actionPeticionesPendientesFragment2ToDetallePedidoPendienteFragment(pedido, arrayCliente, publicacion)
             view.findNavController().navigate(action)
         }
 
