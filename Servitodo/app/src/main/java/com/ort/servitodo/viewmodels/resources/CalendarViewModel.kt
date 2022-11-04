@@ -10,6 +10,7 @@ import com.google.android.material.datepicker.DateValidatorPointForward
 import com.google.android.material.datepicker.MaterialDatePicker
 import java.text.ParseException
 import java.text.SimpleDateFormat
+import java.time.LocalDateTime
 import java.util.*
 
 class CalendarViewModel : ViewModel() {
@@ -71,14 +72,26 @@ class CalendarViewModel : ViewModel() {
         return datenow
     }
 
-    fun getTodayInTimeMillis() : Long{
-        return this.getDateInTimeInMillis(getToday())
-    }
-
     fun getDateInTimeInMillis(dateToParse : String) : Long{
         val dateFormat = SimpleDateFormat("dd-MM-yyyy")
         val mDate: Date = dateFormat.parse(dateToParse)
         return mDate.time
     }
 
+    fun getTodayInTimeMillis() : Long{
+        return this.getDateInTimeInMillis(getToday())
+    }
+
+    fun getHourNow() : Int{
+        val calendar = Calendar.getInstance()
+        val currentHour = calendar.get(Calendar.HOUR_OF_DAY) //--> Obtiene la hora actual en Int
+        return currentHour
+    }
+
+    fun getOnlyHour(hora : String) : Int{
+        val str = hora
+        val delim = ":"
+        val hourParam = str.split(delim)[0].toInt() //--> Divide y se queda solo con la hora y lo parsea a Int
+        return hourParam
+    }
 }

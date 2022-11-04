@@ -17,11 +17,14 @@ import com.ort.servitodo.entities.Pedido
 import com.ort.servitodo.entities.Publicacion
 import com.ort.servitodo.fragments.cliente.HomeClienteFragmentDirections
 import com.ort.servitodo.repositories.PedidosRepository
+import com.ort.servitodo.repositories.UsuarioRepository
 import kotlinx.coroutines.launch
 
 class PedidosClienteViewModel : ViewModel() {
 
     private lateinit var view : View
+    private lateinit var usuarioRepository: UsuarioRepository
+
     val repository = PedidosRepository()
 
     var pedidos : MutableList<Pedido> = arrayListOf()
@@ -31,6 +34,7 @@ class PedidosClienteViewModel : ViewModel() {
     //----------------------------------------------------------------------------------------
     fun setView(v : View){
         this.view = v
+        this.usuarioRepository = UsuarioRepository(v)
     }
 
     fun emptyList(){
@@ -39,22 +43,20 @@ class PedidosClienteViewModel : ViewModel() {
 
     //----------------------------------------------------------------------------------------
     fun recyclerView(recyclerPedidos : RecyclerView){
-
+        val userId = usuarioRepository.getIdSession()
         cargando.value = "Cargando..."
 
         viewModelScope.launch{
-            repository.changeStateFinalizado()
-
-            pedidos = repository.getPedidosCliente()
+            repository.changeState()
+            pedidos = repository.getPedidosCliente(userId)
 
             if(pedidos.size < 1) {
                 cargando.value = "Todavia no hay pedidos solicitados"
             }
             else{
-                recyclerPedidos.setHasFixedSize(true)
-
                 cargando.value = ""
 
+                recyclerPedidos.setHasFixedSize(true)
                 recyclerPedidos.layoutManager  = LinearLayoutManager(view.context)
 
                 recyclerPedidos.adapter = PedidosAdapter(pedidos){ pos ->

@@ -12,8 +12,10 @@ import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import com.ort.servitodo.entities.Publicacion
+import com.ort.servitodo.entities.Usuario
 import com.ort.servitodo.repositories.PedidosRepository
 import com.ort.servitodo.repositories.PublicacionRepository
+import com.ort.servitodo.repositories.UsuarioRepository
 import com.ort.servitodo.viewmodels.resources.CalendarViewModel
 import com.ort.servitodo.viewmodels.resources.TimePickerViewModel
 import kotlinx.coroutines.launch
@@ -24,6 +26,7 @@ class DetallePublicacionViewModel : ViewModel() {
     private lateinit var view : View
     private lateinit var fragmentManager: FragmentManager
     private lateinit var publicacion: Publicacion
+    private lateinit var usuarioRepository : UsuarioRepository
 
     private var pedidosRepository = PedidosRepository()
     private var publicacionRepository = PublicacionRepository()
@@ -47,6 +50,7 @@ class DetallePublicacionViewModel : ViewModel() {
     //----------------------------------------------------------------------
     fun setView(v : View){
         this.view = v
+        this.usuarioRepository = UsuarioRepository(v)
     }
 
     fun setFragmentManager(fm : FragmentManager){
@@ -105,24 +109,17 @@ class DetallePublicacionViewModel : ViewModel() {
 
     private fun popUpContratar() : Int{
         var result = 0
-        var size = 0
+
         MaterialAlertDialogBuilder(view.context).setTitle("Confirmar").setMessage("Deseas confirmar el pedido?")
             .setNegativeButton("Cancelar") { dialog, which ->
                 this.selectedDay.value = ""
                 this.selectedHour.value = ""
             }
             .setPositiveButton("Aceptar") { dialog, which ->
-
-                viewModelScope.launch {
-
-                    size = pedidosRepository.getSize()
-                    // TODO lo arregla dany
-
-                    pedidosRepository.addPedido(publicacion, selectedDay.value!!, selectedHour.value!!, view, size)
-                    Snackbar.make(view, "El pedido se agregó con exito", Snackbar.LENGTH_SHORT).show()
-                    view.findNavController().navigateUp()
-                }
-
+                val idCliente = usuarioRepository.getIdSession()
+                pedidosRepository.addPedido(publicacion, selectedDay.value!!, selectedHour.value!!, idCliente)
+                Snackbar.make(view, "El pedido se agregó con exito", Snackbar.LENGTH_SHORT).show()
+                view.findNavController().navigateUp()
             }
             .show()
         return result

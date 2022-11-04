@@ -11,10 +11,7 @@ import com.ort.servitodo.entities.Pedido
 import com.ort.servitodo.entities.Publicacion
 import com.ort.servitodo.entities.TipoEstado
 import com.ort.servitodo.viewmodels.resources.CalendarViewModel
-import kotlinx.coroutines.awaitAll
-import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.tasks.await
-import kotlin.random.Random
 
 class PedidosRepository {
 
@@ -25,28 +22,40 @@ class PedidosRepository {
 
     private var calendar = CalendarViewModel()
 
-    private lateinit var view : View
-
-
-
     //----------------------------------------------------------------------------------------------
-    fun changeStateFinalizado(){
+    fun changeState(){
         try {
-         this.questionRef.get().addOnCompleteListener { task ->
-            if (task.isSuccessful) {
-                for (document in task.result) {
+            this.questionRef.get().addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    for (document in task.result) {
 
-                    val pedido = document.toObject<Pedido>()
-                    val cond = calendar.getDateInTimeInMillis(pedido.fecha) < calendar.getTodayInTimeMillis()
+                        val pedido = document.toObject<Pedido>()
 
-                    if(cond){
+                        val horaPedido = calendar.getOnlyHour(pedido.hora)
+                        val diaPedido = calendar.getDateInTimeInMillis(pedido.fecha)
+                        val hoy = calendar.getTodayInTimeMillis()
+                        val horaAhora = calendar.getHourNow()
+
+                        val cond =  diaPedido < hoy
+                        val cond2 = diaPedido == hoy && horaPedido < horaAhora
+                        val cond3 = diaPedido == hoy && horaPedido == horaAhora
+                        val aprobado = pedido.estado == TipoEstado.APROBADO.toString()
+                        val pendiente = pedido.estado == TipoEstado.PENDIENTE.toString()
+
                         val update: MutableMap<String, Any> = HashMap()
-                        update["estado"] = TipoEstado.FINALIZADO.toString()
+                        if(cond3 && aprobado){
+                            update["estado"] = TipoEstado.EN_CURSO.toString()
+                        }
+                        else if((cond || cond2) && aprobado){
+                            update["estado"] = TipoEstado.FINALIZADO.toString()
+                        }
+                        else if(cond && pendiente){
+                            update["estado"] = TipoEstado.RECHAZADO.toString()
+                        }
                         questionRef.document(document.id).set(update, SetOptions.merge())
                     }
                 }
             }
-         }
         } catch (e: Exception) { }
     }
 
@@ -62,30 +71,15 @@ class PedidosRepository {
         return listaPedidos
     }
 
-/*    suspend fun getPedidosByUserIndex(pos : Int): MutableList<Pedido>{
-        var listaPedidos : MutableList<Pedido> = mutableListOf()
-        var lista : MutableList<Pedido> = getPedidos()
 
+    suspend fun getPedidosCliente(userId : String) : MutableList<Pedido>{
         try {
-
-            for(doc in lista){
-                if(doc.idPrestador == pos ){
-                    listaPedidos.add(doc)
-                }
-            }
-        }catch(e: Exception) {
-
-        }
-
-        return listaPedidos
-    }*/
-
-    suspend fun getPedidosCliente() : MutableList<Pedido>{
-        try {
-            listaPedidos = getPedidos().filter{ p -> p.estado != TipoEstado.FINALIZADO.toString() && p.estado != TipoEstado.RECHAZADO.toString()}.toMutableList()
+            val allPedidos = getPedidos().filter{ p -> p.estado != TipoEstado.FINALIZADO.toString() && p.estado != TipoEstado.RECHAZADO.toString()}.toMutableList()
+            listaPedidos = allPedidos.filter { x -> x.idCliente == userId }.toMutableList()
         } catch (e: Exception) { }
         return listaPedidos
     }
+
 
     suspend fun getHistorialPedidos(): MutableList<Pedido> {
         try {
@@ -93,7 +87,6 @@ class PedidosRepository {
         } catch (e: Exception) { }
         return listaPedidos
     }
-
 
 
     suspend fun getPedidoByIndex(id: Int): Pedido {
@@ -109,15 +102,14 @@ class PedidosRepository {
         return pedidoEsperado
     }
 
-
     //----------------------------------------------------------------
-
     suspend fun getPedidosPendientesByPrestadorId(idPrestador: String):MutableList<Pedido> {
         try {
             listaPedidos = getPedidos().filter{ p -> p.idPrestador == idPrestador && p.estado != TipoEstado.FINALIZADO.toString() && p.estado != TipoEstado.RECHAZADO.toString() && p.estado != TipoEstado.APROBADO.toString()}.toMutableList()
         } catch (e: Exception) { }
         return listaPedidos
     }
+
 
     suspend fun getPedidosAprobadosByPrestadorId(idPrestador: String):MutableList<Pedido> {
         try {
@@ -129,18 +121,12 @@ class PedidosRepository {
     }
 
     //----------------------------------------------------------------
-    suspend fun addPedido(publicacion : Publicacion, fecha : String, hora : String, v : View, size : Int)
-    {
-        val idCliente = UsuarioRepository(v).getIdSession()
-
-
-        val idPedido = (0..1000000).random()
-
+    fun addPedido(publicacion : Publicacion, fecha : String, hora : String, idCliente : String) {
+        val idPedido = (1000000..9999999).random()
 
         val pedido = Pedido(idPedido, publicacion.idServicio, publicacion.idPrestador, idCliente, fecha,
             hora, TipoEstado.PENDIENTE.toString(), 0.0)
 
-        //--> Esto se hace para recuperar el documento (en caso de querer usarlo). Se obtiene el obj guardado
         val pedidoGuardado = db.collection("pedidos").document()
         pedidoGuardado.set(pedido)
             .addOnSuccessListener { documentReference ->
@@ -150,19 +136,6 @@ class PedidosRepository {
                 Log.w(TAG, "Error adding document", e)
             }
     }
-
-    suspend fun getSize(): Int {
-        var cantidad : Int = 0
-
-        try {
-            listaPedidos = getPedidos()
-            cantidad = listaPedidos.count()
-        } catch (e : Exception) { }
-
-        return cantidad
-
-    }
-
 
     //----------------------------------------------------------------------------------------------
     /*init{

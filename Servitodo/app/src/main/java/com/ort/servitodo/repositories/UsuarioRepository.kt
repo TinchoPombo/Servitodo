@@ -22,8 +22,6 @@ class UsuarioRepository(view : View) {
     - Es la mejor opcion (no vamos a levantar ROOM solo por dos datos)
     */
 
-    private var view = view
-
     private val PREF_NAME = "session"
     private val sharedPref : SharedPreferences = view.context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE)
     private val editor = sharedPref.edit()
@@ -35,8 +33,6 @@ class UsuarioRepository(view : View) {
 
 
     suspend fun getUsuarios() : MutableList<Usuario> {
-
-
         val questionRef = db.collection("usuarios")
 
         try {
@@ -73,10 +69,7 @@ class UsuarioRepository(view : View) {
     }
 
 
-
-
     //-----------> Setea el username y password en la shared preferences <------------------------------
-
     fun setClienteCredentialsInSharedPreferences(username : String, password: String){ //--> CLIENTE
         editor.putString("USER_CLIENTE", username)
         editor.putString("PASSWORD_CLIENTE", password)
@@ -127,7 +120,6 @@ class UsuarioRepository(view : View) {
     }
 
     fun getIdSession() : String{
-
         return sharedPref.getString("USER_ID", "default")!!
     }
 

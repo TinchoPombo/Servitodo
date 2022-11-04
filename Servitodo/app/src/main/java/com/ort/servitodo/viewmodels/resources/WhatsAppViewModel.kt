@@ -13,14 +13,14 @@ import kotlinx.coroutines.launch
 
 class WhatsAppViewModel : ViewModel() {
 
+    private lateinit var view : View
 
-
-    private fun whatsapp(numtel : String, view : View){
+    private fun whatsapp(numtel : String){
 
         val msg = "Hola. Te quiero contratar"
         val packageWhatsApp = "com.whatsapp"
 
-        //if(isAppInstalled(packageWhatsApp, view)){
+        //if(isAppInstalled(packageWhatsApp)){
             //--> TODO: Opcion 3
             val gmnIntentUri = Uri.parse("https://wa.me/phone=${numtel}?text=${msg}")
             val sendIntent = Intent(Intent.ACTION_VIEW, gmnIntentUri)
@@ -32,8 +32,8 @@ class WhatsAppViewModel : ViewModel() {
         }*/
     }
 
-    private fun isAppInstalled(packageName: String, view : View): Boolean {
-        val pm: PackageManager = view.context.packageManager
+    private fun isAppInstalled(packageName: String): Boolean {
+        val pm: PackageManager = this.view.context.packageManager
         return try {
             pm.getPackageInfo(packageName, PackageManager.GET_ACTIVITIES)
             true
@@ -44,6 +44,8 @@ class WhatsAppViewModel : ViewModel() {
 
     fun confirmRedirectionToWhatsapp(idPrestador: String, view : View){
 
+        this.view = view
+
         MaterialAlertDialogBuilder(view.context)
             .setTitle("Confirmar")
             .setMessage("Deseas ser redireccionado a whatsapp?")
@@ -52,21 +54,16 @@ class WhatsAppViewModel : ViewModel() {
             }
             .setPositiveButton("Aceptar") { dialog, which ->
                 viewModelScope.launch {
-                    val tel = getNumtel(idPrestador, view)
-
-                    whatsapp(tel, view)
+                    val tel = getNumtel(idPrestador)
+                    whatsapp(tel)
                 }
             }
             .show()
     }
 
-    private suspend fun getNumtel(idPrestador : String, v : View):String{
-        var tel = ""
-
-        val prestadores = UsuarioRepository(v).getUsuarios()
+    private suspend fun getNumtel(idPrestador : String):String{
+        val prestadores = UsuarioRepository(this.view).getUsuarios()
         val prestadorEncontrado = prestadores.find{p-> p.id.equals(idPrestador)}
-        tel = prestadorEncontrado?.telefono!!
-
-        return tel
+        return prestadorEncontrado?.telefono!!
     }
 }
