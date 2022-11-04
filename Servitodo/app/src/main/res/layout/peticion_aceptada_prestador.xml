@@ -24,15 +24,16 @@
             android:id="@+id/txtRubro"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="16dp"
-            android:layout_marginBottom="8dp"
+            android:layout_marginStart="100dp"
+            android:layout_marginTop="25dp"
+            android:layout_marginEnd="108dp"
+            android:layout_marginBottom="15dp"
             android:text="Rubro"
             android:textSize="14sp"
-            app:layout_constraintBottom_toTopOf="@+id/guideline7"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/txtNombrePrestador"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintStart_toEndOf="@+id/imgPedido"
+            app:layout_constraintTop_toBottomOf="@+id/txtEstado" />
 
         <TextView
             android:id="@+id/txtNombrePrestador"
@@ -44,14 +45,14 @@
             android:text="Nombre Prestador"
             android:textSize="20sp"
             app:layout_constraintBottom_toTopOf="@+id/guideline7"
-            app:layout_constraintEnd_toStartOf="@+id/txtRubro"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@+id/guideline6"
             app:layout_constraintTop_toTopOf="parent" />
 
         <ImageView
             android:id="@+id/imgPedido"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_width="160dp"
+            android:layout_height="165dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/guideline6"
             app:layout_constraintStart_toStartOf="parent"
@@ -109,20 +110,6 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             app:layout_constraintGuide_begin="106dp" />
-
-        <TextView
-            android:id="@+id/textView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="43dp"
-            android:layout_marginTop="25dp"
-            android:layout_marginEnd="60dp"
-            android:layout_marginBottom="15dp"
-            android:text="PRESTADOR ACEPTADA"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/imgPedido"
-            app:layout_constraintTop_toBottomOf="@+id/txtEstado" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

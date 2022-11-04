@@ -12,7 +12,9 @@ import com.bumptech.glide.Glide
 import com.ort.servitodo.R
 import com.ort.servitodo.entities.Pedido
 import com.ort.servitodo.entities.Publicacion
+import com.ort.servitodo.entities.Usuario
 import com.ort.servitodo.repositories.PublicacionRepository
+import com.ort.servitodo.repositories.UsuarioRepository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -32,7 +34,7 @@ class PedidosPendientesPrestadorAdapter (
 
     override fun onBindViewHolder(holder: PedidosHolder, position: Int) {
 
-        holder.setDatos(listaPedidos[position].idPublicacion)
+        holder.setDatos(listaPedidos[position])
 
         holder.setHorario(listaPedidos[position].fecha, listaPedidos[position].hora)
         holder.setEstado(listaPedidos[position].estado)
@@ -53,6 +55,7 @@ class PedidosPendientesPrestadorAdapter (
     class PedidosHolder(v: View) : RecyclerView.ViewHolder(v) {
         private var view: View
         private var publicacionRepository = PublicacionRepository()
+        private var usuarioRepository = UsuarioRepository(v)
 
         init {
             this.view = v
@@ -88,15 +91,17 @@ class PedidosPendientesPrestadorAdapter (
         }
 
 
-        fun setDatos(id : Int){
+        fun setDatos(pedido : Pedido ){
             var publicacion: Publicacion
+            var usuario: Usuario
             val parent = Job()
             val scope = CoroutineScope(Dispatchers.Main + parent)
             scope.launch() {
-                publicacion = publicacionRepository.getPublicacionById(id)
-                setNombreCliente(publicacion.nombrePrestador)
+                publicacion = publicacionRepository.getPublicacionById(pedido.idPublicacion)
+                usuario = usuarioRepository.getUsuarioById(pedido.idCliente)
+                setNombreCliente(usuario.nombre + " " + usuario.apellido)
                 setRubro(publicacion.rubro.nombre)
-                setImagenCliente(publicacion.fotoPrestador)
+                setImagenCliente(usuario.foto)
             }
         }
 

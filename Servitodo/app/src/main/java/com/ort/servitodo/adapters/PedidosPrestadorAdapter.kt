@@ -13,7 +13,9 @@ import com.bumptech.glide.Glide
 import com.ort.servitodo.R
 import com.ort.servitodo.entities.Pedido
 import com.ort.servitodo.entities.Publicacion
+import com.ort.servitodo.entities.Usuario
 import com.ort.servitodo.repositories.PublicacionRepository
+import com.ort.servitodo.repositories.UsuarioRepository
 import com.ort.servitodo.viewmodels.cliente.DetallePedidoViewModel
 import com.ort.servitodo.viewmodels.resources.WhatsAppViewModel
 import kotlinx.coroutines.CoroutineScope
@@ -33,7 +35,7 @@ class PedidosPrestadorAdapter (
 
     override fun onBindViewHolder(holder: PedidosHolder, position: Int) {
 
-        holder.setDatos(listaPedidos[position].idPublicacion)
+        holder.setDatos(listaPedidos[position])
 
         holder.setHorario(listaPedidos[position].fecha, listaPedidos[position].hora)
         holder.setEstado(listaPedidos[position].estado)
@@ -60,6 +62,7 @@ class PedidosPrestadorAdapter (
     class PedidosHolder(v: View) : RecyclerView.ViewHolder(v) {
         private var view: View
         private var publicacionRepository = PublicacionRepository()
+        private var usuarioRepository = UsuarioRepository(v)
 
         init {
             this.view = v
@@ -70,12 +73,12 @@ class PedidosPrestadorAdapter (
             txtRubro.text = rubro
         }
 
-        fun setNombrePrestador(nombre : String) {
+        fun setNombreCliente(nombre : String) {
             val txtNombrePrestador: TextView = view.findViewById(R.id.txtNombrePrestador)
             txtNombrePrestador.text = nombre
         }
 
-        fun setImagenPrestador(img : String) {
+        fun setImagenCliente(img : String) {
             val imgPedido: ImageView = view.findViewById(R.id.imgPedido)
             Glide
                 .with(view)
@@ -105,15 +108,17 @@ class PedidosPrestadorAdapter (
             }
         }
 
-        fun setDatos(id : Int){
+        fun setDatos(pedido : Pedido ){
             var publicacion: Publicacion
+            var usuario: Usuario
             val parent = Job()
             val scope = CoroutineScope(Dispatchers.Main + parent)
             scope.launch() {
-                publicacion = publicacionRepository.getPublicacionById(id)
-                setNombrePrestador(publicacion.nombrePrestador)
+                publicacion = publicacionRepository.getPublicacionById(pedido.idPublicacion)
+                usuario = usuarioRepository.getUsuarioById(pedido.idCliente)
+                setNombreCliente(usuario.nombre + " " + usuario.apellido)
                 setRubro(publicacion.rubro.nombre)
-                setImagenPrestador(publicacion.fotoPrestador)
+                setImagenCliente(usuario.foto)
             }
         }
 

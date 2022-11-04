@@ -12,7 +12,10 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import com.ort.servitodo.entities.Pedido
 import com.ort.servitodo.entities.Publicacion
+import com.ort.servitodo.entities.Usuario
 import com.ort.servitodo.repositories.PedidosRepository
+import com.ort.servitodo.repositories.PublicacionRepository
+import com.ort.servitodo.repositories.UsuarioRepository
 import com.ort.servitodo.viewmodels.cliente.OpinionesClienteViewModel
 import com.ort.servitodo.viewmodels.resources.CalendarViewModel
 import com.ort.servitodo.viewmodels.resources.TimePickerViewModel
@@ -23,6 +26,9 @@ class DetallePedidoPendienteViewModel : ViewModel() {
     private lateinit var view : View
     private lateinit var fragmentManager: FragmentManager
     private lateinit var pedido: Pedido
+    private lateinit var usuario: Usuario
+    //private lateinit var usuarioRepository : UsuarioRepository
+
 
     private var pedidosRepository = PedidosRepository()
 
@@ -44,6 +50,7 @@ class DetallePedidoPendienteViewModel : ViewModel() {
     //----------------------------------------------------------------------
     fun setView(v : View){
         this.view = v
+        //usuarioRepository = UsuarioRepository(v)
     }
 
     fun setFragmentManager(fm : FragmentManager){
@@ -54,13 +61,17 @@ class DetallePedidoPendienteViewModel : ViewModel() {
         this.pedido = pedido
     }
 
+    fun setUsuario(usuario : Usuario){
+        this.pedido = pedido
+    }
+
     //----------------------------------------------------------------------
     fun initLiveData(){
         nombreCompleto.value = "NOMBRE CLIENTE"
         rubro.value = "Rubro: ${this.rubro.value}"
         calificacion.value = ""
         descripcion.value = "Descripcion: ${this.pedido.hora}"
-        fotoPrestador.value = "https://i.pravatar.cc/250"
+        fotoPrestador.value = "https://ayudawp.com/wp-content/uploads/2014/01/mantenimiento.jpg"
     }
 
     //-------------------- Seleccion del Horario --------------------------------------------------
@@ -80,7 +91,7 @@ class DetallePedidoPendienteViewModel : ViewModel() {
 
     fun redirectionToWhatsApp(){
         val whatsAppViewModel = WhatsAppViewModel()
-        whatsAppViewModel.confirmRedirectionToWhatsapp(this.pedido.idPrestador, view)
+        whatsAppViewModel.confirmRedirectionToWhatsapp(this.pedido.idCliente, view)
     }
 
     //---------------- Calendario ------------------------------------------
