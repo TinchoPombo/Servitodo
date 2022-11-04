@@ -1,7 +1,9 @@
 package com.ort.servitodo.viewmodels.prestador
 
+import android.content.ContentValues.TAG
 import android.icu.util.Calendar
 import android.icu.util.TimeZone
+import android.util.Log
 import android.view.View
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.MutableLiveData
@@ -11,8 +13,11 @@ import androidx.navigation.findNavController
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
 import com.ort.servitodo.entities.Pedido
 import com.ort.servitodo.entities.Publicacion
+import com.ort.servitodo.entities.TipoEstado
 import com.ort.servitodo.entities.Usuario
 import com.ort.servitodo.repositories.PedidosRepository
 import com.ort.servitodo.repositories.PublicacionRepository
@@ -31,6 +36,7 @@ class DetallePedidoPendienteViewModel : ViewModel() {
     private lateinit var usuario: Array<String>
     private lateinit var usuarioRepository : UsuarioRepository
     private lateinit var publicacion : Publicacion
+    val db = Firebase.firestore
 
 
     private var pedidosRepository = PedidosRepository()
@@ -74,10 +80,13 @@ class DetallePedidoPendienteViewModel : ViewModel() {
 
     //----------------------------------------------------------------------
     fun initLiveData(){
-        nombreCompleto.value = "${this.usuario[0]} ${this.usuario[1]}"
-        rubro.value = "${this.publicacion.rubro.nombre}"
-        descripcion.value = "Descripcion: ${this.publicacion.descripcion}"
-        fotoPrestador.value = this.usuario[3]
+        viewModelScope.launch {
+            nombreCompleto.value = "${usuario[0]} ${usuario[1]}"
+            rubro.value = "${pedido.estado}"/*"${this.publicacion.rubro.nombre}"*/
+            descripcion.value = "Descripcion: ${publicacion.descripcion}"
+            fotoPrestador.value = usuario[3]
+        }
+
     }
 
     //-------------------- Seleccion del Horario --------------------------------------------------
@@ -111,6 +120,24 @@ class DetallePedidoPendienteViewModel : ViewModel() {
 
             /*this.selectHour()*/
         }
+    }
+
+    fun rechazarPedido(){
+        val pedidoActualizar = db.collection("pedidos").document(pedido.id.toString())
+
+        pedidoActualizar
+            .update("estado", TipoEstado.RECHAZADO.toString() )
+            .addOnSuccessListener { Log.d(TAG, "DocumentSnapshot successfully updated!") }
+            .addOnFailureListener { e -> Log.w(TAG, "Error updating document", e) }
+    }
+
+    fun aceptarPedido(){
+        val pedidoActualizar = db.collection("pedidos").document(pedido.id.toString())
+
+        pedidoActualizar
+            .update("estado", TipoEstado.APROBADO.toString() )
+            .addOnSuccessListener { Log.d(TAG, "DocumentSnapshot successfully updated!") }
+            .addOnFailureListener { e -> Log.w(TAG, "Error updating document", e) }
     }
 
     //---------------- Contratacion de prestador ------------------------------------------

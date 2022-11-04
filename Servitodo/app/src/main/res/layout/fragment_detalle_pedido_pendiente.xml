@@ -283,19 +283,35 @@
 
         <Button
             android:id="@+id/aceptarButton"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="30dp"
-            android:layout_marginBottom="24dp"
+            android:layout_marginBottom="28dp"
             android:backgroundTint="#4CAF50"
             android:padding="15dp"
+            android:rotation="108"
+            android:rotationY="36"
             android:text="Aceptar"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/btnRechazar"
+            app:layout_constraintHorizontal_bias="0.731"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <Button
+            android:id="@+id/btnRechazar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:backgroundTint="#EB0E0E"
+            android:padding="15dp"
+            android:rotation="33"
+            android:rotationX="-43"
+            android:rotationY="43"
+            android:text="Rechazar"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="@+id/guideline8"
-            app:layout_constraintTop_toBottomOf="@+id/whatsappButton" />
+            app:layout_constraintStart_toEndOf="@+id/aceptarButton" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.cardview.widget.CardView>

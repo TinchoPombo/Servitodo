@@ -26,7 +26,7 @@ class CrearPublicacionViewModel : ViewModel() {
 
     fun crearPublicacion(descripcion: String, rubro: Rubro){
         viewModelScope.launch {
-            val idPublicacion = repository.getSize() + 1
+            val idPublicacion = (1000000..9999999).random()
             val user = usuarioRepository.getUsuarioById(usuarioRepository.getIdSession())
             val publicacion = Publicacion(idPublicacion, user.id, user.foto, user.nombre, user.apellido, rubro, descripcion)
 

@@ -127,10 +127,9 @@ class PedidosRepository {
         val pedido = Pedido(idPedido, publicacion.idServicio, publicacion.idPrestador, idCliente, fecha,
             hora, TipoEstado.PENDIENTE.toString(), 0.0)
 
-        val pedidoGuardado = db.collection("pedidos").document()
-        pedidoGuardado.set(pedido)
+        val pedidoGuardado = db.collection("pedidos").document(pedido.id.toString()).set(pedido)
             .addOnSuccessListener { documentReference ->
-                Log.d(TAG, "DocumentSnapshot written with ID: ${pedidoGuardado.id}")
+                Log.d(TAG, "DocumentSnapshot written with ID: ${pedido.id}")
             }
             .addOnFailureListener { e ->
                 Log.w(TAG, "Error adding document", e)

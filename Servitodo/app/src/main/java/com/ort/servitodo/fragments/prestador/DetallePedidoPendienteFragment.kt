@@ -104,6 +104,13 @@ class DetallePedidoPendienteFragment : Fragment() {
             detalleViewModel.redirectionToWhatsApp()
         }
 
+        binding.btnRechazar.setOnClickListener {
+            detalleViewModel.rechazarPedido()
+        }
+
+        binding.aceptarButton.setOnClickListener {
+            detalleViewModel.aceptarPedido()
+        }
     }
 
 }
