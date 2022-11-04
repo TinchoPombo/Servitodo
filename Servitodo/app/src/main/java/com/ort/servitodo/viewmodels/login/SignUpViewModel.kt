@@ -44,7 +44,7 @@ class SignUpViewModel : ViewModel() {
            apellido,
            mail,
            password,
-           telefono,
+           "549" + telefono,
            foto,
            ubicacion,
            esPrestador))

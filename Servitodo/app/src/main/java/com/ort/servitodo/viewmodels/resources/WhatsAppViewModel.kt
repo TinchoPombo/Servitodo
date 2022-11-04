@@ -8,9 +8,12 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.ort.servitodo.repositories.UsuarioRepository
+import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 
 class WhatsAppViewModel : ViewModel() {
+
+
 
     private fun whatsapp(numtel : String, view : View){
 
@@ -19,7 +22,7 @@ class WhatsAppViewModel : ViewModel() {
 
         //if(isAppInstalled(packageWhatsApp, view)){
             //--> TODO: Opcion 3
-            val gmnIntentUri = Uri.parse("https://wa.me/${numtel}?text=${msg}")
+            val gmnIntentUri = Uri.parse("https://wa.me/phone=${numtel}?text=${msg}")
             val sendIntent = Intent(Intent.ACTION_VIEW, gmnIntentUri)
             sendIntent.setPackage(packageWhatsApp)
             view.context.startActivity(sendIntent)
@@ -48,20 +51,22 @@ class WhatsAppViewModel : ViewModel() {
 
             }
             .setPositiveButton("Aceptar") { dialog, which ->
-                val numtel = getNumtel(idPrestador, view)
-                this.whatsapp(numtel, view)
+                viewModelScope.launch {
+                    val tel = getNumtel(idPrestador, view)
+
+                    whatsapp(tel, view)
+                }
             }
             .show()
     }
 
-    private fun getNumtel(idPrestador : String, v : View) : String{
-        var numtel : String = ""
-        viewModelScope.launch {
-            val prestadores = UsuarioRepository(v).getUsuarios()
-            val prestadorEncontrado = prestadores.find{p-> p.id.equals(idPrestador)}
-            numtel = prestadorEncontrado?.telefono!!
-        }
+    private suspend fun getNumtel(idPrestador : String, v : View):String{
+        var tel = ""
 
-        return numtel
+        val prestadores = UsuarioRepository(v).getUsuarios()
+        val prestadorEncontrado = prestadores.find{p-> p.id.equals(idPrestador)}
+        tel = prestadorEncontrado?.telefono!!
+
+        return tel
     }
 }

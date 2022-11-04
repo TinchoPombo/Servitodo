@@ -105,15 +105,24 @@ class DetallePublicacionViewModel : ViewModel() {
 
     private fun popUpContratar() : Int{
         var result = 0
+        var size = 0
         MaterialAlertDialogBuilder(view.context).setTitle("Confirmar").setMessage("Deseas confirmar el pedido?")
             .setNegativeButton("Cancelar") { dialog, which ->
                 this.selectedDay.value = ""
                 this.selectedHour.value = ""
             }
             .setPositiveButton("Aceptar") { dialog, which ->
-                pedidosRepository.addPedido(publicacion, selectedDay.value!!, selectedHour.value!!)
-                Snackbar.make(this.view, "El pedido se agregó con exito", Snackbar.LENGTH_SHORT).show()
-                view.findNavController().navigateUp()
+
+                viewModelScope.launch {
+
+                    size = pedidosRepository.getSize()
+                    // TODO lo arregla dany
+
+                    pedidosRepository.addPedido(publicacion, selectedDay.value!!, selectedHour.value!!, view, size)
+                    Snackbar.make(view, "El pedido se agregó con exito", Snackbar.LENGTH_SHORT).show()
+                    view.findNavController().navigateUp()
+                }
+
             }
             .show()
         return result

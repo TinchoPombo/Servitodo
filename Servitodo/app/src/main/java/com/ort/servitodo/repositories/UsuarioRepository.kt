@@ -33,6 +33,7 @@ class UsuarioRepository(view : View) {
     private var listaUsuarios : MutableList<Usuario> = arrayListOf()
     val db = Firebase.firestore
 
+
     suspend fun getUsuarios() : MutableList<Usuario> {
 
 

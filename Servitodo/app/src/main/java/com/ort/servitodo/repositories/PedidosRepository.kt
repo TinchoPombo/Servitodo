@@ -12,12 +12,14 @@ import com.ort.servitodo.entities.Publicacion
 import com.ort.servitodo.entities.TipoEstado
 import com.ort.servitodo.viewmodels.resources.CalendarViewModel
 import kotlinx.coroutines.awaitAll
+import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.tasks.await
+import kotlin.random.Random
 
 class PedidosRepository {
 
     val db = Firebase.firestore
-    private var questionRef = db.collection("pedidos2")
+    private var questionRef = db.collection("pedidos")
 
     private var listaPedidos: MutableList<Pedido> = mutableListOf()
 
@@ -127,16 +129,19 @@ class PedidosRepository {
     }
 
     //----------------------------------------------------------------
-    fun addPedido(publicacion : Publicacion, fecha : String, hora : String)
+    suspend fun addPedido(publicacion : Publicacion, fecha : String, hora : String, v : View, size : Int)
     {
-        val idCliente = UsuarioRepository().getIdSession()
-        val idPedido = 5 //--> TODO: ramdon id para el atributo (no id del documento)
+        val idCliente = UsuarioRepository(v).getIdSession()
+
+
+        val idPedido = (0..1000000).random()
+
 
         val pedido = Pedido(idPedido, publicacion.idServicio, publicacion.idPrestador, idCliente, fecha,
             hora, TipoEstado.PENDIENTE.toString(), 0.0)
 
         //--> Esto se hace para recuperar el documento (en caso de querer usarlo). Se obtiene el obj guardado
-        val pedidoGuardado = db.collection("pedidos2").document()
+        val pedidoGuardado = db.collection("pedidos").document()
         pedidoGuardado.set(pedido)
             .addOnSuccessListener { documentReference ->
                 Log.d(TAG, "DocumentSnapshot written with ID: ${pedidoGuardado.id}")
@@ -145,6 +150,19 @@ class PedidosRepository {
                 Log.w(TAG, "Error adding document", e)
             }
     }
+
+    suspend fun getSize(): Int {
+        var cantidad : Int = 0
+
+        try {
+            listaPedidos = getPedidos()
+            cantidad = listaPedidos.count()
+        } catch (e : Exception) { }
+
+        return cantidad
+
+    }
+
 
     //----------------------------------------------------------------------------------------------
     /*init{
