@@ -90,7 +90,6 @@ class PedidosRepository {
 
 
     suspend fun getPedidoByIndex(id: Int): Pedido {
-
         var pedidoEsperado = Pedido()
         var listaPedidos: MutableList<Pedido> = mutableListOf()
 
@@ -100,6 +99,18 @@ class PedidosRepository {
         } catch (e: Exception) { }
 
         return pedidoEsperado
+    }
+
+
+    suspend fun getPedidosByDateAndHour(idPublicacion : Int, date : String, hour : String) : MutableList<Pedido>{
+        var listaPedidos: MutableList<Pedido> = mutableListOf()
+
+        try {
+            val lista = getPedidos().filter{p -> p.idPublicacion == idPublicacion && p.fecha == date && p.hora == hour }
+            listaPedidos = lista.filter{ p -> p.estado != TipoEstado.FINALIZADO.toString() && p.estado != TipoEstado.RECHAZADO.toString() }.toMutableList()
+        } catch (e: Exception) { }
+
+        return listaPedidos
     }
 
     //----------------------------------------------------------------

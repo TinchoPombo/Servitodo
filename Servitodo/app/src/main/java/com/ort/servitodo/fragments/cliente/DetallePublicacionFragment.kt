@@ -88,6 +88,10 @@ class DetallePublicacionFragment : Fragment() {
         })
         detalleViewModel.selectedHour.observe(viewLifecycleOwner, Observer { result ->
             binding.horaseleccionadaTextView.text = result.toString()
+            detalleViewModel.getSpot()
+        })
+        detalleViewModel.cantidadCuposDisponibles.observe(viewLifecycleOwner, Observer { result ->
+            binding.txtCantidadCuposDisponibles.text = result.toString()
         })
 
         binding.verCalificacionesButton.setOnClickListener{

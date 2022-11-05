@@ -17,23 +17,18 @@ class PublicacionRepository {
     val db = Firebase.firestore
 
     suspend fun getPublicaciones () : MutableList<Publicacion>{
-
         val questionRef = db.collection("publicaciones")
-
         try {
             val data = questionRef.get().await()
             for(document in data){
                 listaPublicaciones.add(document.toObject())
             }
         } catch (e : Exception){ }
-
         return listaPublicaciones
     }
 
     suspend fun getRubro(idServicio : Int) : Rubro{
-
         val questionRef = db.collection("publicaciones").whereEqualTo("idServicio", idServicio)
-
         try {
             val data = questionRef.get().await()
             val document = data.first()
@@ -50,14 +45,22 @@ class PublicacionRepository {
                     print(Log.d("ID Rubro incorrecto", "No existe el rubro ${nombre}"))
                 }
             }
-
         } catch (e : Exception){ }
-
         return rubro
     }
 
-     suspend fun getPublicacionById(id : Int) : Publicacion{
+    suspend fun getIdRubroPaseaPerros() : Int{
+        var id = 0
+        try {
+            val lista = getPublicaciones().filter { p -> p.rubro.nombre == "PaseaPerros" }
+            id = lista[0].rubro.id
+        } catch (e : Exception) {
+            Log.d("ERROR. PaseaPerros no encontrada", "No se encontraron publicaciones PASEAPERROS")
+        }
+        return id
+    }
 
+     suspend fun getPublicacionById(id : Int) : Publicacion{
         var publicacionEsperada = Publicacion()
          try {
              listaPublicaciones = getPublicaciones()
