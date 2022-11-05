@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.findNavController
+import com.bumptech.glide.Glide
 import com.ort.servitodo.R
 import com.ort.servitodo.databinding.FragmentHistorialPrestadorBinding
 import com.ort.servitodo.databinding.FragmentPerfilPrestadorBinding
@@ -34,12 +35,17 @@ class PerfilPrestadorFragment : Fragment() {
         v = binding.root
 
         perfilViewModel.setView(v)
+        perfilViewModel.obtenerUsuario()
 
         return v
     }
 
+
+
     override fun onStart() {
         super.onStart()
+
+
 
         binding.btnHistorial.setOnClickListener {
             val action = PerfilPrestadorFragmentDirections.actionPerfilPrestadorFragmentToHistorialPrestadorFragment()
@@ -47,7 +53,15 @@ class PerfilPrestadorFragment : Fragment() {
         }
 
 
-
+        binding.etName.text = perfilViewModel.getUsuarioData().nombre
+        binding.etApellido.text = perfilViewModel.getUsuarioData().apellido
+        binding.etEmail.text = perfilViewModel.getUsuarioData().mail
+        binding.etDireccion.text = perfilViewModel.getUsuarioData().ubicacion
+        binding.etTelefono.text = perfilViewModel.getUsuarioData().telefono
+        Glide
+            .with(v)
+            .load(perfilViewModel.getUsuarioData().foto)
+            .into(binding.foto);
 
     }
 

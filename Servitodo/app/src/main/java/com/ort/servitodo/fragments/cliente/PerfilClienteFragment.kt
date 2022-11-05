@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.viewModelScope
 import androidx.navigation.findNavController
 import com.ort.servitodo.R
 import com.ort.servitodo.databinding.FragmentPerfilClienteBinding
@@ -14,6 +15,7 @@ import com.ort.servitodo.databinding.FragmentPerfilPrestadorBinding
 import com.ort.servitodo.fragments.prestador.PerfilPrestadorFragmentDirections
 import com.ort.servitodo.viewmodels.cliente.PerfilClienteViewModel
 import com.ort.servitodo.viewmodels.prestador.PerfilPrestadorViewModel
+import kotlinx.coroutines.launch
 
 class PerfilClienteFragment : Fragment() {
 
@@ -41,6 +43,9 @@ class PerfilClienteFragment : Fragment() {
 
     override fun onStart() {
         super.onStart()
+
+
+
 
         binding.btnHistorial.setOnClickListener {
             val action = PerfilClienteFragmentDirections.actionPerfilClienteFragmentToHistorialClienteFragment()

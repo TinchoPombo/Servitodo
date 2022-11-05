@@ -48,8 +48,10 @@
                 app:layout_constraintWidth_percent="0.7">
 
                 <ImageView
+                    android:id="@+id/foto"
                     android:layout_width="wrap_content"
                     android:layout_height="165dp"
+                    android:layout_gravity="center_horizontal"
                     android:src="@drawable/user_3" />
             </com.google.android.material.textfield.TextInputLayout>
 
