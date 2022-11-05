@@ -77,7 +77,8 @@ class HistorialClienteViewModel : ViewModel() {
         viewModelScope.launch{
 
             val pedido = repository.getPedidoByIndex(position)
-          // if(pedido.estado.equals(TipoEstado.FINALIZADO) ){
+            val estado = pedido.estado
+          //if(estado === "FINALIZADO" ){
                 val action = HistorialClienteFragmentDirections.actionHistorialClienteFragmentToCalificarPrestadorFragment(pedido)
                 view.findNavController().navigate(action)
             //}

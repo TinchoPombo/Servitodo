@@ -82,6 +82,44 @@ class DetallePedidoAceptadoViewModel : ViewModel() {
             dialog.show()
         }*/
 
+    fun detallesDelPedido2(pedido : Pedido){
+        val dialog = BottomSheetDialog(view.context)
+        dialog.setContentView(R.layout.fragment_bottom_sheet_pedido_aceptado_prestador)
+
+        setPedido(pedido)
+
+        val img = dialog.findViewById<ImageView>(R.id.imgBottomSheet)!!
+        val nombre = dialog.findViewById<TextView>(R.id.nombreBottomSheet)!!
+        val rubro = dialog.findViewById<TextView>(R.id.rubroBottomSheet)!!
+        val rubroDetalle = dialog.findViewById<TextView>(R.id.rubroDetalleBottomSheet)!!
+        val fecha = dialog.findViewById<TextView>(R.id.fechaBottomSheet)!!
+        val precio = dialog.findViewById<TextView>(R.id.precioBottomSheet)!!
+        val estado = dialog.findViewById<TextView>(R.id.estadoBottomSheet)!!
+        val descripcion = dialog.findViewById<TextView>(R.id.descripcionBottomSheet)!!
+        val whatsapp = dialog.findViewById<Button>(R.id.whatsappPedidoButton)!!
+
+        viewModelScope.launch {
+            val publicacion = getPublicacion(pedido.idPublicacion)
+            val rubrodetails = getRubroDetails(publicacion.idServicio)
+            val user = getUsuario(pedido.idCliente)
+            setImg(user.foto, img)
+            nombre.text = "${user.nombre} ${user.apellido}"
+            rubro.text = "Rubro: ${publicacion.rubro!!.nombre}"
+            fecha.text = "Fecha: ${pedido.fecha} - Hora: ${pedido.hora}"
+            precio.text = "Precio: $${setPrecio(pedido.precio)}"
+            estado.text = "Estado: ${pedido.estado}"
+            descripcion.text = "Direccion: ${user.ubicacion}"
+            rubroDetalle.text = rubrodetails
+
+            enableWhatsappButton(whatsapp, pedido.estado).setOnClickListener{
+                redirectionToWhatsApp(pedido.idPrestador)
+            }
+
+            dialog.show()
+        }
+    }
+
+
     fun detallesDelPedido(pedido : Pedido){
         val dialog = BottomSheetDialog(view.context)
         dialog.setContentView(R.layout.fragment_bottom_sheet_pedido_aceptado_prestador)

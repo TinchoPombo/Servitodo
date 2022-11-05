@@ -87,10 +87,11 @@ class HistorialPrestadorViewModel : ViewModel() {
       viewModelScope.launch{
 
           val pedido = repository.getPedidoByIndex(position)
-           // if(pedido.estado == "FINALIZADO"){
+          val estado = pedido.estado
+         //   if(estado === "FINALIZADO"){
                 val action = HistorialPrestadorFragmentDirections.actionHistorialPrestadorFragmentToCalificarClienteFragment(pedido)
                 view.findNavController().navigate(action)
-      //}
+        //}
 
         }
 

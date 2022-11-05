@@ -127,7 +127,7 @@ class PedidosHistorialAdapter  (
         fun detallesDelPedido(pedido : Pedido){
             val detalle = DetallePedidoAceptadoViewModel()
             detalle.setView(view)
-            detalle.detallesDelPedido(pedido)
+            detalle.detallesDelPedido2(pedido)
         }
 
 
