@@ -102,17 +102,6 @@ class PedidosRepository {
     }
 
 
-    suspend fun getPedidosByDateAndHour(idPublicacion : Int, date : String, hour : String) : MutableList<Pedido>{
-        var listaPedidos: MutableList<Pedido> = mutableListOf()
-
-        try {
-            val lista = getPedidos().filter{p -> p.idPublicacion == idPublicacion && p.fecha == date && p.hora == hour }
-            listaPedidos = lista.filter{ p -> p.estado != TipoEstado.FINALIZADO.toString() && p.estado != TipoEstado.RECHAZADO.toString() }.toMutableList()
-        } catch (e: Exception) { }
-
-        return listaPedidos
-    }
-
     //----------------------------------------------------------------
     suspend fun getPedidosPendientesByPrestadorId(idPrestador: String):MutableList<Pedido> {
         try {
