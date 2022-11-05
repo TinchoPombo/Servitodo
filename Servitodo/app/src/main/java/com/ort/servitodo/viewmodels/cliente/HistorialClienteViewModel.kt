@@ -12,6 +12,7 @@ import com.ort.servitodo.adapters.PedidosHistorialAdapter
 import com.ort.servitodo.adapters.PedidosHistorialClienteAdapter
 import com.ort.servitodo.adapters.PedidosPendientesPrestadorAdapter
 import com.ort.servitodo.entities.Pedido
+import com.ort.servitodo.entities.TipoEstado
 import com.ort.servitodo.fragments.cliente.HistorialClienteFragment
 import com.ort.servitodo.fragments.cliente.HistorialClienteFragmentDirections
 import com.ort.servitodo.repositories.PedidosRepository
@@ -34,9 +35,14 @@ class HistorialClienteViewModel : ViewModel() {
         this.pedidos.clear()
     }
 
-     /* fun getId() : Int {
-         return UsuarioRepository(this.view).getIdSession().toInt()
-      }*/
+    private fun getActualId() : String{
+        var id : String = ""
+
+
+        id =  UsuarioRepository(this.view).getIdSession()
+
+        return id
+    }
 
 
     fun recyclerView(recyclerPedido : RecyclerView){
@@ -44,8 +50,9 @@ class HistorialClienteViewModel : ViewModel() {
         cargando.value = "Cargando..."
 
         viewModelScope.launch{
-           //    pedidos = repository.getPedidosByUserIndex(getId())
-          // pedidos = repository.getPedidosByUserIndex("5")
+
+            pedidos = repository.getPedidosByUserIndex(getActualId())
+
 
             if(pedidos.size < 1) {
                 cargando.value = "No hay publicaciones disponibles"
@@ -61,26 +68,25 @@ class HistorialClienteViewModel : ViewModel() {
 
                 recyclerPedido.adapter = PedidosHistorialClienteAdapter(pedidos){
                         pos ->
-                    onItemClick(pos)}
+                    onClick(pos)}
             }
         }
     }
 
-    private fun onItemClick(position: Int){
+    private fun onClick(position: Int){
         viewModelScope.launch{
 
             val pedido = repository.getPedidoByIndex(position)
-            if(pedido.estado == "FINALIZADO"){
+          // if(pedido.estado.equals(TipoEstado.FINALIZADO) ){
                 val action = HistorialClienteFragmentDirections.actionHistorialClienteFragmentToCalificarPrestadorFragment(pedido)
-                view.findNavController().navigate(action)}
+                view.findNavController().navigate(action)
+            //}
 
         }
 
 
     }
-    // fun calificar() :CardView{
-    //   return PedidosHistorialAdapter.PedidosHolder(view).getCardView()
-    //}
+
 
 
 }

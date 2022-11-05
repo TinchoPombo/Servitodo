@@ -43,18 +43,24 @@ class HistorialPrestadorViewModel : ViewModel() {
         this.pedidos.clear()
     }
 
-  /*  fun getId() : Int {
-       return UsuarioRepository(view).getIdSession().toInt()
-    }*/
 
+     private fun getActualId() : String{
+         var id : String = ""
+
+
+           id =  UsuarioRepository(this.view).getIdSession()
+
+        return id
+     }
 
     fun recyclerView(recyclerPedido : RecyclerView){
 
         cargando.value = "Cargando..."
 
         viewModelScope.launch{
-            //   pedidos = repository.getPedidosByUserIndex(getId())
-            //pedidos = repository.getPedidosByUserIndex("5")
+
+            pedidos = repository.getPedidosByUserIndex(getActualId())
+
 
             if(pedidos.size < 1) {
                 cargando.value = "No hay publicaciones disponibles"
@@ -70,26 +76,27 @@ class HistorialPrestadorViewModel : ViewModel() {
 
                 recyclerPedido.adapter = PedidosHistorialAdapter(pedidos){
                    pos ->
-                   onItemClick(pos)}
+                   onClick(pos)}
             }
         }
     }
 
-   private fun onItemClick(position: Int){
+
+
+   private fun onClick(position: Int){
       viewModelScope.launch{
 
           val pedido = repository.getPedidoByIndex(position)
-            if(pedido.estado == "FINALIZADO"){
+           // if(pedido.estado == "FINALIZADO"){
                 val action = HistorialPrestadorFragmentDirections.actionHistorialPrestadorFragmentToCalificarClienteFragment(pedido)
-                view.findNavController().navigate(action)            }
+                view.findNavController().navigate(action)
+      //}
 
         }
 
 
     }
-   // fun calificar() :CardView{
-     //   return PedidosHistorialAdapter.PedidosHolder(view).getCardView()
-    //}
+
 
 
 }

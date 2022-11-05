@@ -51,7 +51,7 @@ class UsuarioRepository(view : View) {
         var usuarioEsperado = Usuario()
         try {
             listaUsuarios = getUsuarios()
-            usuarioEsperado = listaUsuarios.find { p -> p.id.equals(id) }!!
+            usuarioEsperado = listaUsuarios.find { p -> p.id ==id }!!
         } catch (e : Exception) {
             Log.d("ERROR. Usuario no encontrado", "No se encontro el usuario ${id}. ${e}")
         }

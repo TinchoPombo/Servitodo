@@ -13,13 +13,19 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.ort.servitodo.R
 import com.ort.servitodo.entities.Pedido
+import com.ort.servitodo.entities.Usuario
 import com.ort.servitodo.fragments.cliente.HistorialClienteFragmentDirections
 import com.ort.servitodo.repositories.PedidosRepository
 import com.ort.servitodo.repositories.UsuarioRepository
+import com.ort.servitodo.viewmodels.cliente.DetallePedidoViewModel
+import com.ort.servitodo.viewmodels.prestador.DetallePedidoAceptadoViewModel
+import com.ort.servitodo.viewmodels.prestador.DetallePedidoPendienteViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
+import java.lang.Math.log
+import kotlin.jvm.internal.Intrinsics
 
 class PedidosHistorialAdapter  (
     var listaPedidos : MutableList <Pedido>,
@@ -41,11 +47,12 @@ class PedidosHistorialAdapter  (
         holder.setPrecio(listaPedidos[position].precio)
 
         holder.getCardView().setOnClickListener {
+            holder.detallesDelPedido((listaPedidos[position]))
+        }
+
+        holder.getCalificar().setOnClickListener {
             onClick(position)
         }
-      /* holder.getButom().setOnClickListener(){
-         holder.redirect(listaPedidos[position])
-       }*/
 
     }
 
@@ -103,42 +110,37 @@ class PedidosHistorialAdapter  (
 
         fun setDatos(id : Int){
             var pedido: Pedido
+            var usuario1 : Usuario
             val parent = Job()
             val scope = CoroutineScope(Dispatchers.Main + parent)
             scope.launch() {
                 pedido = pedidoRepository.getPedidoByIndex(id)
-                val usuario = usuarioRepository.getUsuarioById(pedido.idCliente.toString())
-                setNombreCliente(usuario.nombre + " " + usuario.apellido)
-                setImagenCliente(usuario.foto)
+                usuario1 = usuarioRepository.getUsuarioById(pedido.idCliente)
+                setNombreCliente(usuario1.nombre + " " + usuario1.apellido)
+                setImagenCliente(usuario1.foto)
                 setPrecio(pedido.precio)
+
             }
         }
 
         //--> DETALLE DEL PEDIDO
-      //  fun detallesDelPedido(pedido : Pedido){
-        //    val detalle = DetallePedidoViewModel()
-          //  detalle.setView(view)
-            //detalle.detallesDelPedidoCliente(pedido)
-        //}
+        fun detallesDelPedido(pedido : Pedido){
+            val detalle = DetallePedidoAceptadoViewModel()
+            detalle.setView(view)
+            detalle.detallesDelPedido(pedido)
+        }
 
-       // fun getDetalleButton() : Button {
-         //   return view.findViewById(R.id.detallePedidoClienteButton)
-        //}
 
         //-------------------------------------------------------
         fun getCardView(): CardView {
             return view.findViewById(R.id.cardPedidoCliente)
         }
 
-        fun getButom(): Button{
-            return view.findViewById(R.id.btmCalificar)
+        fun getCalificar(): Button{
+            return view.findViewById(R.id.btmCalificar2)
         }
 
-         fun redirect(pedido : Pedido){
 
-            val action = HistorialClienteFragmentDirections.actionHistorialClienteFragmentToCalificarPrestadorFragment(pedido)
-            view.findNavController().navigate(action)
-        }
 
     }
 }

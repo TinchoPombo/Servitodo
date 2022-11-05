@@ -46,7 +46,7 @@ class DetallePedidoViewModel : ViewModel() {
         return PublicacionRepository().getRubro(id).toString()
     }
     suspend fun getUsuario(id: Int) : Usuario{
-        return UsuarioRepository(view).getUsuarioById(getPedido(id).idCliente.toString())
+        return UsuarioRepository(view).getUsuarioById(getPedido(id).idCliente)
     }
 //---------------------------------------------------------------
   //metodo de prueba

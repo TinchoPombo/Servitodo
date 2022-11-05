@@ -89,16 +89,28 @@ class PedidosRepository {
     }
 
 
+
     suspend fun getPedidoByIndex(id: Int): Pedido {
         var pedidoEsperado = Pedido()
         var listaPedidos: MutableList<Pedido> = mutableListOf()
 
         try {
             listaPedidos = getPedidos()
-            pedidoEsperado = listaPedidos.elementAt(id)
+            pedidoEsperado = listaPedidos.find { p -> p.id == id }!!
         } catch (e: Exception) { }
 
         return pedidoEsperado
+    }
+
+    suspend fun getPedidosByUserIndex(id : String) : MutableList<Pedido>{
+        var listaPedidos : MutableList<Pedido> = mutableListOf()
+
+
+        try{
+            listaPedidos = getPedidos().filter { p -> p.idPrestador == id || p.idCliente == id }.toMutableList()
+        }catch (e:Exception){}
+
+        return listaPedidos
     }
 
 

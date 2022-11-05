@@ -9,7 +9,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import com.ort.servitodo.R
 import com.ort.servitodo.databinding.FragmentHistorialClienteBinding
-import com.ort.servitodo.databinding.FragmentHistorialPrestadorBinding
+
 import com.ort.servitodo.viewmodels.cliente.HistorialClienteViewModel
 
 
@@ -38,9 +38,9 @@ class HistorialClienteFragment : Fragment() {
     override fun onStart() {
         super.onStart()
 
-        historialClienteViewModel.emptyList()
-
         historialClienteViewModel.recyclerView(binding.historialClienteRV)
+
+        historialClienteViewModel.emptyList()
 
 
     }

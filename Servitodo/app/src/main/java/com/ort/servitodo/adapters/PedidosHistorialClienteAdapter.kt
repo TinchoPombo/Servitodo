@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.cardview.widget.CardView
@@ -14,6 +15,7 @@ import com.ort.servitodo.entities.Pedido
 import com.ort.servitodo.repositories.PedidosRepository
 import com.ort.servitodo.repositories.PublicacionRepository
 import com.ort.servitodo.repositories.UsuarioRepository
+import com.ort.servitodo.viewmodels.cliente.DetallePedidoViewModel
 import kotlinx.coroutines.*
 
 class PedidosHistorialClienteAdapter  (
@@ -35,10 +37,12 @@ class PedidosHistorialClienteAdapter  (
         holder.setEstado(listaPedidos[position].estado)
         holder.setPrecio(listaPedidos[position].precio)
 
-
         holder.getCardView().setOnClickListener {
-            onClick(position)
+            holder.detallesDelPedido(listaPedidos[position])
         }
+        holder.getCalificar().setOnClickListener {
+            onClick(position)
+            }
 
     }
 
@@ -47,6 +51,7 @@ class PedidosHistorialClienteAdapter  (
     }
 
     class PedidosHolder(v: View) : RecyclerView.ViewHolder(v) {
+
         private var view: View
         private var pedidoRepository = PedidosRepository()
 
@@ -103,7 +108,8 @@ class PedidosHistorialClienteAdapter  (
             scope.launch() {
                 pedido = pedidoRepository.getPedidoByIndex(id)
                 val publicacion = PublicacionRepository().getPublicacionById(pedido.idPublicacion)
-                val usuario = usuarioRepository.getUsuarioById(pedido.idCliente.toString())
+                val usuario = usuarioRepository.getUsuarioById(pedido.idPrestador)
+
                 setNombrePrestador(usuario.nombre + " " + usuario.apellido)
                 setImagenPrestador(usuario.foto)
                 setPrecio(pedido.precio)
@@ -112,15 +118,15 @@ class PedidosHistorialClienteAdapter  (
         }
 
         //--> DETALLE DEL PEDIDO
-        //  fun detallesDelPedido(pedido : Pedido){
-        //    val detalle = DetallePedidoViewModel()
-        //  detalle.setView(view)
-        //detalle.detallesDelPedidoCliente(pedido)
-        //}
+          fun detallesDelPedido(pedido : Pedido){
+            val detalle = DetallePedidoViewModel()
+          detalle.setView(view)
+             detalle.detallesDelPedido(pedido)
+        }
 
-        // fun getDetalleButton() : Button {
-        //   return view.findViewById(R.id.detallePedidoClienteButton)
-        //}
+         fun getCalificar() : Button {
+           return view.findViewById(R.id.btmCalificar)
+        }
 
         //-------------------------------------------------------
         fun getCardView(): CardView {
