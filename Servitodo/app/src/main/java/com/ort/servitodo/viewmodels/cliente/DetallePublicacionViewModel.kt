@@ -2,6 +2,7 @@ package com.ort.servitodo.viewmodels.cliente
 
 import android.icu.util.Calendar
 import android.icu.util.TimeZone
+import android.util.Log
 import android.view.View
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.MutableLiveData
@@ -11,8 +12,7 @@ import androidx.navigation.findNavController
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
-import com.ort.servitodo.entities.Publicacion
-import com.ort.servitodo.entities.Usuario
+import com.ort.servitodo.entities.*
 import com.ort.servitodo.repositories.PedidosRepository
 import com.ort.servitodo.repositories.PublicacionRepository
 import com.ort.servitodo.repositories.UsuarioRepository
@@ -26,6 +26,7 @@ class DetallePublicacionViewModel : ViewModel() {
     private lateinit var view : View
     private lateinit var fragmentManager: FragmentManager
     private lateinit var publicacion: Publicacion
+    private var pedidos : MutableList<Pedido> = mutableListOf()
     private lateinit var usuarioRepository : UsuarioRepository
 
     private var pedidosRepository = PedidosRepository()
@@ -46,6 +47,7 @@ class DetallePublicacionViewModel : ViewModel() {
     val calificacion = MutableLiveData<String>()
     val descripcion = MutableLiveData<String>()
     val fotoPrestador = MutableLiveData<String>()
+    val cantidadCuposDisponibles = MutableLiveData<String>()
 
     //----------------------------------------------------------------------
     fun setView(v : View){
@@ -70,6 +72,7 @@ class DetallePublicacionViewModel : ViewModel() {
             calificacion.value = ""
             descripcion.value = publicacion.descripcion
             fotoPrestador.value = publicacion.fotoPrestador
+            pedidos = pedidosRepository.getPedidos()
         }
     }
 
@@ -128,6 +131,37 @@ class DetallePublicacionViewModel : ViewModel() {
     //---------------- Calificaciones de prestador ------------------------------------------
     fun opinionesDelPrestador(){
         opiniones.opinionesDelPrestador(this.view)
+    }
+
+    //--------------- Obtener cupos para la misma fecha y hora --------------------
+    fun getSpot(){
+        val hora = selectedHour.value!!
+        val dia = selectedDay.value!!
+        var cupos: Int
+
+        viewModelScope.launch {
+            val filterPedidos = pedidos.filter { p -> p.fecha == dia && p.hora == hora && p.estado != TipoEstado.FINALIZADO.toString() && p.estado != TipoEstado.RECHAZADO.toString() }.toMutableList()
+
+            if(publicacion.rubro.nombre == "PaseaPerros"){
+                cupos = paseaPerrosSpot(filterPedidos.size)
+            }
+            else{
+                cupos = 1
+            }
+            cantidadCuposDisponibles.value = "Cupos disponibles: ${cupos}"
+            filterPedidos.clear()
+        }
+    }
+
+    private suspend fun paseaPerrosSpot(cant : Int) : Int{
+        var cuposDisponible = 0
+        val detalleRubroPaseaPerros = publicacionRepository.getRubro(this.publicacion.idServicio)
+
+        if(detalleRubroPaseaPerros is PaseaPerros){
+            val cantMax = detalleRubroPaseaPerros.cantPerros
+            cuposDisponible = cantMax - cant
+        }
+        return cuposDisponible
     }
 
 }
