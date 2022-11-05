@@ -37,6 +37,7 @@ class HomePrestadorViewModel : ViewModel() {
         cargando.value = "Cargando..."
 
         viewModelScope.launch{
+            repository.changeState()
             pedidos = repository.getPedidosAprobadosByPrestadorId(usuarioRep.getIdSession())
 
             if(pedidos.size < 1) {

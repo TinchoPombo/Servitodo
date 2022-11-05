@@ -45,6 +45,7 @@ class PeticionesPendientesViewModel : ViewModel() {
         cargando.value = "Cargando..."
 
         viewModelScope.launch{
+            repositoryPedidos.changeState()
             pedidos = repositoryPedidos.getPedidosPendientesByPrestadorId(usuarioRep.getIdSession())
 
             if(pedidos.size < 1) {

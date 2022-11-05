@@ -17,6 +17,7 @@ import com.ort.servitodo.entities.Usuario
 import com.ort.servitodo.repositories.PublicacionRepository
 import com.ort.servitodo.repositories.UsuarioRepository
 import com.ort.servitodo.viewmodels.cliente.DetallePedidoViewModel
+import com.ort.servitodo.viewmodels.prestador.DetallePedidoAceptadoViewModel
 import com.ort.servitodo.viewmodels.resources.WhatsAppViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -142,8 +143,9 @@ class PedidosPrestadorAdapter (
 
         //--> DETALLE DEL PEDIDO
         fun detallesDelPedido(pedido : Pedido){
-            val detalle = DetallePedidoViewModel()
+            val detalle = DetallePedidoAceptadoViewModel()
             detalle.setView(view)
+            // +-++-+-++-+-+-+-++-+--++--+ ACA
             detalle.detallesDelPedido(pedido)
         }
 
