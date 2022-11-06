@@ -51,7 +51,7 @@ class PedidosHistorialAdapter  (
         }
 
         holder.getCalificar().setOnClickListener {
-            onClick(position)
+            onClick(listaPedidos[position].id)
         }
 
     }

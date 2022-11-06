@@ -1,11 +1,22 @@
 package com.ort.servitodo.entities
 
-class Puntuacion (
+class Puntuacion(
     var id: Int,
-    var idCliente : Int,
-    var idServicio : Int,
-    var puntaje : Int,
-    var comentario : String,
+    var idCliente: String,
+    var idPrestador: String,
+    var idServicio: Int,
+    var puntaje: Float,
+    var comentario: String,
         ){
+    constructor():this(0,"", "",0, "2".toFloat(),"")
 
+    init {
+        this.id = id!!
+        this.idPrestador = idPrestador!!
+        this.idCliente = idCliente!!
+        this.idServicio = idServicio!!
+        this.puntaje = puntaje!!
+        this.comentario = comentario!!
+
+    }
 }

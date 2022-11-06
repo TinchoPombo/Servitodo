@@ -20,8 +20,11 @@
         android:label="fragment_calificar_prestador"
         tools:layout="@layout/fragment_calificar_prestador" >
         <argument
-            android:name="Pedido"
+            android:name="pedido1"
             app:argType="com.ort.servitodo.entities.Pedido" />
+        <action
+            android:id="@+id/action_calificarPrestadorFragment_to_homeClienteFragment"
+            app:destination="@id/homeClienteFragment" />
     </fragment>
     <fragment
         android:id="@+id/historialClienteFragment"
