@@ -74,7 +74,10 @@ class PedidosRepository {
 
     suspend fun getPedidosCliente(userId : String) : MutableList<Pedido>{
         try {
-            val allPedidos = getPedidos().filter{ p -> p.estado != TipoEstado.FINALIZADO.toString() && p.estado != TipoEstado.RECHAZADO.toString()}.toMutableList()
+            val allPedidos = getPedidos().filter{ p -> p.estado != TipoEstado.FINALIZADO.toString()
+                    && p.estado != TipoEstado.RECHAZADO.toString()
+                    && p.estado != TipoEstado.CANCELADO.toString()
+            }.toMutableList()
             listaPedidos = allPedidos.filter { x -> x.idCliente == userId }.toMutableList()
         } catch (e: Exception) { }
         return listaPedidos
@@ -83,11 +86,13 @@ class PedidosRepository {
 
     suspend fun getHistorialPedidos(): MutableList<Pedido> {
         try {
-            listaPedidos = getPedidos().filter{ p -> p.estado == TipoEstado.FINALIZADO.toString() && p.estado == TipoEstado.RECHAZADO.toString()}.toMutableList()
+            listaPedidos = getPedidos().filter{ p -> p.estado == TipoEstado.FINALIZADO.toString()
+                    && p.estado == TipoEstado.RECHAZADO.toString()
+                    && p.estado == TipoEstado.CANCELADO.toString()}
+                .toMutableList()
         } catch (e: Exception) { }
         return listaPedidos
     }
-
 
 
     suspend fun getPedidoByIndex(id: Int): Pedido {
@@ -148,57 +153,15 @@ class PedidosRepository {
             }
     }
 
-    //----------------------------------------------------------------------------------------------
-    /*init{
-        listaPedidos.add(
-            Pedido(1, 1, 1, 1, "29-10-2022", "8:00", TipoEstado.EN_CURSO.toString(), 0.0))
-
-        listaPedidos.add(
-            Pedido(2, 2, 2, 1, "15-11-2022", "20:00", TipoEstado.APROBADO.toString(), 0.0))
-
-        listaPedidos.add(
-            Pedido(2, 3, 2, 1,"15-11-2022", "20:00", TipoEstado.APROBADO.toString(), 0.0))
-
-        listaPedidos.add(
-            Pedido(2, 4, 2, 1,"15-11-2022", "20:00", TipoEstado.APROBADO.toString(), 0.0))
-
-        listaPedidos.add(
-            Pedido(2, 1, 2, 1,"15-11-2022", "20:00", TipoEstado.APROBADO.toString(), 0.0))
-        listaPedidos.add(
-            Pedido(2, 1, 2, 1,"15-11-2022", "20:00", TipoEstado.APROBADO.toString(), 0.0))
-        listaPedidos.add(
-            Pedido(2, 2, 2, 1,"15-11-2022", "20:00", TipoEstado.APROBADO.toString(), 0.0))
-
-        listaPedidos.add(
-            Pedido(2, 2, 2, 1,"15-11-2022", "20:00", TipoEstado.APROBADO.toString(), 0.0))
-
-        listaPedidos.add(
-            Pedido(2, 2, 2, 1,"15-11-2022", "20:00", TipoEstado.APROBADO.toString(), 0.0))
-
-        listaPedidos.add(
-            Pedido(2, 1, 2, 1,"15-11-2022", "20:00", TipoEstado.APROBADO.toString(), 0.0))
-
-        listaPedidos.add(
-            Pedido(2, 1, 2, 1,"15-11-2022", "20:00", TipoEstado.APROBADO.toString(), 0.0))
-
-        listaPedidos.add(
-            Pedido(2, 4, 2, 1,"15-11-2022", "20:00", TipoEstado.APROBADO.toString(), 0.0))
-
-        listaPedidos.add(
-            Pedido(2, 3, 2, 1,"15-11-2022", "20:00", TipoEstado.APROBADO.toString(), 0.0))
-
-        listaPedidos.add(
-            Pedido(2, 1, 2, 1,"15-11-2022", "20:00", TipoEstado.APROBADO.toString(), 0.0))
-
-        listaPedidos.add(
-            Pedido(2, 1, 2, 1,"15-11-2022", "20:00", TipoEstado.APROBADO.toString(), 0.0))
-        listaPedidos.add(
-            Pedido(2, 4, 2, 1,"15-11-2022", "20:00", TipoEstado.APROBADO.toString(), 0.0))
-        listaPedidos.add(
-            Pedido(2, 1, 2, 1,"15-11-2022", "20:00", TipoEstado.APROBADO.toString(), 0.0))
+    fun cancelPedido(pedidoId : Int) {
+        try {
+            this.questionRef.document("${pedidoId}").get().addOnCompleteListener { task ->
+                if (task.isSuccessful){
+                    val update: MutableMap<String, Any> = HashMap()
+                    update["estado"] = TipoEstado.CANCELADO.toString()
+                    questionRef.document("${pedidoId}").set(update, SetOptions.merge())
+                }
+            }
+        } catch (e: Exception) { }
     }
-
-    fun getPedidos() : MutableList<Pedido>{
-        return listaPedidos
-    }*/
 }

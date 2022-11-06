@@ -60,7 +60,9 @@ class TimePickerViewModel : ViewModel() {
 
         for(p in pedidos){
             val condFecha = p.fecha == fecha
-            val condEstados = p.estado == TipoEstado.RECHAZADO.toString() || p.estado == TipoEstado.FINALIZADO.toString()
+            val condEstados = p.estado == TipoEstado.RECHAZADO.toString()
+                    || p.estado == TipoEstado.FINALIZADO.toString()
+                    || p.estado == TipoEstado.CANCELADO.toString()
 
             if(condFecha && !condEstados){
                 val idPaseaPerros = publicacionesRepository.getIdRubroPaseaPerros()
