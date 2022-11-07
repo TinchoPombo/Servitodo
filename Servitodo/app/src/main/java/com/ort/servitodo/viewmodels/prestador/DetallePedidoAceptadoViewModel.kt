@@ -112,7 +112,7 @@ class DetallePedidoAceptadoViewModel : ViewModel() {
             rubroDetalle.text = rubrodetails
 
             enableWhatsappButton(whatsapp, pedido.estado).setOnClickListener{
-                redirectionToWhatsApp(pedido.idPrestador)
+                redirectionToWhatsApp(pedido.idCliente)
             }
 
             dialog.show()

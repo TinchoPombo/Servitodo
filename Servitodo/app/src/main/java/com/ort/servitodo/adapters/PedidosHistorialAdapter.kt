@@ -114,7 +114,7 @@ class PedidosHistorialAdapter  (
             val parent = Job()
             val scope = CoroutineScope(Dispatchers.Main + parent)
             scope.launch() {
-                pedido = pedidoRepository.getPedidoByIndex(id)
+                pedido = pedidoRepository.getPedidoById(id)
                 usuario1 = usuarioRepository.getUsuarioById(pedido.idCliente)
                 setNombreCliente(usuario1.nombre + " " + usuario1.apellido)
                 setImagenCliente(usuario1.foto)
@@ -123,15 +123,13 @@ class PedidosHistorialAdapter  (
             }
         }
 
-        //--> DETALLE DEL PEDIDO
+
         fun detallesDelPedido(pedido : Pedido){
             val detalle = DetallePedidoAceptadoViewModel()
             detalle.setView(view)
             detalle.detallesDelPedido2(pedido)
         }
 
-
-        //-------------------------------------------------------
         fun getCardView(): CardView {
             return view.findViewById(R.id.cardPedidoCliente)
         }
