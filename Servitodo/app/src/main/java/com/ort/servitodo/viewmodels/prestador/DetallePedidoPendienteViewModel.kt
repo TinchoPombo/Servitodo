@@ -85,8 +85,9 @@ class DetallePedidoPendienteViewModel : ViewModel() {
             rubro.value = "${pedido.estado}"/*"${this.publicacion.rubro.nombre}"*/
             descripcion.value = "${usuario[2]}"
             fotoPrestador.value = usuario[3]
+            selectedDay.value = "${pedido.fecha}"
+            selectedHour.value= "${pedido.hora}"
         }
-
     }
 
     //-------------------- Seleccion del Horario --------------------------------------------------
@@ -97,12 +98,12 @@ class DetallePedidoPendienteViewModel : ViewModel() {
 
 
 
-/*    fun selectHour(){
+    fun selectHour(){
         val fecha = this.selectedDay.value
         if(fecha != null){
-            timeViewModel.showTimePicker(view, fecha, this.pedido, this.selectedHour)
+            timeViewModel.showTimePicker(view, fecha, this.publicacion, this.selectedHour)
         }
-    }*/
+    }
 
     fun redirectionToWhatsApp(){
         val whatsAppViewModel = WhatsAppViewModel()
@@ -118,7 +119,7 @@ class DetallePedidoPendienteViewModel : ViewModel() {
             this.selectedDay.value = "${calendar.get(Calendar.DAY_OF_MONTH)}-" +
                     "${calendar.get(Calendar.MONTH) + 1}-${calendar.get(Calendar.YEAR)}"
 
-            /*this.selectHour()*/
+            selectHour()
         }
     }
 
@@ -135,7 +136,7 @@ class DetallePedidoPendienteViewModel : ViewModel() {
         val pedidoActualizar = db.collection("pedidos").document(pedido.id.toString())
 
         pedidoActualizar
-            .update("estado", TipoEstado.APROBADO.toString() )
+            .update("estado", TipoEstado.APROBADO.toString(), "fecha", selectedDay.value.toString(), "hora", selectedHour.value.toString())
             .addOnSuccessListener { Log.d(TAG, "DocumentSnapshot successfully updated!") }
             .addOnFailureListener { e -> Log.w(TAG, "Error updating document", e) }
     }
