@@ -58,4 +58,9 @@
         android:name="com.ort.servitodo.fragments.cliente.PedidosClienteFragment"
         android:label="fragment_pedidos_cliente"
         tools:layout="@layout/fragment_pedidos_cliente" />
+    <fragment
+        android:id="@+id/googleMapsFragment"
+        android:name="com.ort.servitodo.viewmodels.resources.googlemaps.GoogleMapsFragment"
+        android:label="fragment_google_maps"
+        tools:layout="@layout/fragment_google_maps" />
 </navigation>

@@ -3,7 +3,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.ort.servitodo">
 
+    <!-- Permisos para Google Maps -->
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+
+    <!-- Query para chequear luego que WhatsApp este instalado -->
+    <queries> <package android:name="com.whatsapp" /> </queries>
 
     <application
         android:allowBackup="true"
@@ -15,6 +21,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Servitodo"
         tools:targetApi="31">
+
+        <!-- Google Maps API -->
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="@string/google_maps_key" />
+
         <activity
             android:name=".activities.PrestadorActivity"
             android:exported="false" />
