@@ -29,6 +29,7 @@ class UsuarioRepository(view : View) {
 
     //FireStore
     private var listaUsuarios : MutableList<Usuario> = arrayListOf()
+
     val db = Firebase.firestore
 
 
@@ -44,6 +45,22 @@ class UsuarioRepository(view : View) {
         }catch (e:Exception){}
 
             return listaUsuarios
+    }
+
+    suspend fun getClientes() : MutableList<Usuario> {
+        try {
+            val lista = getUsuarios()
+            listaUsuarios = lista.filter { u -> !u.esPrestador } as MutableList<Usuario>
+        }catch (e:Exception){}
+        return listaUsuarios
+    }
+
+    suspend fun getPrestadores() : MutableList<Usuario> {
+        try {
+            val lista = getUsuarios()
+            listaUsuarios = lista.filter { u -> u.esPrestador } as MutableList<Usuario>
+        }catch (e:Exception){}
+        return listaUsuarios
     }
 
     suspend fun getUsuarioById(id : String) : Usuario {
