@@ -45,8 +45,6 @@ class GoogleMapsFragment : Fragment() {
     override fun onStart() {
         super.onStart()
 
-        googleMapsViewModel.createGoogleMaps(this, 0)
-
         googleMapsViewModel.cargando.observe(viewLifecycleOwner, Observer { result ->
             binding.cargandoTxtGoogleMaps.text = result.toString()
         })
