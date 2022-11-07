@@ -83,7 +83,7 @@ class DetallePedidoPendienteViewModel : ViewModel() {
         viewModelScope.launch {
             nombreCompleto.value = "${usuario[0]} ${usuario[1]}"
             rubro.value = "${pedido.estado}"/*"${this.publicacion.rubro.nombre}"*/
-            descripcion.value = "Descripcion: ${publicacion.descripcion}"
+            descripcion.value = "${usuario[2]}"
             fotoPrestador.value = usuario[3]
         }
 

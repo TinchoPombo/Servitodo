@@ -133,7 +133,7 @@ class PedidosRepository {
     //----------------------------------------------------------------
     suspend fun getPedidosPendientesByPrestadorId(idPrestador: String):MutableList<Pedido> {
         try {
-            listaPedidos = getPedidos().filter{ p -> p.idPrestador == idPrestador && p.estado != TipoEstado.FINALIZADO.toString() && p.estado != TipoEstado.RECHAZADO.toString() && p.estado != TipoEstado.APROBADO.toString()}.toMutableList()
+            listaPedidos = getPedidos().filter{ p -> p.idPrestador == idPrestador && p.estado == TipoEstado.PENDIENTE.toString()}.toMutableList()
         } catch (e: Exception) { }
         return listaPedidos
     }
@@ -141,7 +141,7 @@ class PedidosRepository {
 
     suspend fun getPedidosAprobadosByPrestadorId(idPrestador: String):MutableList<Pedido> {
         try {
-            listaPedidos = getPedidos().filter {  p -> p.idPrestador == idPrestador && p.estado == TipoEstado.APROBADO.toString() }.toMutableList()
+            listaPedidos = getPedidos().filter {  p -> p.idPrestador == idPrestador && (p.estado == TipoEstado.APROBADO.toString() || p.estado == TipoEstado.EN_CURSO.toString() ) }.toMutableList()
 
         } catch (e: Exception) { }
         Log.d("PEDIDOS APROBADOS PRESTADOR", "usuarios encotrados ${listaPedidos} ")
