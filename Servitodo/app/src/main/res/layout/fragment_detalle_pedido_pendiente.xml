@@ -268,7 +268,7 @@
             android:id="@+id/whatsappButton"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="21dp"
+            android:layout_marginTop="-15dp"
             android:layout_marginEnd="30dp"
             android:layout_marginBottom="108dp"
             android:backgroundTint="#4CAF50"
@@ -279,7 +279,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="@+id/guideline8"
-            app:layout_constraintTop_toBottomOf="@+id/cardHorarios" />
+            app:layout_constraintTop_toBottomOf="@+id/editTextPrecio" />
 
         <Button
             android:id="@+id/aceptarButton"
@@ -307,6 +307,21 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/aceptarButton" />
+
+        <EditText
+            android:id="@+id/editTextPrecio"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:layout_marginBottom="18dp"
+            android:backgroundTint="#3F51B5"
+            android:ems="10"
+            android:hint="Precio Sugerido"
+            android:inputType="number"
+            app:layout_constraintBottom_toTopOf="@+id/whatsappButton"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/cardHorarios" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.cardview.widget.CardView>

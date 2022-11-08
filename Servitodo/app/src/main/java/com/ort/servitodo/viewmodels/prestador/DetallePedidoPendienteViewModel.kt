@@ -36,6 +36,7 @@ class DetallePedidoPendienteViewModel : ViewModel() {
     private lateinit var usuario: Array<String>
     private lateinit var usuarioRepository : UsuarioRepository
     private lateinit var publicacion : Publicacion
+    private var precio = 1
     val db = Firebase.firestore
 
 
@@ -76,6 +77,10 @@ class DetallePedidoPendienteViewModel : ViewModel() {
 
     fun setPublicacion (publicacion : Publicacion){
         this.publicacion = publicacion
+    }
+
+    fun setPrecio(precio : Int){
+        this.precio = precio
     }
 
     //----------------------------------------------------------------------
@@ -136,7 +141,7 @@ class DetallePedidoPendienteViewModel : ViewModel() {
         val pedidoActualizar = db.collection("pedidos").document(pedido.id.toString())
 
         pedidoActualizar
-            .update("estado", TipoEstado.APROBADO.toString(), "fecha", selectedDay.value.toString(), "hora", selectedHour.value.toString())
+            .update("estado", TipoEstado.APROBADO.toString(), "fecha", selectedDay.value.toString(), "hora", selectedHour.value.toString(), "precio", this.precio)
             .addOnSuccessListener { Log.d(TAG, "DocumentSnapshot successfully updated!") }
             .addOnFailureListener { e -> Log.w(TAG, "Error updating document", e) }
     }
@@ -170,5 +175,10 @@ class DetallePedidoPendienteViewModel : ViewModel() {
         opiniones.opinionesDelPrestador(this.view)
     }
 
+
+    fun snackPrecio(){
+        Snackbar.make(this.view, "Debe ingresar el precio para acpetar el pedido", Snackbar.LENGTH_SHORT)
+                    .show()
+    }
 
 }

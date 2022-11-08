@@ -1,6 +1,7 @@
 package com.ort.servitodo.fragments.prestador
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -9,18 +10,20 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import com.bumptech.glide.Glide
 import com.google.android.gms.common.api.Api
+import com.google.android.material.snackbar.Snackbar
 import com.ort.servitodo.databinding.FragmentDetallePedidoPendienteBinding
 import com.ort.servitodo.entities.Pedido
 import com.ort.servitodo.entities.Publicacion
 
 import com.ort.servitodo.viewmodels.prestador.DetallePedidoPendienteViewModel
+import kotlin.reflect.typeOf
 
 class DetallePedidoPendienteFragment : Fragment() {
 
-    private val detalleViewModel : DetallePedidoPendienteViewModel by viewModels()
+    private val detalleViewModel: DetallePedidoPendienteViewModel by viewModels()
 
-    lateinit var v : View
-    private lateinit var binding : FragmentDetallePedidoPendienteBinding
+    lateinit var v: View
+    private lateinit var binding: FragmentDetallePedidoPendienteBinding
 
     /*
     companion object {
@@ -35,7 +38,7 @@ class DetallePedidoPendienteFragment : Fragment() {
     */
 
     private var receivePedido = Pedido()
-    private lateinit var reciveCliente : Array<String>
+    private lateinit var reciveCliente: Array<String>
     private var receivePublicacion = Publicacion()
 
 
@@ -48,9 +51,12 @@ class DetallePedidoPendienteFragment : Fragment() {
         v = binding.root
 
         //--> Index recibido por parametro
-        receivePedido = DetallePedidoPendienteFragmentArgs.fromBundle(requireArguments()).receivePedido
-        reciveCliente = DetallePedidoPendienteFragmentArgs.fromBundle(requireArguments()).reciveCliente
-        receivePublicacion = DetallePedidoPendienteFragmentArgs.fromBundle(requireArguments()).receivePublicacion
+        receivePedido =
+            DetallePedidoPendienteFragmentArgs.fromBundle(requireArguments()).receivePedido
+        reciveCliente =
+            DetallePedidoPendienteFragmentArgs.fromBundle(requireArguments()).reciveCliente
+        receivePublicacion =
+            DetallePedidoPendienteFragmentArgs.fromBundle(requireArguments()).receivePublicacion
         detalleViewModel.setPedido(receivePedido)
         detalleViewModel.setUsuario(reciveCliente)
         detalleViewModel.setPublicacion(receivePublicacion)
@@ -70,6 +76,11 @@ class DetallePedidoPendienteFragment : Fragment() {
         detalleViewModel.nombreCompleto.observe(viewLifecycleOwner, Observer { result ->
             binding.txtNombreCompletoCliente.text = result.toString()
         })
+
+        detalleViewModel.descripcion.observe(viewLifecycleOwner, Observer { result ->
+            binding.txtDescripcion.text = result.toString()
+        })
+
         detalleViewModel.rubro.observe(viewLifecycleOwner, Observer { result ->
             binding.txtRubroPublicacion.text = result.toString()
         })
@@ -92,15 +103,15 @@ class DetallePedidoPendienteFragment : Fragment() {
             binding.horaseleccionadaTextView.text = result.toString()
         })
 
-        binding.verCalificacionesButton.setOnClickListener{
+        binding.verCalificacionesButton.setOnClickListener {
             detalleViewModel.opinionesDelPrestador()
         }
 
-        binding.verhorariosButton.setOnClickListener{
+        binding.verhorariosButton.setOnClickListener {
             detalleViewModel.selectDate()
         }
 
-        binding.whatsappButton.setOnClickListener{
+        binding.whatsappButton.setOnClickListener {
             detalleViewModel.redirectionToWhatsApp()
         }
 
@@ -109,8 +120,18 @@ class DetallePedidoPendienteFragment : Fragment() {
         }
 
         binding.aceptarButton.setOnClickListener {
-            detalleViewModel.aceptarPedido()
-        }
-    }
 
+            val precio = binding.editTextPrecio.text.toString()
+            Log.d("PRECIOOOOO", "asddfsdf ${precio} ")
+            if (precio != "" && precio != null) {
+                detalleViewModel.setPrecio(Integer.parseInt(precio))
+                detalleViewModel.aceptarPedido()
+            }else{
+                detalleViewModel.snackPrecio()
+            }
+
+        }
+
+
+    }
 }
