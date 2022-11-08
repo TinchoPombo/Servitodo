@@ -19,8 +19,23 @@
     <string name="registrarse">Registrarse</string>
 
     <string-array name="rubros">
+        <item>Cualquiera</item>
         <item>Mantenimiento</item>
         <item>Pasea perros</item>
         <item>Fletero</item>
     </string-array>
+
+    <string-array name="filtroDistancia">
+        <item>Cualquiera</item>
+        <item>Hasta 1KM</item>
+        <item>Hasta 5KM</item>
+        <item>Hasta 10KM</item>
+    </string-array>
+
+    <string-array name="filtroPuntuacion">
+        <item>Cualquiera</item>
+        <item>Mayor</item>
+        <item>Menor</item>
+    </string-array>
+
 </resources>
