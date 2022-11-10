@@ -130,7 +130,8 @@ class DetallePublicacionViewModel : ViewModel() {
 
     //---------------- Calificaciones de prestador ------------------------------------------
     fun opinionesDelPrestador(){
-        opiniones.opinionesDelPrestador(this.view)
+        opiniones.emptyList()
+        opiniones.recyclerView(this.view, this.publicacion.idPrestador)
     }
 
     //--------------- Obtener cupos para la misma fecha y hora --------------------

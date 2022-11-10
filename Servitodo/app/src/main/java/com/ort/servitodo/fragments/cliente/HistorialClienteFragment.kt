@@ -29,6 +29,7 @@ class HistorialClienteFragment : Fragment() {
 
         v = binding.root
 
+
         historialClienteViewModel.setView(v)
 
 
@@ -38,9 +39,10 @@ class HistorialClienteFragment : Fragment() {
     override fun onStart() {
         super.onStart()
 
+        historialClienteViewModel.emptyList()
         historialClienteViewModel.recyclerView(binding.historialClienteRV)
 
-        historialClienteViewModel.emptyList()
+        //
 
 
     }

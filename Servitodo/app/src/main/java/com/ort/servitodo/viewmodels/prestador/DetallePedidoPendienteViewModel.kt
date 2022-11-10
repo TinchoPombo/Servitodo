@@ -45,7 +45,7 @@ class DetallePedidoPendienteViewModel : ViewModel() {
     //--> View Models
     private val calendarViewModel = CalendarViewModel()
     private val timeViewModel = TimePickerViewModel()
-    private val opiniones = OpinionesClienteViewModel()
+    private val opiniones = OpinionesPrestadorViewModel()
 
     //--> Mutable Live Data
     val selectedDay = MutableLiveData<String>()
@@ -172,7 +172,8 @@ class DetallePedidoPendienteViewModel : ViewModel() {
 
     //---------------- Calificaciones de prestador ------------------------------------------
     fun opinionesDelPrestador(){
-        opiniones.opinionesDelPrestador(this.view)
+        opiniones.emptyList()
+        opiniones.recyclerView(this.view, this.pedido.idCliente)
     }
 
 

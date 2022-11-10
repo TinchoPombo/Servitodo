@@ -14,8 +14,6 @@ import com.bumptech.glide.Glide
 import com.ort.servitodo.R
 import com.ort.servitodo.entities.Pedido
 import com.ort.servitodo.entities.Publicacion
-import com.ort.servitodo.fragments.cliente.HistorialClienteFragment
-import com.ort.servitodo.fragments.cliente.HistorialClienteFragmentDirections
 import com.ort.servitodo.repositories.PublicacionRepository
 import com.ort.servitodo.viewmodels.cliente.DetallePedidoViewModel
 import kotlinx.coroutines.CoroutineScope

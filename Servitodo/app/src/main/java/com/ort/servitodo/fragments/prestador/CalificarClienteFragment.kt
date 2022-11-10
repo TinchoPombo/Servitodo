@@ -25,7 +25,7 @@ class CalificarClienteFragment : Fragment() {
     private val viewModel: CalificarClienteViewModel by viewModels()
     lateinit var v: View
     private lateinit var binding: FragmentCalificarClienteBinding
-    private lateinit var receiveData :Pedido
+    private lateinit var receiveData : Pedido
 
     val db = Firebase.firestore
 

@@ -13,7 +13,6 @@ import kotlinx.coroutines.launch
 
 class CrearPublicacionViewModel : ViewModel() {
     private lateinit var view : View
-    private var repository = PublicacionRepository()
     private lateinit var usuarioRepository : UsuarioRepository
 
     val db = Firebase.firestore

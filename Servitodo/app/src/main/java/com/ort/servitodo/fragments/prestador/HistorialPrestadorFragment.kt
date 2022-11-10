@@ -27,6 +27,7 @@ class HistorialPrestadorFragment : Fragment() {
 
         v = binding.root
 
+
         historialPrestadorViewModel.setView(v)
 
 
@@ -36,8 +37,9 @@ class HistorialPrestadorFragment : Fragment() {
     override fun onStart() {
         super.onStart()
 
-        historialPrestadorViewModel.recyclerView(binding.historialPrestadorRV)
         historialPrestadorViewModel.emptyList()
+        historialPrestadorViewModel.recyclerView(binding.historialPrestadorRV)
+
 
 
 

@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.snackbar.Snackbar
 import com.ort.servitodo.adapters.PedidosAdapter
 import com.ort.servitodo.adapters.PedidosHistorialAdapter
 import com.ort.servitodo.adapters.PedidosHistorialClienteAdapter
@@ -44,6 +45,11 @@ class HistorialClienteViewModel : ViewModel() {
         return id
     }
 
+    fun snackCalificar(){
+        Snackbar.make(this.view, "No puedes calificar un pedido no finalizado", Snackbar.LENGTH_SHORT)
+            .show()
+    }
+
 
     fun recyclerView(recyclerPedido : RecyclerView){
 
@@ -78,9 +84,11 @@ class HistorialClienteViewModel : ViewModel() {
 
             val pedido = repository.getPedidoById(position)
             val estado = pedido.estado
-            if(estado == "FINALIZADO" ){
+            if(estado == "FINALIZADO"){
                 val action = HistorialClienteFragmentDirections.actionHistorialClienteFragmentToCalificarPrestadorFragment(pedido)
                 view.findNavController().navigate(action)
+            }else{
+                snackCalificar()
             }
 
         }

@@ -8,34 +8,43 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import com.ort.servitodo.R
+import com.ort.servitodo.databinding.FragmentOpinionesClienteBinding
+import com.ort.servitodo.databinding.FragmentOpinionesPrestadorBinding
 import com.ort.servitodo.viewmodels.cliente.OpinionesClienteViewModel
+
 
 class OpinionesClienteFragment : Fragment() {
 
+    private val opinionesClienteViewModel : OpinionesClienteViewModel by viewModels()
+
     lateinit var v : View
-    private val viewModel: OpinionesClienteViewModel by viewModels()
+    private lateinit var binding : FragmentOpinionesClienteBinding
 
-    /*
-    companion object {
-        fun newInstance() = OpinionesClienteFragment()
-    }
-
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProvider(this).get(OpinionesClienteViewModel::class.java)
-        // TODO: Use the ViewModel
-    }
-    */
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        v = inflater.inflate(R.layout.fragment_opiniones_cliente, container, false)
+        binding = FragmentOpinionesClienteBinding.inflate(inflater, container, false)
 
+
+        v = binding.root
+
+        opinionesClienteViewModel.setView(v)
 
 
         return v
+    }
+
+    override fun onStart() {
+        super.onStart()
+
+        opinionesClienteViewModel.emptyList()
+      //  opinionesClienteViewModel.recyclerView(v)
+
+
+
+
     }
 
 

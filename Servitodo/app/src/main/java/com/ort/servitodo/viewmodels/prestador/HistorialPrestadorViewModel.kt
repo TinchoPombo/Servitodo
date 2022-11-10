@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.google.android.material.bottomsheet.BottomSheetDialog
+import com.google.android.material.snackbar.Snackbar
 import com.ort.servitodo.R
 import com.ort.servitodo.adapters.PedidosAdapter
 import com.ort.servitodo.adapters.PedidosHistorialAdapter
@@ -53,6 +54,11 @@ class HistorialPrestadorViewModel : ViewModel() {
         return id
      }
 
+    fun snackCalificar(){
+        Snackbar.make(this.view, "No puedes calificar un pedido no finalizado", Snackbar.LENGTH_SHORT)
+            .show()
+    }
+
     fun recyclerView(recyclerPedido : RecyclerView){
 
         cargando.value = "Cargando..."
@@ -92,7 +98,9 @@ class HistorialPrestadorViewModel : ViewModel() {
             if(estado =="FINALIZADO"){
                 val action = HistorialPrestadorFragmentDirections.actionHistorialPrestadorFragmentToCalificarClienteFragment(pedido)
                 view.findNavController().navigate(action)
-        }
+        }else{
+            snackCalificar()
+            }
 
         }
 

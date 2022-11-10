@@ -6,28 +6,44 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.viewModels
 import com.ort.servitodo.R
+import com.ort.servitodo.databinding.FragmentHistorialClienteBinding
+import com.ort.servitodo.databinding.FragmentOpinionesPrestadorBinding
+import com.ort.servitodo.viewmodels.cliente.HistorialClienteViewModel
 import com.ort.servitodo.viewmodels.prestador.OpinionesPrestadorViewModel
 
 class OpinionesPrestadorFragment : Fragment() {
 
-    companion object {
-        fun newInstance() = OpinionesPrestadorFragment()
-    }
+    private val opinionesPrestadorViewModel : OpinionesPrestadorViewModel by viewModels()
 
-    private lateinit var viewModel: OpinionesPrestadorViewModel
+    lateinit var v : View
+    private lateinit var binding : FragmentOpinionesPrestadorBinding
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_opiniones_prestador, container, false)
+        binding = FragmentOpinionesPrestadorBinding.inflate(inflater, container, false)
+
+        v = binding.root
+
+        opinionesPrestadorViewModel.setView(v)
+
+
+        return v
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProvider(this).get(OpinionesPrestadorViewModel::class.java)
-        // TODO: Use the ViewModel
+    override fun onStart() {
+        super.onStart()
+
+        opinionesPrestadorViewModel.emptyList()
+       //opinionesPrestadorViewModel.recyclerView(v)
+
+
+
+
     }
 
 }

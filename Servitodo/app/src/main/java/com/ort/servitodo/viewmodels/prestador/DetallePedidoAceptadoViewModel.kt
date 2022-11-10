@@ -36,16 +36,16 @@ class DetallePedidoAceptadoViewModel : ViewModel() {
     }
 
     //----------------------------------------------------------------------------------------
-    suspend fun getPedido(id : Int) : Pedido{
+    suspend fun getPedido(id : Int) : Pedido {
         return PedidosRepository().getPedidoByIndex(id)
     }
-    suspend fun getPublicacion(id : Int) : Publicacion{
+    suspend fun getPublicacion(id : Int) : Publicacion {
         return PublicacionRepository().getPublicacionById(id)
     }
     suspend fun getRubroDetails(id : Int) : String {
         return PublicacionRepository().getRubro(id).toString()
     }
-    suspend fun getUsuario(id: String) : Usuario{
+    suspend fun getUsuario(id: String) : Usuario {
         return UsuarioRepository(view).getUsuarioById(id)
     }
 //---------------------------------------------------------------
