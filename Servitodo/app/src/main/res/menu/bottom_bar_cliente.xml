@@ -13,8 +13,8 @@
         />
     <item
         android:id="@+id/googleMapsFragment"
-        android:icon="@drawable/google_maps_pointer"
-        android:title="Google Maps" />
+        android:icon="@drawable/maps_marker_2"
+        android:title="Mapa" />
     <item
         android:id="@+id/perfilClienteFragment"
         android:icon="@drawable/user_3"
