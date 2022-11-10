@@ -7,8 +7,11 @@ import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.navigation.findNavController
 import com.bumptech.glide.Glide
 import com.google.android.material.bottomsheet.BottomSheetDialog
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.android.material.snackbar.Snackbar
 import com.ort.servitodo.R
 import com.ort.servitodo.entities.Pedido
 import com.ort.servitodo.entities.Publicacion
@@ -111,7 +114,7 @@ class DetallePedidoAceptadoViewModel : ViewModel() {
             descripcion.text = "Direccion: ${user.ubicacion}"
             rubroDetalle.text = rubrodetails
 
-            enableWhatsappButton(whatsapp, pedido.estado).setOnClickListener{
+            enableButton(whatsapp, pedido.estado, TipoEstado.APROBADO).setOnClickListener{
                 redirectionToWhatsApp(pedido.idCliente)
             }
 
@@ -134,6 +137,7 @@ class DetallePedidoAceptadoViewModel : ViewModel() {
         val precio = dialog.findViewById<TextView>(R.id.precioBottomSheet)!!
         val estado = dialog.findViewById<TextView>(R.id.estadoBottomSheet)!!
         val descripcion = dialog.findViewById<TextView>(R.id.descripcionBottomSheet)!!
+        val cancelar = dialog.findViewById<Button>(R.id.cancelarPedidoButton)!!
         val whatsapp = dialog.findViewById<Button>(R.id.whatsappPedidoButton)!!
 
         viewModelScope.launch {
@@ -146,11 +150,14 @@ class DetallePedidoAceptadoViewModel : ViewModel() {
             fecha.text = "Fecha: ${pedido.fecha} - Hora: ${pedido.hora}"
             precio.text = "Precio: $${setPrecio(pedido.precio)}"
             estado.text = "Estado: ${pedido.estado}"
-            descripcion.text = "${publicacion.descripcion}"
+            descripcion.text = "${user.ubicacion}"
             rubroDetalle.text = rubrodetails
 
-            enableWhatsappButton(whatsapp, pedido.estado).setOnClickListener{
+            enableButton(whatsapp, pedido.estado, TipoEstado.RECHAZADO).setOnClickListener{
                 redirectionToWhatsApp(pedido.idPrestador)
+            }
+            enableButton(cancelar, pedido.estado, TipoEstado.EN_CURSO).setOnClickListener{
+                popUpCancel(dialog)
             }
 
             dialog.show()
@@ -178,8 +185,9 @@ class DetallePedidoAceptadoViewModel : ViewModel() {
         whatsAppViewModel.confirmRedirectionToWhatsapp(idPrestador, view)
     }
 
-    fun enableWhatsappButton(button : Button, estado : String) : Button{
-        val condition = estado == TipoEstado.PENDIENTE.toString()
+    //--> ENABLE/ DISABLE BUTTON
+    private fun enableButton(button : Button, estadoPedido : String, tipoEstado : TipoEstado) : Button{
+        val condition = estadoPedido == tipoEstado.toString()
         if(condition){
             button.isEnabled = !condition
             button.setTextColor(ContextCompat.getColor(view.context, R.color.greyish))
@@ -187,4 +195,31 @@ class DetallePedidoAceptadoViewModel : ViewModel() {
         }
         return button
     }
+
+    //--> CANCEL BUTTON
+    private fun cancel() {
+        val pedidoRepository = PedidosRepository()
+        pedidoRepository.cancelPedido(this.pedido.id)
+    }
+
+    private fun popUpCancel(bottomSheetDialog: BottomSheetDialog){
+        MaterialAlertDialogBuilder(view.context).setTitle("Cancelar Pedido").setMessage("Deseas cancelar el pedido?")
+            .setNegativeButton("Cancelar") { dialog, which ->
+
+            }
+            .setPositiveButton("Aceptar") { dialog, which ->
+                viewModelScope.launch {
+                    cancel()
+                    bottomSheetDialog.dismiss()
+                    view.findNavController().navigateUp()
+                    Snackbar.make(view, "El pedido se canceló con exito", Snackbar.LENGTH_SHORT).show()
+                }
+            }
+            .show()
+    }
+
+
+
+
+
 }
