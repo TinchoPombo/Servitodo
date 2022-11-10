@@ -1,14 +1,18 @@
 package com.ort.servitodo.viewmodels.resources.googlemaps
 
 import android.os.Bundle
+import android.text.Editable
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ArrayAdapter
 import android.widget.RadioButton
+import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import com.ort.servitodo.R
 import com.ort.servitodo.databinding.FragmentGoogleMapsBinding
 
 class GoogleMapsFragment : Fragment() {
@@ -26,20 +30,24 @@ class GoogleMapsFragment : Fragment() {
     private val googleMapsViewModel : GoogleMapsViewModel by viewModels()
 
     lateinit var v : View
+
     private lateinit var binding : FragmentGoogleMapsBinding
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?)
+    : View? {
         binding = FragmentGoogleMapsBinding.inflate(inflater, container, false)
-
         v = binding.root
 
-        googleMapsViewModel.setView(v)
-        googleMapsViewModel.initUsers()
+        googleMapsViewModel.initMap(this, v)
 
         return v
+    }
+
+    override fun onResume() {
+        super.onResume()
+        val filtroDistancia = resources.getStringArray(R.array.filtroDistancia)
+        val arrayAdapterDistancia = ArrayAdapter(requireContext(), R.layout.dropdown_item, filtroDistancia)
+        binding.autoCompleteTextViewDistancia.setAdapter(arrayAdapterDistancia)
     }
 
     override fun onStart() {
@@ -53,15 +61,9 @@ class GoogleMapsFragment : Fragment() {
 
         })
 
-        binding.radioGroup.setOnCheckedChangeListener { group, checkedId ->
-            val radioButton = v.findViewById<RadioButton>(checkedId)
-            val km = googleMapsViewModel.getNumberFromRadioButton(radioButton.text.toString())
-            googleMapsViewModel.createGoogleMaps(this, km)
+        binding.searchGoogleMapsImgButton.setOnClickListener{
+            val optionDropDown = binding.autoCompleteTextViewDistancia.text.toString()
+            googleMapsViewModel.createGoogleMaps(this, optionDropDown)
         }
-
-        /*binding.googleMapsAppButton.setOnClickListener{
-            redirectToGoogleMaps
-        }*/
-
     }
 }
