@@ -273,5 +273,19 @@
         android:orientation="vertical"
         app:layout_constraintGuide_begin="308dp" />
 
+    <Button
+        android:id="@+id/btnCargarImagen"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="13dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="14dp"
+        android:layout_marginBottom="39dp"
+        android:text="Imagen"
+        app:layout_constraintBottom_toTopOf="@+id/buttonRegister"
+        app:layout_constraintEnd_toStartOf="@+id/radioGroup"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/fotoContainer" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

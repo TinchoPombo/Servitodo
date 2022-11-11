@@ -9,6 +9,7 @@ import androidx.core.content.ContentProviderCompat.requireContext
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.ktx.storage
 import com.ort.servitodo.entities.Publicacion
 import com.ort.servitodo.entities.Usuario
 import kotlinx.coroutines.tasks.await
@@ -25,7 +26,8 @@ class UsuarioRepository(view : View) {
     private val PREF_NAME = "session"
     private val sharedPref : SharedPreferences = view.context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE)
     private val editor = sharedPref.edit()
-
+    private val storage = Firebase.storage
+    private val storageRef = storage.reference.child("images")
 
     //FireStore
     private var listaUsuarios : MutableList<Usuario> = arrayListOf()
