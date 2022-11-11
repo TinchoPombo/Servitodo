@@ -19,7 +19,6 @@
     <string name="registrarse">Registrarse</string>
 
     <string-array name="rubros">
-        <item>Cualquiera</item>
         <item>Mantenimiento</item>
         <item>Pasea perros</item>
         <item>Fletero</item>

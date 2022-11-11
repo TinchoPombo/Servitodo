@@ -23,7 +23,7 @@ class FleteroFragment : Fragment() {
         fun newInstance() = FleteroFragment()
     }
 
-    private val viewModel: CrearPublicacionViewModel by viewModels()
+    private val viewModel: FleteroViewModel by viewModels()
     lateinit var v: View
     private lateinit var binding: FragmentFleteroBinding
 
@@ -39,6 +39,10 @@ class FleteroFragment : Fragment() {
 
         viewModel.setView(v)
 
+        viewModel.setDescripcion(MantenimientoFragmentArgs.fromBundle(requireArguments()).descripcion)
+
+        viewModel.setIdRubro(MantenimientoFragmentArgs.fromBundle(requireArguments()).idRubro)
+
         return v
     }
 
@@ -46,11 +50,9 @@ class FleteroFragment : Fragment() {
         super.onStart()
 
         binding.btnCrearPublicacion.setOnClickListener {
-            val rubro : Rubro = Fletero(Integer.parseInt(binding.txtCostoHora.text.toString()), Integer.parseInt(binding.txtPesoMaximo.text.toString()), FleteroFragmentArgs.fromBundle(requireArguments()).idRubro, "Fletero")
-            val descripcion : String = FleteroFragmentArgs.fromBundle(requireArguments()).descripcion
-            viewModel.crearPublicacion(descripcion, rubro)
-
-            v.findNavController().navigate( FleteroFragmentDirections.actionFleteroFragmentToHomePrestadorFragment())
+            val costoHora = binding.txtCostoHora.text.toString()
+            val pesoMax = binding.txtPesoMaximo.text.toString()
+            viewModel.validacion(costoHora, pesoMax)
         }
     }
 

@@ -95,6 +95,16 @@ class PublicacionRepository {
 
     }
 
+    fun addPublicacion(publicacion: Publicacion){
+        db.collection("publicaciones").document(publicacion.idServicio.toString()).set(publicacion)
+            .addOnSuccessListener { documentReference ->
+                Log.d(TAG,"DocumentSnapshot written with ID: ")
+            }
+            .addOnFailureListener{ e ->
+                Log.w(TAG, "Error adding document", e)
+            }
+    }
+
     //----------------------------------------------------------------------------------------------------------//
     //----------------------------------------------------------------------------------------------------------//
     /*init

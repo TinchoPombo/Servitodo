@@ -15,6 +15,7 @@ import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
@@ -67,19 +68,25 @@ class CrearPublicacionFragment : Fragment() {
     override fun onStart() {
         super.onStart()
 
-       // val prestador : Prestador = Prestador(7,"messiChiquito","Lionel","Messi","20-10-1989","https://pbs.twimg.com/media/E8jxa-AWUAAPSX9.jpg:large","matricula","Paseador de Perros","1122766971")
+        binding.btnSiguienteCrearPublicacion.setOnClickListener {
 
-            binding.btnSiguienteCrearPublicacion.setOnClickListener {
-                /*val publicacion: Publicacion = Publicacion(viewModel.getPublicaciones().size + 1,prestador.id,prestador.img,prestador.name,prestador.lastname,2,prestador.rubro, binding.txtDescripcion.text.toString())
-                db.collection("publicaciones").add(publicacion)*/
+            val descripcion = binding.txtDescripcion.text.toString()
 
+            val cond = !descripcion.isNullOrEmpty()
+
+            if(cond) {
                 when(binding.autoCompleteTextView.text.toString()){
-                    "Mantenimiento" -> v.findNavController().navigate( CrearPublicacionFragmentDirections.actionCrearPublicacionFragmentToMantenimientoFragment(binding.txtDescripcion.text.toString(),1))
-                    "Fletero" -> v.findNavController().navigate( CrearPublicacionFragmentDirections.actionCrearPublicacionFragmentToFleteroFragment(binding.txtDescripcion.text.toString(),2))
-                    "Pasea perros" -> v.findNavController().navigate( CrearPublicacionFragmentDirections.actionCrearPublicacionFragmentToPaseaPerrosFragment(binding.txtDescripcion.text.toString(),3))
+                    "Mantenimiento" -> v.findNavController().navigate( CrearPublicacionFragmentDirections.actionCrearPublicacionFragmentToMantenimientoFragment(descripcion,1))
+                    "Fletero" -> v.findNavController().navigate( CrearPublicacionFragmentDirections.actionCrearPublicacionFragmentToFleteroFragment(descripcion,2))
+                    "Pasea perros" -> v.findNavController().navigate( CrearPublicacionFragmentDirections.actionCrearPublicacionFragmentToPaseaPerrosFragment(descripcion,3))
                 }
+            } else {
+                Snackbar.make(v, "Debe completar la descripcion", Snackbar.LENGTH_SHORT).show()}
 
-            }
+            /*viewModel.irARubro(binding.autoCompleteTextView.text.toString(), binding.txtDescripcion.text.toString())*/
+
+
+        }
 
     }
 
