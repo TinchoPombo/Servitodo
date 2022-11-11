@@ -35,9 +35,7 @@ class OpinionesPrestadorViewModel : ViewModel() {
 
     }
 
-     fun create () : Puntuacion{
-        return Puntuacion(1, "1", "1" , 1, "2".toFloat(), "ASd")
-    }
+
 
     fun emptyList(){
         this.calificaciones.clear()

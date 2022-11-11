@@ -7,7 +7,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.ort.servitodo.R
+import com.ort.servitodo.adapters.PedidosHistorialAdapter
+import com.ort.servitodo.adapters.PedidosHistorialClienteAdapter
 import com.ort.servitodo.databinding.FragmentHistorialClienteBinding
 
 import com.ort.servitodo.viewmodels.cliente.HistorialClienteViewModel
@@ -33,7 +37,7 @@ class HistorialClienteFragment : Fragment() {
 
 
         historialClienteViewModel.setView(v)
-
+        historialClienteViewModel.cargarPedidos()
 
         return v
     }
@@ -41,12 +45,21 @@ class HistorialClienteFragment : Fragment() {
     override fun onStart() {
         super.onStart()
 
-        historialClienteViewModel.emptyList()
-        historialClienteViewModel.recyclerView(binding.historialClienteRV)
+        historialClienteViewModel.pedidos.observe(viewLifecycleOwner, Observer { result ->
+            val recyclerPedidos = binding.historialClienteRV
 
-        //
+            recyclerPedidos.setHasFixedSize(true)
+            recyclerPedidos.layoutManager = LinearLayoutManager(context)
+
+            recyclerPedidos.adapter = PedidosHistorialClienteAdapter(result) { pos ->
+                historialClienteViewModel.onClick(pos)
+
+            }
+        })
 
 
+        //historialPrestadorViewModel.recyclerView(binding.historialPrestadorRV)
+        //historialPrestadorViewModel.emptyList()
     }
 
 }

@@ -28,17 +28,17 @@ class CalificarClienteViewModel : ViewModel() {
 
 
 
-    fun calificar(descripcion: String, rating: Float, idCliente : String, idPublicacion : Int){
+    fun calificar(descripcion: String, rating: Float, idCliente : String, idPedido : Int){
 
 
         viewModelScope.launch {
 
-         //  var tiene : Boolean = calificacionesRepository.getCalificaciones().any() { c -> c.idServicio == idPublicacion }
+           // var tiene : Boolean = calificacionesRepository.getCalificaciones().any() { c -> c.idServicio == idPublicacion }
 
            if(true){
                 val idCalificacion = (1..99999999).random()
                 val user = usuarioRepository.getUsuarioById(usuarioRepository.getIdSession())
-                val calificacion = Puntuacion(idCalificacion, idCliente, user.id , idPublicacion, rating, descripcion)
+                val calificacion = Puntuacion(idCalificacion, idCliente, user.id , idPedido, rating, descripcion, true)
 
                 db.collection("calificaciones").document(idCalificacion.toString()).set(calificacion)
             }else{

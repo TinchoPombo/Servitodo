@@ -4,6 +4,7 @@ import android.util.Log
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
+import com.ort.servitodo.entities.Pedido
 import com.ort.servitodo.entities.Puntuacion
 import kotlinx.coroutines.tasks.await
 
@@ -35,7 +36,7 @@ class CalificacionesRepository {
         try{
             val data = this.questionRef.get().await()
             for (document in data) {
-                if(document.toObject<Puntuacion>().idCliente == id){
+                if(document.toObject<Puntuacion>().idCliente == id && document.toObject<Puntuacion>().calificoPrestador){
                     listaCalificaciones.add(document.toObject())
                 }
             }
@@ -50,7 +51,7 @@ class CalificacionesRepository {
         try{
             val data = this.questionRef.get().await()
             for (document in data) {
-                if(document.toObject<Puntuacion>().idPrestador == id){
+                if(document.toObject<Puntuacion>().idPrestador == id && !document.toObject<Puntuacion>().calificoPrestador){
                     listaCalificaciones.add(document.toObject())
                 }
             }
@@ -60,7 +61,37 @@ class CalificacionesRepository {
         return listaCalificaciones
     }
 
+    suspend fun hayCalificacionPorPedidoIdCliente(pedido : Pedido) : Boolean {
+        var tiene = false
+
+        try{
+            val data = this.questionRef.get().await()
+            for (document in data) {
+                if(document.toObject<Puntuacion>().idPrestador == pedido.idPrestador && document.toObject<Puntuacion>().idCliente == pedido.idCliente && document.toObject<Puntuacion>().idPedido == pedido.id && !document.toObject<Puntuacion>().calificoPrestador){
+                    tiene = true
+                }
+            }
+        }catch(e : Exception){ }
+
+        return tiene
+    }
+
+    suspend fun hayCalificacionPorPedidoIdPrestador(pedido : Pedido) : Boolean {
+        var tiene = false
+
+        try{
+            val data = this.questionRef.get().await()
+            for (document in data) {
+                if(document.toObject<Puntuacion>().idPrestador == pedido.idPrestador && document.toObject<Puntuacion>().idCliente == pedido.idCliente && document.toObject<Puntuacion>().idPedido == pedido.id && document.toObject<Puntuacion>().calificoPrestador){
+                    tiene = true
+                }
+            }
+        }catch(e : Exception){ }
+
+        return tiene
+    }
+    }
+
     /*  fun uppCalificacion(id: String, cali : Puntuacion){
             questionRef.document(id).set(cali)
     }*/
-}

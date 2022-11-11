@@ -4,19 +4,21 @@ class Puntuacion(
     var id: Int,
     var idCliente: String,
     var idPrestador: String,
-    var idServicio: Int,
+    var idPedido: Int,
     var puntaje: Float,
     var comentario: String,
+    var calificoPrestador: Boolean
         ){
-    constructor():this(0,"", "",0, 0f,"")
+    constructor():this(0,"", "",0, 0f,"", false)
 
     init {
         this.id = id!!
         this.idPrestador = idPrestador!!
         this.idCliente = idCliente!!
-        this.idServicio = idServicio!!
+        this.idPedido = idPedido!!
         this.puntaje = puntaje!!
         this.comentario = comentario!!
+        this.calificoPrestador = calificoPrestador
 
     }
 }

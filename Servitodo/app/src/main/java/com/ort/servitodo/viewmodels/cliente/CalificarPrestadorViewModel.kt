@@ -25,7 +25,7 @@ class CalificarPrestadorViewModel : ViewModel() {
         usuarioRepository = UsuarioRepository(v)
     }
 
-    fun calificar(descripcion: String, rating: Float, idPrestador :String, idPublicacion :Int){
+    fun calificar(descripcion: String, rating: Float, idPrestador :String, idPedido :Int){
         viewModelScope.launch {
 
             //var tiene : Boolean = calificacionesRepository.getCalificaciones().any() { c -> c.idServicio == idPublicacion }
@@ -33,7 +33,7 @@ class CalificarPrestadorViewModel : ViewModel() {
             if(true){
                 val idCalificacion = (1000000..9999999).random()
                 val user = usuarioRepository.getUsuarioById(usuarioRepository.getIdSession())
-                val calificacion = Puntuacion(idCalificacion, user.id,  idPrestador , idPublicacion, rating, descripcion)
+                val calificacion = Puntuacion(idCalificacion, user.id,  idPrestador , idPedido, rating, descripcion, false)
 
 
 

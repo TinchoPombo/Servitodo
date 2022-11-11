@@ -24,6 +24,7 @@ import com.ort.servitodo.fragments.cliente.HomeClienteFragmentDirections
 import com.ort.servitodo.fragments.prestador.HistorialPrestadorFragment
 import com.ort.servitodo.fragments.prestador.HistorialPrestadorFragmentDirections
 import com.ort.servitodo.fragments.prestador.PeticionesPendientesFragmentDirections
+import com.ort.servitodo.repositories.CalificacionesRepository
 import com.ort.servitodo.repositories.PedidosRepository
 import com.ort.servitodo.repositories.UsuarioRepository
 import kotlinx.coroutines.launch
@@ -32,8 +33,10 @@ class HistorialPrestadorViewModel : ViewModel() {
 
     private lateinit var view : View
     private var repository = PedidosRepository()
+    private var repoCalificacion = CalificacionesRepository()
     val cargando = MutableLiveData<String>()
-    var pedidos : MutableList<Pedido> = mutableListOf()
+
+    val pedidos = MutableLiveData<MutableList<Pedido>>()
 
 
 
@@ -42,7 +45,7 @@ class HistorialPrestadorViewModel : ViewModel() {
     }
 
     fun emptyList(){
-        this.pedidos.clear()
+        this.pedidos.value?.clear()
     }
 
 
@@ -56,41 +59,31 @@ class HistorialPrestadorViewModel : ViewModel() {
         Snackbar.make(this.view, "No puedes calificar un pedido no finalizado", Snackbar.LENGTH_SHORT)
             .show()
     }
+    fun snackYaTieneCalificacion(){
+        Snackbar.make(this.view, "El pedido ya tiene calificacion", Snackbar.LENGTH_SHORT)
+            .show()
+    }
 
     fun cargarPedidos(){
 
-       viewModelScope.launch {
-
-           pedidos = repository.getPedidosByUserIndex(getActualId())
-       }
-
-    }
-
-    fun recyclerView(recyclerPedido : RecyclerView){
-
-
         viewModelScope.launch {
-            pedidos = repository.getPedidosByUserIndex(getActualId())
+            emptyList()
 
+            val listaHistorial = repository.getPedidosByUserIndex(getActualId())
 
-        cargando.value = "Cargando..."
+            cargando.value = "Cargando...."
 
-            if(pedidos.size < 1) {
-                cargando.value = "No hay publicaciones disponibles"
-            }
-            else{
-                recyclerPedido.setHasFixedSize(true)
-
+            if(listaHistorial.size < 1){
+                cargando.value = "No hay pedidos"
+            }else{
+                pedidos.value = listaHistorial
                 cargando.value = ""
-
-                recyclerPedido.layoutManager  = LinearLayoutManager(view.context)
-
-                recyclerPedido.adapter = PedidosHistorialAdapter(pedidos){
-                   pos ->
-                   onClick(pos)}
             }
+
         }
+
     }
+
 
     fun onClick(id: Int){
 
@@ -98,13 +91,24 @@ class HistorialPrestadorViewModel : ViewModel() {
 
           val pedido = repository.getPedidoById(id)
           val estado = pedido.estado
-            if(estado =="FINALIZADO"){
-                val action = HistorialPrestadorFragmentDirections.actionHistorialPrestadorFragmentToCalificarClienteFragment(pedido)
-                view.findNavController().navigate(action)
-        }else{
-            snackCalificar()
-            }
-        }
-    }
+            val tiene = repoCalificacion.hayCalificacionPorPedidoIdPrestador(pedido)
 
+            if(estado == "FINALIZADO") {
+                if (!tiene) {
+                    val action =
+                        HistorialPrestadorFragmentDirections.actionHistorialPrestadorFragmentToCalificarClienteFragment(
+                            pedido
+                        )
+                    view.findNavController().navigate(action)
+                } else {
+                    snackYaTieneCalificacion()
+                }
+            }else{
+                snackCalificar()
+            }
+      }
+    }
 }
+
+
+

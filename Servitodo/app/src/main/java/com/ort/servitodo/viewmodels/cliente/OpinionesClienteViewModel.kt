@@ -38,7 +38,7 @@ class OpinionesClienteViewModel : ViewModel() {
     }
 
      fun create () : Puntuacion{
-        return Puntuacion(1, "1", "1" , 1, "4".toFloat(), "ASd")
+        return Puntuacion(1, "1", "1" , 1, "4".toFloat(), "ASd", false)
     }
 
     fun emptyList(){
