@@ -70,7 +70,7 @@ class CrearPublicacionFragment : Fragment() {
 
         binding.btnSiguienteCrearPublicacion.setOnClickListener {
 
-            val descripcion = binding.txtDescripcion.text.toString()
+            val descripcion = binding.txtDireccion.text.toString()
 
             val cond = !descripcion.isNullOrEmpty()
 

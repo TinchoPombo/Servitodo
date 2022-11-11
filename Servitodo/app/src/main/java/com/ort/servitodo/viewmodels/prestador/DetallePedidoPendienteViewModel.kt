@@ -11,18 +11,14 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.findNavController
 import com.google.android.material.datepicker.MaterialDatePicker
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.ort.servitodo.entities.Pedido
 import com.ort.servitodo.entities.Publicacion
 import com.ort.servitodo.entities.TipoEstado
-import com.ort.servitodo.entities.Usuario
 import com.ort.servitodo.repositories.PedidosRepository
-import com.ort.servitodo.repositories.PublicacionRepository
 import com.ort.servitodo.repositories.UsuarioRepository
-import com.ort.servitodo.viewmodels.cliente.OpinionesClienteViewModel
 import com.ort.servitodo.viewmodels.resources.CalendarViewModel
 import com.ort.servitodo.viewmodels.resources.TimePickerViewModel
 import com.ort.servitodo.viewmodels.resources.WhatsAppViewModel
@@ -54,7 +50,7 @@ class DetallePedidoPendienteViewModel : ViewModel() {
     val nombreCompleto = MutableLiveData<String>()
     val rubro = MutableLiveData<String>()
     val calificacion = MutableLiveData<String>()
-    val descripcion = MutableLiveData<String>()
+    val direccion = MutableLiveData<String>()
     val fotoPrestador = MutableLiveData<String>()
 
     //----------------------------------------------------------------------
@@ -88,7 +84,7 @@ class DetallePedidoPendienteViewModel : ViewModel() {
         viewModelScope.launch {
             nombreCompleto.value = "${usuario[0]} ${usuario[1]}"
             rubro.value = "${pedido.estado}"/*"${this.publicacion.rubro.nombre}"*/
-            descripcion.value = "${usuario[2]}"
+            direccion.value = "${usuario[2]}"
             fotoPrestador.value = usuario[3]
             selectedDay.value = "${pedido.fecha}"
             selectedHour.value= "${pedido.hora}"

@@ -1,8 +1,10 @@
 package com.ort.servitodo.viewmodels.resources.googlemaps
 
 import android.content.Context
+import android.content.Intent
 import android.location.Address
 import android.location.Geocoder
+import android.net.Uri
 import android.text.Editable
 import android.util.Log
 import android.view.LayoutInflater
@@ -156,6 +158,14 @@ class GoogleMapsViewModel : ViewModel() , OnMapReadyCallback {
         mapIntent.setPackage("com.google.android.apps.maps")
         view.context.startActivity(mapIntent)
     }*/
+
+    //--> Redireccionamiento a Google Maps con view
+    fun redirectToGoogleMaps(goto : String, v: View){
+        val gmmIntentUri = Uri.parse("https://www.google.co.in/maps/dir//${goto}")
+        val mapIntent = Intent(Intent.ACTION_VIEW, gmmIntentUri)
+        mapIntent.setPackage("com.google.android.apps.maps")
+        v.context.startActivity(mapIntent)
+    }
 
     //--------------------------------- FUNCIONES PRIVADAS -----------------------------------------------
     //--> Muestra los marcadores

@@ -9,18 +9,17 @@ import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import com.bumptech.glide.Glide
-import com.google.android.gms.common.api.Api
-import com.google.android.material.snackbar.Snackbar
 import com.ort.servitodo.databinding.FragmentDetallePedidoPendienteBinding
 import com.ort.servitodo.entities.Pedido
 import com.ort.servitodo.entities.Publicacion
 
 import com.ort.servitodo.viewmodels.prestador.DetallePedidoPendienteViewModel
-import kotlin.reflect.typeOf
+import com.ort.servitodo.viewmodels.resources.googlemaps.GoogleMapsViewModel
 
 class DetallePedidoPendienteFragment : Fragment() {
 
     private val detalleViewModel: DetallePedidoPendienteViewModel by viewModels()
+    private val googleMapsViewModel: GoogleMapsViewModel by viewModels()
 
     lateinit var v: View
     private lateinit var binding: FragmentDetallePedidoPendienteBinding
@@ -77,9 +76,15 @@ class DetallePedidoPendienteFragment : Fragment() {
             binding.txtNombreCompletoCliente.text = result.toString()
         })
 
-        detalleViewModel.descripcion.observe(viewLifecycleOwner, Observer { result ->
-            binding.txtDescripcion.text = result.toString()
+        detalleViewModel.direccion.observe(viewLifecycleOwner, Observer { result ->
+            binding.txtDireccion.text = result.toString()
         })
+
+        binding.txtDireccion.setOnClickListener {
+            detalleViewModel.direccion.observe(viewLifecycleOwner, Observer { result ->
+                googleMapsViewModel.redirectToGoogleMaps(result.toString(), v)
+            })
+        }
 
         detalleViewModel.rubro.observe(viewLifecycleOwner, Observer { result ->
             binding.txtRubroPublicacion.text = result.toString()

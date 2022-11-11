@@ -5,6 +5,7 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.findNavController
@@ -21,9 +22,11 @@ import com.ort.servitodo.repositories.PedidosRepository
 import com.ort.servitodo.repositories.PublicacionRepository
 import com.ort.servitodo.repositories.UsuarioRepository
 import com.ort.servitodo.viewmodels.resources.WhatsAppViewModel
+import com.ort.servitodo.viewmodels.resources.googlemaps.GoogleMapsViewModel
 import kotlinx.coroutines.launch
 
 class DetallePedidoAceptadoViewModel : ViewModel() {
+
 
     private lateinit var view : View
     private lateinit var pedido : Pedido
@@ -139,26 +142,35 @@ class DetallePedidoAceptadoViewModel : ViewModel() {
         val descripcion = dialog.findViewById<TextView>(R.id.descripcionBottomSheet)!!
         val cancelar = dialog.findViewById<Button>(R.id.cancelarPedidoButton)!!
         val whatsapp = dialog.findViewById<Button>(R.id.whatsappPedidoButton)!!
+        val maps = dialog.findViewById<Button>(R.id.btnMaps)!!
+
 
         viewModelScope.launch {
             val publicacion = getPublicacion(pedido.idPublicacion)
-            val rubrodetails = getRubroDetails(publicacion.idServicio)
             val user = getUsuario(pedido.idCliente)
             setImg(user.foto, img)
             nombre.text = "${user.nombre} ${user.apellido}"
             rubro.text = "Rubro: ${publicacion.rubro!!.nombre}"
-            fecha.text = "Fecha: ${pedido.fecha} - Hora: ${pedido.hora}"
+            fecha.text = "Hora: ${pedido.hora}"
             precio.text = "Precio: $${setPrecio(pedido.precio)}"
             estado.text = "Estado: ${pedido.estado}"
             descripcion.text = "${user.ubicacion}"
-            rubroDetalle.text = rubrodetails
+            rubroDetalle.text = "Fecha: ${pedido.fecha}"
 
-            enableButton(whatsapp, pedido.estado, TipoEstado.RECHAZADO).setOnClickListener{
+
+
+            whatsapp.setOnClickListener(){
                 redirectionToWhatsApp(pedido.idPrestador)
             }
+
+            maps.setOnClickListener(){
+                redirectionToMaps(user.ubicacion)
+            }
+
             enableButton(cancelar, pedido.estado, TipoEstado.EN_CURSO).setOnClickListener{
                 popUpCancel(dialog)
             }
+
 
             dialog.show()
         }
@@ -185,6 +197,13 @@ class DetallePedidoAceptadoViewModel : ViewModel() {
         whatsAppViewModel.confirmRedirectionToWhatsapp(idPrestador, view)
     }
 
+    //--> MAPS
+    fun redirectionToMaps(goto : String): View.OnClickListener? {
+        val googleMapsViewModel = GoogleMapsViewModel()
+        googleMapsViewModel.redirectToGoogleMaps(goto, view)
+        return null
+    }
+
     //--> ENABLE/ DISABLE BUTTON
     private fun enableButton(button : Button, estadoPedido : String, tipoEstado : TipoEstado) : Button{
         val condition = estadoPedido == tipoEstado.toString()
@@ -195,6 +214,8 @@ class DetallePedidoAceptadoViewModel : ViewModel() {
         }
         return button
     }
+
+
 
     //--> CANCEL BUTTON
     private fun cancel() {
@@ -217,9 +238,6 @@ class DetallePedidoAceptadoViewModel : ViewModel() {
             }
             .show()
     }
-
-
-
 
 
 }
