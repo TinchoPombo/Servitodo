@@ -65,13 +65,12 @@
                 android:layout_marginStart="32dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="32dp"
-                android:layout_marginBottom="8dp"
                 android:text="descripcionBottomSheet"
                 android:textAlignment="center"
-                app:layout_constraintBottom_toTopOf="@+id/whatsappPedidoButton"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/materialDivider4" />
+
 
             <TextView
                 android:id="@+id/estadoBottomSheet"
@@ -162,29 +161,38 @@
                 tools:srcCompat="@tools:sample/avatars" />
 
             <Button
-                android:id="@+id/whatsappPedidoButton"
+                android:id="@+id/cancelarPedidoButton"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="32dp"
-                android:layout_marginTop="4dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
                 android:layout_marginEnd="32dp"
                 android:layout_marginBottom="8dp"
-                android:backgroundTint="#F44336"
-                android:text="Whatsapp"
+                android:backgroundTint="#FF4141"
+                android:text="Cancelar"
                 android:textColor="#FFFFFF"
                 android:textSize="12sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/whatsappPedidoButton"
                 app:layout_constraintTop_toBottomOf="@+id/descripcionBottomSheet" />
 
-            <TextView
-                android:id="@+id/textView3"
-                android:layout_width="wrap_content"
+            <Button
+                android:id="@+id/whatsappPedidoButton"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="FUNCIONAAAA"
-                tools:layout_editor_absoluteX="57dp"
-                tools:layout_editor_absoluteY="244dp" />
+                android:layout_marginStart="32dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="8dp"
+                android:backgroundTint="#4CAF50"
+                android:text="Whatsapp"
+                android:textColor="#FFFFFF"
+                android:textSize="12sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/cancelarPedidoButton"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/descripcionBottomSheet" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

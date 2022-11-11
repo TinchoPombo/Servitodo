@@ -57,17 +57,8 @@ class LogInFragment : Fragment() {
             viewModel.validarCuenta(binding.inputMailLogIn.text.toString(), binding.inputPasswordLogin.text.toString())
         }
 
-        binding.btnLogin.setOnClickListener {
-            viewModel.login()
-
-        }
-
         binding.txtRegistroLogin.setOnClickListener {
             viewModel.registroLogin()
-        }
-
-        binding.btnLogin2.setOnClickListener {
-            viewModel.login2()
         }
 
         binding.btnCliente1.setOnClickListener{
@@ -87,10 +78,6 @@ class LogInFragment : Fragment() {
         }
         binding.btnPrest3.setOnClickListener{
             viewModel.prest3()
-        }
-
-        binding.btnLogOut.setOnClickListener{
-            viewModel.logOut()
         }
 
     }

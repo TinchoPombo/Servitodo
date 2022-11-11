@@ -13,6 +13,7 @@ import com.ort.servitodo.entities.PaseaPerros
 import com.ort.servitodo.entities.Publicacion
 import com.ort.servitodo.entities.Rubro
 import com.ort.servitodo.viewmodels.prestador.CrearPublicacionViewModel
+import com.ort.servitodo.viewmodels.rubro.PaseaPerrosViewModel
 
 class PaseaPerrosFragment : Fragment() {
 
@@ -20,7 +21,7 @@ class PaseaPerrosFragment : Fragment() {
         fun newInstance() = PaseaPerrosFragment()
     }
 
-    private val viewModel: CrearPublicacionViewModel by viewModels()
+    private val viewModel: PaseaPerrosViewModel by viewModels()
     lateinit var v: View
     private lateinit var binding: FragmentPaseaPerrosBinding
 
@@ -34,6 +35,10 @@ class PaseaPerrosFragment : Fragment() {
 
         viewModel.setView(v)
 
+        viewModel.setDescripcion(PaseaPerrosFragmentArgs.fromBundle(requireArguments()).descripcion)
+
+        viewModel.setIdRubro(PaseaPerrosFragmentArgs.fromBundle(requireArguments()).idRubro)
+
         return v
     }
 
@@ -41,10 +46,9 @@ class PaseaPerrosFragment : Fragment() {
         super.onStart()
 
         binding.btnCrearPublicacion.setOnClickListener {
-            val rubro : Rubro = PaseaPerros(Integer.parseInt(binding.txtCantidadPerros.text.toString()), Integer.parseInt(binding.txtPrecioPaseo.text.toString()), PaseaPerrosFragmentArgs.fromBundle(requireArguments()).idRubro, "PaseaPerros")
-            val descripcion : String = PaseaPerrosFragmentArgs.fromBundle(requireArguments()).descripcion
-            viewModel.crearPublicacion(descripcion, rubro)
-
+            val precioPaseo = binding.txtPrecioPaseo.text.toString()
+            val cantPerros = binding.txtCantidadPerros.text.toString()
+            viewModel.validacion(precioPaseo, cantPerros)
         }
     }
 

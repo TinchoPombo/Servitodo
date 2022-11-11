@@ -6,13 +6,17 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
+import androidx.navigation.findNavController
+import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.ort.servitodo.databinding.FragmentMantenimientoBinding
 import com.ort.servitodo.entities.Mantenimiento
 import com.ort.servitodo.entities.Publicacion
 import com.ort.servitodo.entities.Rubro
+import com.ort.servitodo.fragments.prestador.CrearPublicacionFragmentDirections
 import com.ort.servitodo.viewmodels.prestador.CrearPublicacionViewModel
+import com.ort.servitodo.viewmodels.rubro.MantenimientoViewModel
 
 class MantenimientoFragment : Fragment() {
 
@@ -20,7 +24,7 @@ class MantenimientoFragment : Fragment() {
         fun newInstance() = MantenimientoFragment()
     }
 
-    private val viewModel: CrearPublicacionViewModel by viewModels()
+    private val viewModel: MantenimientoViewModel by viewModels()
     lateinit var v: View
     private lateinit var binding: FragmentMantenimientoBinding
 
@@ -35,6 +39,10 @@ class MantenimientoFragment : Fragment() {
 
         viewModel.setView(v)
 
+        viewModel.setDescripcion(MantenimientoFragmentArgs.fromBundle(requireArguments()).descripcion)
+
+        viewModel.setIdRubro(MantenimientoFragmentArgs.fromBundle(requireArguments()).idRubro)
+
         return v
     }
 
@@ -42,9 +50,8 @@ class MantenimientoFragment : Fragment() {
         super.onStart()
 
         binding.btnCrearPublicacion.setOnClickListener {
-            val rubro : Rubro = Mantenimiento(Integer.parseInt(binding.txtPrecioConsulta.text.toString()), MantenimientoFragmentArgs.fromBundle(requireArguments()).idRubro, "Mantenimiento")
-            val descripcion : String = MantenimientoFragmentArgs.fromBundle(requireArguments()).descripcion
-            viewModel.crearPublicacion(descripcion, rubro)
+            val precioConsulta = binding.txtPrecioConsulta.text.toString()
+            viewModel.validacion(precioConsulta)
         }
     }
 
