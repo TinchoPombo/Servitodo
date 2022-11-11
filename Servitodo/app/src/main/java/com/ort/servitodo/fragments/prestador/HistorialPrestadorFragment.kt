@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.findNavController
+import com.ort.servitodo.adapters.PedidosHistorialAdapter
 import com.ort.servitodo.databinding.FragmentHistorialPrestadorBinding
 import com.ort.servitodo.viewmodels.prestador.HistorialPrestadorViewModel
 
@@ -23,6 +24,8 @@ class HistorialPrestadorFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+
+
         binding = FragmentHistorialPrestadorBinding.inflate(inflater, container, false)
 
         v = binding.root
@@ -31,19 +34,21 @@ class HistorialPrestadorFragment : Fragment() {
         historialPrestadorViewModel.setView(v)
 
 
+
+
         return v
     }
 
     override fun onStart() {
         super.onStart()
 
-        historialPrestadorViewModel.emptyList()
+        //historialPrestadorViewModel.cargarPedidos()
+        /* binding.historialPrestadorRV.adapter = PedidosHistorialAdapter(historialPrestadorViewModel.pedidos){
+            pos -> historialPrestadorViewModel.onClick(pos) }*/
+
+
         historialPrestadorViewModel.recyclerView(binding.historialPrestadorRV)
-
-
-
-
-
+        historialPrestadorViewModel.emptyList()
     }
 
 }

@@ -25,6 +25,7 @@ class OpinionesClienteFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+
         binding = FragmentOpinionesClienteBinding.inflate(inflater, container, false)
 
 
@@ -35,18 +36,6 @@ class OpinionesClienteFragment : Fragment() {
 
         return v
     }
-
-    override fun onStart() {
-        super.onStart()
-
-        opinionesClienteViewModel.emptyList()
-      //  opinionesClienteViewModel.recyclerView(v)
-
-
-
-
-    }
-
 
 
 }

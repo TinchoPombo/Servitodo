@@ -25,7 +25,7 @@ class HistorialClienteViewModel : ViewModel() {
     private lateinit var view : View
     private var repository = PedidosRepository()
     val cargando = MutableLiveData<String>()
-    var pedidos : MutableList<Pedido> = arrayListOf()
+    var pedidos : MutableList<Pedido> = mutableListOf()
 
 
     fun setView(v : View){

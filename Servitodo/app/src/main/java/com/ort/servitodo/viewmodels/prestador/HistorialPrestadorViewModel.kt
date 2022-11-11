@@ -33,7 +33,8 @@ class HistorialPrestadorViewModel : ViewModel() {
     private lateinit var view : View
     private var repository = PedidosRepository()
     val cargando = MutableLiveData<String>()
-    var pedidos : MutableList<Pedido> = arrayListOf()
+    var pedidos : MutableList<Pedido> = mutableListOf()
+
 
 
     fun setView(v : View){
@@ -47,11 +48,8 @@ class HistorialPrestadorViewModel : ViewModel() {
 
      private fun getActualId() : String{
          var id : String = ""
-
-
-           id =  UsuarioRepository(this.view).getIdSession()
-
-        return id
+         id =  UsuarioRepository(this.view).getIdSession()
+         return id
      }
 
     fun snackCalificar(){
@@ -59,14 +57,23 @@ class HistorialPrestadorViewModel : ViewModel() {
             .show()
     }
 
+    fun cargarPedidos(){
+
+       viewModelScope.launch {
+
+           pedidos = repository.getPedidosByUserIndex(getActualId())
+       }
+
+    }
+
     fun recyclerView(recyclerPedido : RecyclerView){
 
-        cargando.value = "Cargando..."
 
-        viewModelScope.launch{
-
+        viewModelScope.launch {
             pedidos = repository.getPedidosByUserIndex(getActualId())
 
+
+        cargando.value = "Cargando..."
 
             if(pedidos.size < 1) {
                 cargando.value = "No hay publicaciones disponibles"
@@ -78,8 +85,6 @@ class HistorialPrestadorViewModel : ViewModel() {
 
                 recyclerPedido.layoutManager  = LinearLayoutManager(view.context)
 
-
-
                 recyclerPedido.adapter = PedidosHistorialAdapter(pedidos){
                    pos ->
                    onClick(pos)}
@@ -87,9 +92,7 @@ class HistorialPrestadorViewModel : ViewModel() {
         }
     }
 
-
-
-   private fun onClick(id: Int){
+    fun onClick(id: Int){
 
       viewModelScope.launch{
 
@@ -101,12 +104,7 @@ class HistorialPrestadorViewModel : ViewModel() {
         }else{
             snackCalificar()
             }
-
         }
-
-
     }
-
-
 
 }

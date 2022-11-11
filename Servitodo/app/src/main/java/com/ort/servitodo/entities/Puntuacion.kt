@@ -8,7 +8,7 @@ class Puntuacion(
     var puntaje: Float,
     var comentario: String,
         ){
-    constructor():this(0,"", "",0, "".toFloat(),"")
+    constructor():this(0,"", "",0, 0f,"")
 
     init {
         this.id = id!!

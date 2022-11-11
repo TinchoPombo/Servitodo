@@ -170,6 +170,8 @@ class DetallePedidoPendienteViewModel : ViewModel() {
 
     //---------------- Calificaciones de prestador ------------------------------------------
     fun opinionesDelPrestador(){
+
+      //  opiniones.setView(this.view)
         opiniones.emptyList()
         opiniones.recyclerView(this.view, this.pedido.idCliente)
     }

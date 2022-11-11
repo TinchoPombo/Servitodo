@@ -25,6 +25,8 @@ class HistorialClienteFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+
+
         binding = FragmentHistorialClienteBinding.inflate(inflater, container, false)
 
         v = binding.root

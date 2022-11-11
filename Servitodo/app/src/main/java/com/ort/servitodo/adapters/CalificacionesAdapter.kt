@@ -25,7 +25,10 @@ import kotlinx.coroutines.launch
 
 class CalificacionesAdapter (
     var listaCalificaciones : MutableList <Puntuacion>,
-    var onClick : (Int) -> Unit
+    var esPrestador : Boolean,
+    var onClick : (Int) -> Unit,
+
+
 ) : RecyclerView.Adapter<CalificacionesAdapter.CalificacionesHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CalificacionesHolder {
@@ -35,7 +38,13 @@ class CalificacionesAdapter (
 
     override fun onBindViewHolder(holder: CalificacionesHolder, position: Int) {
 
-        holder.setDatos(listaCalificaciones[position].idCliente)
+
+        if(esPrestador){
+            holder.setDatos(listaCalificaciones[position].idPrestador)
+        }else{
+            holder.setDatos(listaCalificaciones[position].idCliente)
+        }
+
 
         holder.setRating(listaCalificaciones[position].puntaje)
 

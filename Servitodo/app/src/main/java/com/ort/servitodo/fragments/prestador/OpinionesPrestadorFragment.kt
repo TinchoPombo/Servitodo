@@ -35,15 +35,5 @@ class OpinionesPrestadorFragment : Fragment() {
         return v
     }
 
-    override fun onStart() {
-        super.onStart()
-
-        opinionesPrestadorViewModel.emptyList()
-       //opinionesPrestadorViewModel.recyclerView(v)
-
-
-
-
-    }
 
 }
