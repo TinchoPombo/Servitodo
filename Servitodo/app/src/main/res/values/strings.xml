@@ -24,6 +24,18 @@
         <item>Fletero</item>
     </string-array>
 
+    <string-array name="filtroHistorial">
+        <item>Todos</item>
+        <item>Pedidos Finalizado</item>
+        <item>Pedidos En Curso</item>
+        <item>Pedidos Rechazados</item>
+        <item>Pedidos Aprobados</item>
+        <item>Pedidos Pendientes</item>
+        <item>Por Fecha  ⇡ </item>
+        <item>Por Fecha   ⇣ </item>
+
+    </string-array>
+
     <string-array name="filtroDistancia">
         <item>1km</item>
         <item>3km</item>

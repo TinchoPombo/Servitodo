@@ -4,11 +4,13 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ArrayAdapter
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.ort.servitodo.R
 import com.ort.servitodo.adapters.PedidosHistorialAdapter
 import com.ort.servitodo.databinding.FragmentHistorialPrestadorBinding
 import com.ort.servitodo.viewmodels.prestador.HistorialPrestadorViewModel
@@ -21,6 +23,15 @@ class HistorialPrestadorFragment : Fragment() {
     private lateinit var binding : FragmentHistorialPrestadorBinding
 
 
+    override fun onResume() {
+        super.onResume()
+
+        val filtro = resources.getStringArray((R.array.filtroHistorial))
+        val arrayAdapterFiltroHistorial = ArrayAdapter(requireContext(), R.layout.dropdown_item, filtro)
+        binding.autoCompleteTextViewFiltroHistorialPrestador.setAdapter(arrayAdapterFiltroHistorial)
+
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -32,6 +43,12 @@ class HistorialPrestadorFragment : Fragment() {
 
         historialPrestadorViewModel.setView(v)
         historialPrestadorViewModel.cargarPedidos()
+
+        binding.autoCompleteTextViewFiltroHistorialPrestador.setOnItemClickListener { adapterView, view, i, l ->
+            historialPrestadorViewModel.emptyList()
+            historialPrestadorViewModel.onClickFiltro(l)
+        }
+
 
         return v
     }
@@ -50,6 +67,8 @@ class HistorialPrestadorFragment : Fragment() {
                 historialPrestadorViewModel.onClick(pos)
 
             }
+
+
         })
 
 

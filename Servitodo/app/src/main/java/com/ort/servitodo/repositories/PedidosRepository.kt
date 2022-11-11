@@ -13,6 +13,9 @@ import com.ort.servitodo.entities.Puntuacion
 import com.ort.servitodo.entities.TipoEstado
 import com.ort.servitodo.viewmodels.resources.CalendarViewModel
 import kotlinx.coroutines.tasks.await
+import java.lang.AssertionError
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 
 class PedidosRepository {
 
@@ -184,4 +187,25 @@ class PedidosRepository {
             }
         } catch (e: Exception) { }
     }
+
+    suspend fun getPedidosByEstado(id :String, estado : String) : MutableList<Pedido>{
+
+        try{
+            listaPedidos = getPedidos().filter { (it.idPrestador == id || it.idCliente == id) && it.estado == estado  }.toMutableList()
+        }catch (e :Exception){ }
+
+        return listaPedidos
+    }
+
+    suspend fun getPedidoPorFecha(id: String) : MutableList<Pedido>{
+
+        try{
+
+            listaPedidos = getPedidos().filter { it.idCliente == id || it.idPrestador == id }.toMutableList()
+        }catch(e:Exception){}
+        return listaPedidos
+    }
+
+
 }
+

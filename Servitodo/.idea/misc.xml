@@ -156,11 +156,13 @@
         <entry key="..\:/Users/ronqu/Desktop/Servitodo/Servitodo/Servitodo/app/src/main/res/layout/fragment_crear_publicacion.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/ronqu/Desktop/Servitodo/Servitodo/Servitodo/app/src/main/res/layout/fragment_detalle_pedido_pendiente.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/ronqu/Desktop/Servitodo/Servitodo/Servitodo/app/src/main/res/layout/fragment_historial_cliente.xml" value="0.36666666666666664" />
-        <entry key="..\:/Users/ronqu/Desktop/Servitodo/Servitodo/Servitodo/app/src/main/res/layout/fragment_historial_prestador.xml" value="0.36666666666666664" />
+        <entry key="..\:/Users/ronqu/Desktop/Servitodo/Servitodo/Servitodo/app/src/main/res/layout/fragment_historial_prestador.xml" value="0.5" />
         <entry key="..\:/Users/ronqu/Desktop/Servitodo/Servitodo/Servitodo/app/src/main/res/layout/fragment_home_cliente.xml" value="0.36666666666666664" />
+        <entry key="..\:/Users/ronqu/Desktop/Servitodo/Servitodo/Servitodo/app/src/main/res/layout/fragment_home_prestador.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/ronqu/Desktop/Servitodo/Servitodo/Servitodo/app/src/main/res/layout/fragment_mantenimiento.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/ronqu/Desktop/Servitodo/Servitodo/Servitodo/app/src/main/res/layout/fragment_opiniones_cliente.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/ronqu/Desktop/Servitodo/Servitodo/Servitodo/app/src/main/res/layout/fragment_opiniones_prestador.xml" value="0.36666666666666664" />
+        <entry key="..\:/Users/ronqu/Desktop/Servitodo/Servitodo/Servitodo/app/src/main/res/layout/fragment_pasea_perros.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/ronqu/Desktop/Servitodo/Servitodo/Servitodo/app/src/main/res/layout/fragment_pedido.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/ronqu/Desktop/Servitodo/Servitodo/Servitodo/app/src/main/res/layout/fragment_pedidos_cliente.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/ronqu/Desktop/Servitodo/Servitodo/Servitodo/app/src/main/res/layout/fragment_perfil_cliente.xml" value="0.36666666666666664" />
@@ -168,6 +170,7 @@
         <entry key="..\:/Users/ronqu/Desktop/Servitodo/Servitodo/Servitodo/app/src/main/res/layout/fragment_peticiones_pendientes.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/ronqu/Desktop/Servitodo/Servitodo/Servitodo/app/src/main/res/layout/fragment_publicacion.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/ronqu/Desktop/Servitodo/Servitodo/Servitodo/app/src/main/res/layout/fragment_publicaciones_prestador.xml" value="0.36666666666666664" />
+        <entry key="..\:/Users/ronqu/Desktop/Servitodo/Servitodo/Servitodo/app/src/main/res/layout/marker_info_contents.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/ronqu/Desktop/Servitodo/Servitodo/Servitodo/app/src/main/res/layout/peticion_aceptada_prestador.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/ronqu/Desktop/Servitodo/Servitodo/Servitodo/app/src/main/res/layout/peticion_pendiente_prestador.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/ronqu/Desktop/Servitodo/Servitodo/Servitodo/app/src/main/res/menu/bottom_bar_cliente.xml" value="0.36666666666666664" />

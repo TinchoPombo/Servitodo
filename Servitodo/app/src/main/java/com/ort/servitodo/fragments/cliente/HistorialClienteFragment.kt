@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ArrayAdapter
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -24,20 +25,32 @@ class HistorialClienteFragment : Fragment() {
     lateinit var v : View
     private lateinit var binding : FragmentHistorialClienteBinding
 
+    override fun onResume() {
+        super.onResume()
+
+        val filtro = resources.getStringArray(R.array.filtroHistorial)
+        val arrayAdapterFiltroHistorial = ArrayAdapter(requireContext(), R.layout.dropdown_item, filtro)
+        binding.autoCompleteTextViewFiltroClientePrestador.setAdapter(arrayAdapterFiltroHistorial)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-
-
         binding = FragmentHistorialClienteBinding.inflate(inflater, container, false)
 
         v = binding.root
 
-
         historialClienteViewModel.setView(v)
         historialClienteViewModel.cargarPedidos()
+
+        binding.autoCompleteTextViewFiltroClientePrestador.setOnItemClickListener { adapterView, view, i, l ->
+            historialClienteViewModel.emptyList()
+            historialClienteViewModel.onClickFiltro(l)
+
+        }
+
+
 
         return v
     }
@@ -55,7 +68,10 @@ class HistorialClienteFragment : Fragment() {
                 historialClienteViewModel.onClick(pos)
 
             }
+
+
         })
+
 
 
         //historialPrestadorViewModel.recyclerView(binding.historialPrestadorRV)
