@@ -27,9 +27,8 @@ class PedidosClienteViewModel : ViewModel() {
 
     val repository = PedidosRepository()
 
-    var pedidos : MutableList<Pedido> = arrayListOf()
-
     val cargando = MutableLiveData<String>()
+    val pedidos = MutableLiveData<MutableList<Pedido>>()
 
     //----------------------------------------------------------------------------------------
     fun setView(v : View){
@@ -37,36 +36,30 @@ class PedidosClienteViewModel : ViewModel() {
         this.usuarioRepository = UsuarioRepository(v)
     }
 
-    fun emptyList(){
-        this.pedidos.clear()
+    private fun emptyList(){
+        this.pedidos.value?.clear()
     }
 
     //----------------------------------------------------------------------------------------
-    fun recyclerView(recyclerPedidos : RecyclerView){
-        val userId = usuarioRepository.getIdSession()
-        cargando.value = "Cargando..."
-
+    fun setPedidos(){
         viewModelScope.launch{
-            repository.changeState()
-            pedidos = repository.getPedidosCliente(userId)
+            emptyList()
+            val userId = usuarioRepository.getIdSession()
+            val list = repository.getPedidosCliente(userId)
 
-            if(pedidos.size < 1) {
+            cargando.value = "Cargando..."
+
+            if(list.size < 1) {
                 cargando.value = "Todavia no hay pedidos solicitados"
             }
             else{
+                pedidos.value = list
                 cargando.value = ""
-
-                recyclerPedidos.setHasFixedSize(true)
-                recyclerPedidos.layoutManager  = LinearLayoutManager(view.context)
-
-                recyclerPedidos.adapter = PedidosAdapter(pedidos){ pos ->
-                    onItemClick(pos)
-                }
             }
         }
     }
 
-    private fun onItemClick(position : Int){
+    fun onItemClick(position : Int){
 
     }
 

@@ -8,7 +8,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.ort.servitodo.R
+import com.ort.servitodo.adapters.PedidosAdapter
+import com.ort.servitodo.adapters.PublicacionAdapter
 import com.ort.servitodo.databinding.FragmentDetallePublicacionBinding
 import com.ort.servitodo.databinding.FragmentHomeClienteBinding
 import com.ort.servitodo.databinding.FragmentPedidosClienteBinding
@@ -40,6 +43,7 @@ class PedidosClienteFragment : Fragment() {
         v = binding.root
 
         pedidosViewModel.setView(v)
+        pedidosViewModel.setPedidos()
 
         return v
     }
@@ -47,13 +51,20 @@ class PedidosClienteFragment : Fragment() {
     override fun onStart() {
         super.onStart()
 
-        pedidosViewModel.emptyList()
+        pedidosViewModel.pedidos.observe(viewLifecycleOwner, Observer { result ->
+            val recyclerPedidos = binding.recPedidos
+
+            recyclerPedidos.setHasFixedSize(true)
+            recyclerPedidos.layoutManager  = LinearLayoutManager(context)
+
+            recyclerPedidos.adapter = PedidosAdapter(result){ pos ->
+                pedidosViewModel.onItemClick(pos)
+            }
+        })
 
         pedidosViewModel.cargando.observe(viewLifecycleOwner, Observer { result ->
             binding.pedidosCargandotxt.text = result.toString()
         })
-
-        pedidosViewModel.recyclerView(binding.recPedidos)
 
     }
 
