@@ -135,6 +135,7 @@ class DetallePedidoPendienteViewModel : ViewModel() {
             .update("estado", TipoEstado.RECHAZADO.toString() )
             .addOnSuccessListener { Log.d(TAG, "DocumentSnapshot successfully updated!") }
             .addOnFailureListener { e -> Log.w(TAG, "Error updating document", e) }
+        view.findNavController().navigateUp()
     }
 
     fun aceptarPedido(){
@@ -144,6 +145,7 @@ class DetallePedidoPendienteViewModel : ViewModel() {
             .update("estado", TipoEstado.APROBADO.toString(), "fecha", selectedDay.value.toString(), "hora", selectedHour.value.toString(), "precio", this.precio)
             .addOnSuccessListener { Log.d(TAG, "DocumentSnapshot successfully updated!") }
             .addOnFailureListener { e -> Log.w(TAG, "Error updating document", e) }
+        view.findNavController().navigateUp()
     }
 
     //---------------- Contratacion de prestador ------------------------------------------

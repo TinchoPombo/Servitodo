@@ -33,13 +33,16 @@
         tools:layout="@layout/fragment_crear_publicacion" >
         <action
             android:id="@+id/action_crearPublicacionFragment_to_fleteroFragment"
-            app:destination="@id/fleteroFragment" />
+            app:destination="@id/fleteroFragment"
+            app:popUpTo="@id/homePrestadorFragment" />
         <action
             android:id="@+id/action_crearPublicacionFragment_to_mantenimientoFragment"
-            app:destination="@id/mantenimientoFragment" />
+            app:destination="@id/mantenimientoFragment"
+            app:popUpTo="@id/homePrestadorFragment" />
         <action
             android:id="@+id/action_crearPublicacionFragment_to_paseaPerrosFragment"
-            app:destination="@id/paseaPerrosFragment" />
+            app:destination="@id/paseaPerrosFragment"
+            app:popUpTo="@id/homePrestadorFragment" />
     </fragment>
     <fragment
         android:id="@+id/historialPrestadorFragment"
@@ -84,9 +87,6 @@
         <argument
             android:name="idRubro"
             app:argType="integer" />
-        <action
-            android:id="@+id/action_fleteroFragment_to_homePrestadorFragment"
-            app:destination="@id/homePrestadorFragment" />
     </fragment>
     <fragment
         android:id="@+id/mantenimientoFragment"
@@ -119,7 +119,8 @@
         tools:layout="@layout/fragment_peticiones_pendientes" >
         <action
             android:id="@+id/action_peticionesPendientesFragment2_to_detallePedidoPendienteFragment"
-            app:destination="@id/detallePedidoPendienteFragment" />
+            app:destination="@id/detallePedidoPendienteFragment"
+            app:popUpTo="@id/homePrestadorFragment" />
     </fragment>
     <fragment
         android:id="@+id/detallePedidoPendienteFragment"
