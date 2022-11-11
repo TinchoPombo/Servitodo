@@ -160,7 +160,7 @@ class DetallePedidoAceptadoViewModel : ViewModel() {
 
 
             whatsapp.setOnClickListener(){
-                redirectionToWhatsApp(pedido.idPrestador)
+                redirectionToWhatsApp(pedido.idCliente)
             }
 
             maps.setOnClickListener(){
@@ -192,9 +192,9 @@ class DetallePedidoAceptadoViewModel : ViewModel() {
     }
 
     //--> WHATSAPP
-    fun redirectionToWhatsApp(idPrestador : String){
+    fun redirectionToWhatsApp(idCliente : String){
         val whatsAppViewModel = WhatsAppViewModel()
-        whatsAppViewModel.confirmRedirectionToWhatsapp(idPrestador, view)
+        whatsAppViewModel.confirmRedirectionToWhatsapp(idCliente, view)
     }
 
     //--> MAPS

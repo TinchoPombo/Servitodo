@@ -127,8 +127,8 @@ class DetallePedidoPendienteFragment : Fragment() {
         binding.aceptarButton.setOnClickListener {
 
             val precio = binding.editTextPrecio.text.toString()
-            Log.d("PRECIOOOOO", "asddfsdf ${precio} ")
-            if (precio != "" && precio != null) {
+            Log.d("PRECIO", "Precio sugerido: ${precio} ")
+            if (!precio.isNullOrEmpty()) {
                 detalleViewModel.setPrecio(Integer.parseInt(precio))
                 detalleViewModel.aceptarPedido()
             }else{

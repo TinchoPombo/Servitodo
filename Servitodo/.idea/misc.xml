@@ -12,8 +12,6 @@
         <entry key="..\:/Estudio/ORT/cuartoCuatrimestre/Servitodo/Servitodo/app/src/main/res/layout/fragment_detalle_pedido_pendiente.xml" value="0.2857789855072464" />
         <entry key="..\:/Estudio/ORT/cuartoCuatrimestre/Servitodo/Servitodo/app/src/main/res/layout/fragment_home_cliente.xml" value="0.2857789855072464" />
         <entry key="..\:/Estudio/ORT/cuartoCuatrimestre/Servitodo/Servitodo/app/src/main/res/layout/fragment_home_prestador.xml" value="0.2857789855072464" />
-        <entry key="..\:/Estudio/ORT/cuartoCuatrimestre/Servitodo/Servitodo/app/src/main/res/layout/fragment_perfil_cliente.xml" value="0.4708994708994709" />
-        <entry key="..\:/Estudio/ORT/cuartoCuatrimestre/Servitodo/Servitodo/app/src/main/res/layout/fragment_perfil_prestador.xml" value="0.5031702898550725" />
         <entry key="..\:/Estudio/ORT/cuartoCuatrimestre/Servitodo/Servitodo/app/src/main/res/layout/fragment_peticiones_pendientes.xml" value="0.2857789855072464" />
         <entry key="..\:/Estudio/ORT/cuartoCuatrimestre/TP3/Servitodo/Servitodo/app/src/main/res/layout/activity_main.xml" value="0.296195652173913" />
         <entry key="..\:/Estudio/ORT/cuartoCuatrimestre/TP3/Servitodo/Servitodo/app/src/main/res/layout/fragment_detalle_publicacion.xml" value="0.33" />
@@ -79,9 +77,12 @@
         <entry key="..\:/Proyecto FInal/Repo Filtro Maps/Servitodo/Servitodo/app/src/main/res/layout/fragment_bottom_sheet_pedido_cliente.xml" value="0.36666666666666664" />
         <entry key="..\:/Proyecto FInal/Repo Filtro Maps/Servitodo/Servitodo/app/src/main/res/layout/fragment_detalle_pedido_pendiente.xml" value="0.36666666666666664" />
         <entry key="..\:/Proyecto FInal/Repo Filtro Maps/Servitodo/Servitodo/app/src/main/res/layout/fragment_historial_prestador.xml" value="0.36666666666666664" />
+        <entry key="..\:/Proyecto FInal/Repo Filtro Maps/Servitodo/Servitodo/app/src/main/res/layout/fragment_home_cliente.xml" value="0.36666666666666664" />
+        <entry key="..\:/Proyecto FInal/Repo Filtro Maps/Servitodo/Servitodo/app/src/main/res/layout/fragment_home_prestador.xml" value="0.36666666666666664" />
         <entry key="..\:/Proyecto FInal/Repo Filtro Maps/Servitodo/Servitodo/app/src/main/res/layout/fragment_log_in.xml" value="0.36666666666666664" />
         <entry key="..\:/Proyecto FInal/Repo Filtro Maps/Servitodo/Servitodo/app/src/main/res/layout/fragment_pedido.xml" value="0.18802083333333333" />
         <entry key="..\:/Proyecto FInal/Repo Filtro Maps/Servitodo/Servitodo/app/src/main/res/layout/fragment_pedidos_cliente.xml" value="0.18802083333333333" />
+        <entry key="..\:/Proyecto FInal/Repo Filtro Maps/Servitodo/Servitodo/app/src/main/res/layout/fragment_perfil_cliente.xml" value="0.175" />
         <entry key="..\:/Proyecto FInal/Repo Filtro Maps/Servitodo/Servitodo/app/src/main/res/layout/fragment_perfil_prestador.xml" value="0.18802083333333333" />
         <entry key="..\:/Proyecto FInal/Repo Filtro Maps/Servitodo/Servitodo/app/src/main/res/layout/fragment_peticiones_pendientes.xml" value="0.18802083333333333" />
         <entry key="..\:/Proyecto FInal/Repo Filtro Maps/Servitodo/Servitodo/app/src/main/res/layout/fragment_sign_up.xml" value="0.33" />
