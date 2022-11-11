@@ -32,11 +32,9 @@ class DetallePedidoPendienteViewModel : ViewModel() {
     private lateinit var usuario: Array<String>
     private lateinit var usuarioRepository : UsuarioRepository
     private lateinit var publicacion : Publicacion
-    private var precio = 1
+    private var precio = 0
     val db = Firebase.firestore
 
-
-    private var pedidosRepository = PedidosRepository()
 
     //--> View Models
     private val calendarViewModel = CalendarViewModel()
@@ -102,7 +100,7 @@ class DetallePedidoPendienteViewModel : ViewModel() {
     fun selectHour(){
         val fecha = this.selectedDay.value
         if(fecha != null){
-            timeViewModel.showTimePicker(view, fecha, this.publicacion, this.selectedHour)
+             timeViewModel.showTimePicker(view, fecha, this.publicacion, this.selectedHour)
         }
     }
 
@@ -178,7 +176,7 @@ class DetallePedidoPendienteViewModel : ViewModel() {
 
 
     fun snackPrecio(){
-        Snackbar.make(this.view, "Debe ingresar el precio para acpetar el pedido", Snackbar.LENGTH_SHORT)
+        Snackbar.make(this.view, "Debe ingresar el precio para acepetar el pedido", Snackbar.LENGTH_SHORT)
                     .show()
     }
 

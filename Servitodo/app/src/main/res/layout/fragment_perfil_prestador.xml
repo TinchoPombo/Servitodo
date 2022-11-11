@@ -207,6 +207,7 @@
         android:layout_marginBottom="2dp"
         android:text="Salir"
         android:textSize="8sp"
+        android:backgroundTint="#FF4141"
         app:layout_constraintBottom_toTopOf="@+id/scrollView2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/tv_heading"

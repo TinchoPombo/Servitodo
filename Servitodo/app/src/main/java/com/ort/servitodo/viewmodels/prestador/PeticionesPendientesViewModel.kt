@@ -69,7 +69,7 @@ class PeticionesPendientesViewModel : ViewModel() {
         viewModelScope.launch{
             val pedido = repositoryPedidos.getPedidoByIndex(position)
             val cliente = usuarioRep.getUsuarioById(pedido.idCliente)
-            val publicacion = repositoryPublicaciones.getPublicacionByIndex(pedido.idPublicacion)
+            val publicacion = repositoryPublicaciones.getPublicacionById(pedido.idPublicacion)
             val arrayCliente = arrayOf(cliente.nombre, cliente.apellido, cliente.ubicacion, cliente.foto)
             val action = PeticionesPendientesFragmentDirections.actionPeticionesPendientesFragment2ToDetallePedidoPendienteFragment(pedido, arrayCliente, publicacion)
             view.findNavController().navigate(action)
