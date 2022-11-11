@@ -36,6 +36,17 @@
 
     </string-array>
 
+    <string-array name="filtroHistorialCliente">
+        <item>Todos</item>
+        <item>Pedidos Finalizado</item>
+        <item>Pedidos En Curso</item>
+        <item>Pedidos Cancelados</item>
+        <item>Pedidos Por Precio</item>
+        <item>Por Fecha  ⇡ </item>
+        <item>Por Fecha   ⇣ </item>
+
+    </string-array>
+
     <string-array name="filtroDistancia">
         <item>1km</item>
         <item>3km</item>

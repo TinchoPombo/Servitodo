@@ -87,11 +87,10 @@ class HistorialClienteViewModel : ViewModel() {
             0L-> cargarPedidos()
             1L-> cargarPedidosFinalizados()
             2L-> cargarPedidosEnCurso()
-            3L-> cargarPedidosRechazados()
-            4L-> cargarPedidosAprobados()
-            5L-> cargarPedidosPendientes()
-            6L-> cargarPedidosPorFechaAscendente()
-            7L-> cargarPedidosPorFechaDescendente()
+            3L-> cargarPedidosCancelados()
+            4L-> cargarPedidosPorPrecio()
+            5L-> cargarPedidosPorFechaAscendente()
+            6L-> cargarPedidosPorFechaDescendente()
         }
     }
 
@@ -201,12 +200,12 @@ class HistorialClienteViewModel : ViewModel() {
 
         }
     }
-    private fun cargarPedidosRechazados(){
+    private fun cargarPedidosCancelados(){
 
         viewModelScope.launch {
             emptyList()
 
-            val listaHistorial = repository.getPedidosByEstado(getActualId(), "RECHAZADO")
+            val listaHistorial = repository.getPedidosByEstado(getActualId(), "CANCELADO")
 
             cargando.value = "Cargando...."
 
@@ -220,12 +219,12 @@ class HistorialClienteViewModel : ViewModel() {
 
         }
     }
-    private fun cargarPedidosAprobados(){
+    private fun cargarPedidosPorPrecio(){
 
         viewModelScope.launch {
             emptyList()
 
-            val listaHistorial = repository.getPedidosByEstado(getActualId(), "APROBADO")
+            val listaHistorial = repository.getPedidosByUserIndex(getActualId())
 
             cargando.value = "Cargando...."
 
@@ -233,7 +232,7 @@ class HistorialClienteViewModel : ViewModel() {
                 cargando.value = "No hay pedidos"
 
             }else{
-                pedidos.value = listaHistorial
+                pedidos.value = listaHistorial.sortedByDescending { it.precio }.toMutableList()
                 cargando.value = ""
             }
 

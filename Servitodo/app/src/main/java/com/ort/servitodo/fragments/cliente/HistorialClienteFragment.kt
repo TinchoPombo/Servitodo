@@ -28,7 +28,7 @@ class HistorialClienteFragment : Fragment() {
     override fun onResume() {
         super.onResume()
 
-        val filtro = resources.getStringArray(R.array.filtroHistorial)
+        val filtro = resources.getStringArray(R.array.filtroHistorialCliente)
         val arrayAdapterFiltroHistorial = ArrayAdapter(requireContext(), R.layout.dropdown_item, filtro)
         binding.autoCompleteTextViewFiltroClientePrestador.setAdapter(arrayAdapterFiltroHistorial)
     }
