@@ -1,7 +1,11 @@
+@file:Suppress("DEPRECATION")
+
 package com.ort.servitodo.fragments.login
 
+import android.app.Activity.RESULT_OK
 import android.app.AlertDialog
 import android.content.ContentValues.TAG
+import android.content.Intent
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
 import android.util.Log
@@ -31,12 +35,16 @@ import java.util.regex.Pattern
 class SignUpFragment : Fragment() {
 
     companion object {
+        val IMAGE_REQUEST_CODE = 1_000;
         fun newInstance() = SignUpFragment()
     }
 
     private val viewModel: SignUpViewModel by viewModels()
     private lateinit var binding : FragmentSignUpBinding
     lateinit var v : View
+
+
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -59,7 +67,27 @@ class SignUpFragment : Fragment() {
         }
 
 
+
+        binding.btnCargarImagen.setOnClickListener {
+            pickImageFromGallery()
+        }
+
+
         return v
+    }
+
+    private fun pickImageFromGallery() {
+        val intent = Intent(Intent.ACTION_PICK)
+        intent.type = "image/*"
+        startActivityForResult(intent, IMAGE_REQUEST_CODE)
+    }
+
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == IMAGE_REQUEST_CODE && resultCode == RESULT_OK) {
+            binding.imageView.setImageURI(data?.data)
+        }
     }
 
 
