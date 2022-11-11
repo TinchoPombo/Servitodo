@@ -6,6 +6,7 @@ import android.app.Activity.RESULT_OK
 import android.app.AlertDialog
 import android.content.ContentValues.TAG
 import android.content.Intent
+import android.net.Uri
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
 import android.util.Log
@@ -18,7 +19,11 @@ import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.navigation.NavDirections
 import androidx.navigation.findNavController
+import com.google.android.gms.tasks.OnFailureListener
+import com.google.android.gms.tasks.OnSuccessListener
 import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.UploadTask
+import com.google.firebase.storage.ktx.storage
 import com.ort.servitodo.R
 import com.ort.servitodo.databinding.FragmentLogInBinding
 import com.ort.servitodo.databinding.FragmentSignUpBinding
@@ -43,7 +48,10 @@ class SignUpFragment : Fragment() {
     private lateinit var binding : FragmentSignUpBinding
     lateinit var v : View
 
+    private  var imageUrl = ""
 
+    //firebase storage
+    val storage = Firebase.storage
 
 
     override fun onCreateView(
@@ -87,8 +95,60 @@ class SignUpFragment : Fragment() {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == IMAGE_REQUEST_CODE && resultCode == RESULT_OK) {
             binding.imageView.setImageURI(data?.data)
+            uploadImageToFirebase(data?.data!!)
         }
     }
+
+    private fun uploadImageToFirebase(fileUri: Uri) {
+        if (fileUri != null) {
+            val fileName = UUID.randomUUID().toString() +".jpg"
+
+             /*val storage = Firebase.storage*/
+            val refStorage = storage.reference.child("images/$fileName")
+
+            var imageUrl1 = ""
+            refStorage.putFile(fileUri)
+                .addOnSuccessListener(
+                    OnSuccessListener<UploadTask.TaskSnapshot> { taskSnapshot ->
+                        taskSnapshot.storage.downloadUrl.addOnSuccessListener {
+                            imageUrl1 = it.toString()
+                             Log.d("FOTOOO", "link ${it.toString()}")
+                        }
+                    })
+
+                ?.addOnFailureListener(OnFailureListener { e ->
+                    print(e.message)
+                })
+            imageUrl = imageUrl1
+            Log.d("FOTOOO", "link 2 !! ${imageUrl}")
+        }
+
+        /*val storageRef = storage.reference
+        val ref = storageRef.child("images/asdf.jpg")
+        var uploadTask = ref.putFile(fileUri)
+
+        val urlTask = uploadTask.continueWithTask { task ->
+            if (!task.isSuccessful) {
+                task.exception?.let {
+                    throw it
+                }
+            }
+            ref.downloadUrl
+        }.addOnCompleteListener { task ->
+            if (task.isSuccessful) {
+                val downloadUri = task.result
+            } else {
+                // Handle failures
+                // ...
+            }
+        }
+
+        imageUrl = ref.downloadUrl.toString()*/
+    }
+
+
+
+
 
 
 
@@ -212,7 +272,7 @@ class SignUpFragment : Fragment() {
         val mail = binding.emailEditText.text.toString()
         val password = binding.passwordEditText.text.toString()
         val telefono = binding.phoneEditText.text.toString()
-        val foto = binding.fotoEditText.text.toString()
+        val foto = imageUrl
         val ubicacion = binding.calleAlturaEditText.text.toString()
         val esPrestador = esPrestador()
         var id = UUID.randomUUID().toString()
