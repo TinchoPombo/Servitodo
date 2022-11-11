@@ -11,7 +11,9 @@ import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.ort.servitodo.R
 import com.ort.servitodo.adapters.CalificacionesAdapter
 import com.ort.servitodo.entities.Puntuacion
+import com.ort.servitodo.entities.Usuario
 import com.ort.servitodo.repositories.CalificacionesRepository
+import com.ort.servitodo.repositories.UsuarioRepository
 import kotlinx.coroutines.launch
 
 class OpinionesPrestadorViewModel : ViewModel() {
@@ -23,12 +25,14 @@ class OpinionesPrestadorViewModel : ViewModel() {
     var calificaciones : MutableList<Puntuacion> = arrayListOf()
     private var id = ""
     private lateinit var recycler : RecyclerView
+    private lateinit var repositoryUser : UsuarioRepository
 
 
 
     //----------------------------------------------------------------------------------------
     fun setView(v : View){
         this.view = v
+
     }
 
      fun create () : Puntuacion{
@@ -46,21 +50,16 @@ class OpinionesPrestadorViewModel : ViewModel() {
 
         val dialog = BottomSheetDialog(view.context)
         dialog.setContentView(R.layout.fragment_opiniones_prestador)
-        this.recycler = dialog.findViewById(R.id.opinionesPrestadorRecycler)!!
+        recycler = dialog.findViewById(R.id.opinionesPrestadorRecycler)!!
 
 
         viewModelScope.launch{
 
-           /*calificaciones.add(create())
-            calificaciones.add(create())
-            calificaciones.add(create())
-            calificaciones.add(create())
-            calificaciones.add(create())
-            calificaciones.add(create())
-            calificaciones.add(create())*/
-
-          // calificaciones = repository.getCalificacionesByClienteId(id)
-            calificaciones = repository.getCalificaciones()
+            repositoryUser = UsuarioRepository(view)
+            val userActual : Usuario = repositoryUser.getUsuarioById(repositoryUser.getIdSession())
+            val esPrestador : Boolean = userActual.esPrestador
+            calificaciones = repository.getCalificacionesByClienteId(id)
+            //calificaciones = repository.getCalificaciones()
 
             if(calificaciones.size < 1) {
                 cargando.value = "No hay calificaciones disponibles"
@@ -72,13 +71,17 @@ class OpinionesPrestadorViewModel : ViewModel() {
 
                 recycler.layoutManager  = LinearLayoutManager(view.context)
 
-                 recycler.adapter = CalificacionesAdapter(calificaciones){}
+                 recycler.adapter = CalificacionesAdapter(calificaciones, esPrestador){
+
+                 }
 
 
 
                   }
-            dialog.show()
+
         }
+        dialog.show()
+
 
     }
 

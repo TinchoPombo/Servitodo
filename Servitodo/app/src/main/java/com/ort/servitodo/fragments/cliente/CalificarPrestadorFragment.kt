@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.navigation.findNavController
+import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.ort.servitodo.databinding.FragmentCalificarPrestadorBinding
@@ -44,20 +45,23 @@ class CalificarPrestadorFragment : Fragment() {
     override fun onStart() {
         super.onStart()
 
+
+        //Falta la logica para que no se puedan calificar 2 veces el mismo pedido
         binding.calificarPrestadorBtm.setOnClickListener {
 
-            val rating = binding.ratingBar.rating
-            val descripcion : String  = binding.decripcionCalificacionPrestador.toString()
-            viewModel.calificar(descripcion, rating, receiveData.idPrestador, receiveData.idPublicacion)
+            if(true){
+                val rating = binding.ratingBar.rating
+                val descripcion : String  = binding.decripcionCalificacionPrestador.text.toString()
+                viewModel.calificar(descripcion, rating, receiveData.idPrestador, receiveData.idPublicacion)
 
-            v.findNavController().navigate(CalificarPrestadorFragmentDirections.actionCalificarPrestadorFragmentToHomeClienteFragment())
+                v.findNavController().navigate(CalificarPrestadorFragmentDirections.actionCalificarPrestadorFragmentToHomeClienteFragment())
+            }else{
+                Snackbar.make(v, "No puedes calificar 2 veces un pedido", Snackbar.LENGTH_SHORT)
+                    .show()
+            }
+
         }
     }
 
-    /*   override fun onActivityCreated(savedInstanceState: Bundle?) {
-           super.onActivityCreated(savedInstanceState)
-           viewModel = ViewModelProvider(this).get(FleteroViewModel::class.java)
-           // TODO: Use the ViewModel
-       }*/
 
 }

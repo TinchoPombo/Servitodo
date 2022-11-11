@@ -10,21 +10,20 @@ import kotlinx.coroutines.tasks.await
 class CalificacionesRepository {
 
     val db = Firebase.firestore
-    private var questionRef = db.collection("calificaciones")
+    val questionRef = db.collection("calificaciones")
 
     private var listaCalificaciones: MutableList<Puntuacion> = mutableListOf()
 
     suspend fun getCalificaciones(): MutableList<Puntuacion> {
 
-
         try {
             val data = this.questionRef.get().await()
             for (document in data) {
-                val puntuacion : Puntuacion = document.toObject()
-                listaCalificaciones.add(puntuacion)
+                listaCalificaciones.add(document.toObject())
+
             }
         } catch (e: Exception) {
-            Log.d("Calificaciones DB", "calificaciones encotrados ${listaCalificaciones} ")
+            Log.d("Calificaciones", "${listaCalificaciones} ")
         }
 
         return listaCalificaciones
@@ -34,7 +33,12 @@ class CalificacionesRepository {
         var listaCalificaciones : MutableList<Puntuacion> = mutableListOf()
 
         try{
-            listaCalificaciones = getCalificaciones().filter { c -> c.idCliente == id  }.toMutableList()
+            val data = this.questionRef.get().await()
+            for (document in data) {
+                if(document.toObject<Puntuacion>().idCliente == id){
+                    listaCalificaciones.add(document.toObject())
+                }
+            }
         }catch(e : Exception){ }
 
         return listaCalificaciones
@@ -44,13 +48,19 @@ class CalificacionesRepository {
         var listaCalificaciones : MutableList<Puntuacion> = mutableListOf()
 
         try{
-            listaCalificaciones = getCalificaciones().filter { c -> c.idPrestador == id  }.toMutableList()
+            val data = this.questionRef.get().await()
+            for (document in data) {
+                if(document.toObject<Puntuacion>().idPrestador == id){
+                    listaCalificaciones.add(document.toObject())
+                }
+            }
+
         }catch(e : Exception){ }
 
         return listaCalificaciones
     }
 
-        fun uppCalificacion(id: String, cali : Puntuacion){
+    /*  fun uppCalificacion(id: String, cali : Puntuacion){
             questionRef.document(id).set(cali)
-    }
+    }*/
 }

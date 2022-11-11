@@ -15,7 +15,9 @@ import com.ort.servitodo.adapters.CalificacionesAdapter
 import com.ort.servitodo.entities.Pedido
 import com.ort.servitodo.entities.Puntuacion
 import com.ort.servitodo.entities.TipoEstado
+import com.ort.servitodo.entities.Usuario
 import com.ort.servitodo.repositories.CalificacionesRepository
+import com.ort.servitodo.repositories.UsuarioRepository
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
 
@@ -27,62 +29,38 @@ class OpinionesClienteViewModel : ViewModel() {
     val cargando = MutableLiveData<String>()
     var calificaciones : MutableList<Puntuacion> = arrayListOf()
     var id : String =""
-
-    val db = Firebase.firestore
-    private var questionRef = db.collection("calificaciones")
-
-
+    private lateinit var repositoryUser : UsuarioRepository
 
     //----------------------------------------------------------------------------------------
     fun setView(v : View){
         this.view = v
+
     }
 
      fun create () : Puntuacion{
-        return Puntuacion(1, "1", "1" , 1, "2".toFloat(), "ASd")
+        return Puntuacion(1, "1", "1" , 1, "4".toFloat(), "ASd")
     }
 
     fun emptyList(){
         this.calificaciones.clear()
     }
 
-    /*fun opinionesDelPrestador(view : View, id :String): RecyclerView{
-        val dialog = BottomSheetDialog(view.context)
-        dialog.setContentView(R.layout.fragment_opiniones_cliente)
-
-        val recycler = dialog.findViewById<RecyclerView>(R.id.opinionesClienteRecycler)!!
-        dialog.show()
-        this.id = id
-        return recycler
-    }*/
-
-
     fun recyclerView(view : View, id : String){
 
         cargando.value = "Cargando..."
 
+        val dialog = BottomSheetDialog(view.context)
+        dialog.setContentView(R.layout.fragment_opiniones_cliente)
 
-
-
+        val recycler = dialog.findViewById<RecyclerView>(R.id.opinionesClienteRecycler)!!
 
         viewModelScope.launch{
 
-            val dialog = BottomSheetDialog(view.context)
-            dialog.setContentView(R.layout.fragment_opiniones_cliente)
-
-            val recycler = dialog.findViewById<RecyclerView>(R.id.opinionesClienteRecycler)!!
-            /*calificaciones.add(create())
-            calificaciones.add(create())
-            calificaciones.add(create())
-            calificaciones.add(create())
-            calificaciones.add(create())
-            calificaciones.add(create())
-            calificaciones.add(create())
-
-
-             */
-            //calificaciones = repository.getCalificacionesByPrestadorId(id)
-            calificaciones = repository.getCalificaciones()
+            repositoryUser = UsuarioRepository(view)
+            val userActual : Usuario = repositoryUser.getUsuarioById(repositoryUser.getIdSession())
+            val esPrestador : Boolean = userActual.esPrestador
+            calificaciones = repository.getCalificacionesByPrestadorId(id)
+            //calificaciones = repository.getCalificaciones()
 
             if(calificaciones.size < 1) {
                 cargando.value = "No hay calificaciones disponibles"
@@ -94,15 +72,16 @@ class OpinionesClienteViewModel : ViewModel() {
 
                 recycler.layoutManager  = LinearLayoutManager(view.context)
 
-                recycler.adapter = CalificacionesAdapter(calificaciones){
+                recycler.adapter = CalificacionesAdapter(calificaciones, esPrestador ){
 
                 }
 
 
 
             }
-            dialog.show()
+
         }
+        dialog.show()
 
 
     }

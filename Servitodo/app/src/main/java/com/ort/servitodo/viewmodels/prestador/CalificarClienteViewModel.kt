@@ -3,6 +3,7 @@ package com.ort.servitodo.viewmodels.prestador
 import android.view.View
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.ort.servitodo.entities.Puntuacion
@@ -34,15 +35,16 @@ class CalificarClienteViewModel : ViewModel() {
 
          //  var tiene : Boolean = calificacionesRepository.getCalificaciones().any() { c -> c.idServicio == idPublicacion }
 
-           // if(!tiene){
-                val idCalificacion = (1000000..9999999).random()
+           if(true){
+                val idCalificacion = (1..99999999).random()
                 val user = usuarioRepository.getUsuarioById(usuarioRepository.getIdSession())
                 val calificacion = Puntuacion(idCalificacion, idCliente, user.id , idPublicacion, rating, descripcion)
 
                 db.collection("calificaciones").document(idCalificacion.toString()).set(calificacion)
-            //}else{
-                //hacer un aviso que ya tiene un puntaje esa clasificacion
-            //}
+            }else{
+               Snackbar.make(view, "No puedes calificar 2 veces un pedido", Snackbar.LENGTH_SHORT)
+                   .show()
+            }
 
         }
     }

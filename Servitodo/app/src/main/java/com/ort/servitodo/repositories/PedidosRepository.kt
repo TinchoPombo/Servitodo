@@ -9,6 +9,7 @@ import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
 import com.ort.servitodo.entities.Pedido
 import com.ort.servitodo.entities.Publicacion
+import com.ort.servitodo.entities.Puntuacion
 import com.ort.servitodo.entities.TipoEstado
 import com.ort.servitodo.viewmodels.resources.CalendarViewModel
 import kotlinx.coroutines.tasks.await
@@ -121,10 +122,18 @@ class PedidosRepository {
     suspend fun getPedidosByUserIndex(id : String) : MutableList<Pedido>{
         var listaPedidos : MutableList<Pedido> = mutableListOf()
 
-
         try{
-            listaPedidos = getPedidos().filter { p -> p.idPrestador == id || p.idCliente == id }.toMutableList()
-        }catch (e:Exception){}
+
+            val data = this.questionRef.get().await()
+
+            for (document in data) {
+                if(document.toObject<Pedido>().idPrestador == id || document.toObject<Puntuacion>().idCliente == id){
+                    listaPedidos.add(document.toObject())
+                }
+            }
+
+           // listaPedidos = getPedidos().filter { p -> p.idPrestador == id || p.idCliente == id }.toMutableList()
+            }catch (e:Exception){}
 
         return listaPedidos
     }

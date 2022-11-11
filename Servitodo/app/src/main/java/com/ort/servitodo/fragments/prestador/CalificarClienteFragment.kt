@@ -13,6 +13,7 @@ import com.ort.servitodo.databinding.FragmentCalificarClienteBinding
 import com.ort.servitodo.viewmodels.cliente.CalificarPrestadorViewModel
 import com.ort.servitodo.viewmodels.prestador.CalificarClienteViewModel
 import android.widget.RatingBar
+import com.google.android.material.snackbar.Snackbar
 import com.ort.servitodo.entities.Pedido
 import com.ort.servitodo.fragments.cliente.CalificarPrestadorFragmentArgs
 
@@ -22,7 +23,7 @@ class CalificarClienteFragment : Fragment() {
         fun newInstance() = CalificarClienteFragment()
     }
 
-    private val viewModel: CalificarClienteViewModel by viewModels()
+    private val calificarClienteViewModel: CalificarClienteViewModel by viewModels()
     lateinit var v: View
     private lateinit var binding: FragmentCalificarClienteBinding
     private lateinit var receiveData : Pedido
@@ -37,7 +38,7 @@ class CalificarClienteFragment : Fragment() {
         binding = FragmentCalificarClienteBinding.inflate(inflater, container, false)
         v = binding.root
 
-        viewModel.setView(v)
+        calificarClienteViewModel.setView(v)
         receiveData = CalificarClienteFragmentArgs.fromBundle(requireArguments()).pedido1
 
         return v
@@ -46,23 +47,24 @@ class CalificarClienteFragment : Fragment() {
     override fun onStart() {
         super.onStart()
 
-
-
         binding.calificarClienteBtm.setOnClickListener {
 
-            val rating = binding.ratingBar2.rating
-            val descripcion : String = binding.txtDescripcionCalificarCliente.toString()
-            viewModel.calificar(descripcion, rating , receiveData.idCliente, receiveData.idPublicacion)
 
-            v.findNavController().navigate(CalificarClienteFragmentDirections.actionCalificarClienteFragmentToHomePrestadorFragment())
+            if(true){
+                val rating = binding.ratingBar2.rating
+                val descripcion : String = binding.txtDescripcionCalificarCliente.text.toString()
+                calificarClienteViewModel.calificar(descripcion, rating , receiveData.idCliente, receiveData.idPublicacion)
+
+                v.findNavController().navigate(CalificarClienteFragmentDirections.actionCalificarClienteFragmentToHomePrestadorFragment())
+            }else{
+                Snackbar.make(v, "No puedes calificar 2 veces un pedido", Snackbar.LENGTH_SHORT)
+                    .show()
+            }
+
         }
     }
 
-    /*   override fun onActivityCreated(savedInstanceState: Bundle?) {
-           super.onActivityCreated(savedInstanceState)
-           viewModel = ViewModelProvider(this).get(FleteroViewModel::class.java)
-           // TODO: Use the ViewModel
-       }*/
+
 
 }
 
