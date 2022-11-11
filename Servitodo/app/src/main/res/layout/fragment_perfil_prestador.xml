@@ -74,7 +74,6 @@
                     android:background="#00000000"
                     android:gravity="center"
                     android:padding="10dp"
-                    android:text="Nombre"
                     android:textColor="#000000"
                     android:textColorHint="#808080"
                     android:textSize="15sp" />
@@ -99,7 +98,6 @@
                     android:background="#00000000"
                     android:gravity="center"
                     android:padding="10dp"
-                    android:text="Apellido"
                     android:textColor="#000000"
                     android:textColorHint="#808080"
                     android:textSize="15sp" />
@@ -125,7 +123,6 @@
                     android:gravity="center"
                     android:inputType="textEmailAddress"
                     android:padding="10dp"
-                    android:text="servitodo@gmail.com"
                     android:textColor="#000000"
                     android:textColorHint="#808080"
                     android:textSize="15sp" />
@@ -151,7 +148,6 @@
                     android:gravity="center"
                     android:inputType="phone"
                     android:padding="10dp"
-                    android:text="+54 9 1140405050"
                     android:textColor="#000000"
                     android:textColorHint="#808080"
                     android:textSize="15sp" />
@@ -177,7 +173,6 @@
                     android:gravity="center"
                     android:inputType="phone"
                     android:padding="10dp"
-                    android:text="Dirección"
                     android:textColor="#000000"
                     android:textColorHint="#808080"
                     android:textSize="15sp" />
