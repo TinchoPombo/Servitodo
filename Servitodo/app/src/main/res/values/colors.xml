@@ -9,5 +9,8 @@
     <color name="white">#FFFFFFFF</color>
     <color name="greyish">#5A5A5A</color>
     <color name="light_grey">#AAA8A8</color>
+    <color name="green_state">#4CAF50</color>
+    <color name="orange_state">#FF5722</color>
+    <color name="blue_state">#03A9F4</color>
     <color name="googlemaps_marker">#0055FF</color>
 </resources>

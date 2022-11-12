@@ -36,21 +36,23 @@ class PedidosRepository {
                         val pedido = document.toObject<Pedido>()
 
                         val horaPedido = calendar.getOnlyHour(pedido.hora)
+                        val horaPedidoSiguiente = horaPedido + 2
                         val diaPedido = calendar.getDateInTimeInMillis(pedido.fecha)
                         val hoy = calendar.getTodayInTimeMillis()
                         val horaAhora = calendar.getHourNow()
 
                         val cond =  diaPedido < hoy
-                        val cond2 = diaPedido == hoy && horaPedido < horaAhora
-                        val cond3 = diaPedido == hoy && horaPedido == horaAhora
+                        val cond2 = diaPedido == hoy && horaPedidoSiguiente <= horaAhora
+                        val cond3 = diaPedido == hoy && horaAhora >= horaPedido
                         val aprobado = pedido.estado == TipoEstado.APROBADO.toString()
+                        val encurso = pedido.estado == TipoEstado.EN_CURSO.toString()
                         val pendiente = pedido.estado == TipoEstado.PENDIENTE.toString()
 
                         val update: MutableMap<String, Any> = HashMap()
                         if(cond3 && aprobado){
                             update["estado"] = TipoEstado.EN_CURSO.toString()
                         }
-                        else if((cond || cond2) && aprobado){
+                        else if((cond || cond2) && encurso){
                             update["estado"] = TipoEstado.FINALIZADO.toString()
                         }
                         else if(cond && pendiente){

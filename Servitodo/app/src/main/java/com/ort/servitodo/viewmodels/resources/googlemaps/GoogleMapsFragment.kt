@@ -12,6 +12,7 @@ import android.widget.RadioButton
 import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import com.google.android.material.snackbar.Snackbar
 import com.ort.servitodo.R
 import com.ort.servitodo.databinding.FragmentGoogleMapsBinding
 
@@ -54,7 +55,7 @@ class GoogleMapsFragment : Fragment() {
         super.onStart()
 
         googleMapsViewModel.cargando.observe(viewLifecycleOwner, Observer { result ->
-            binding.cargandoTxtGoogleMaps.text = result.toString()
+            Toast.makeText(v.context, result.toString(), Toast.LENGTH_SHORT).show()
         })
 
         googleMapsViewModel.kmFilter.observe(viewLifecycleOwner, Observer { result ->

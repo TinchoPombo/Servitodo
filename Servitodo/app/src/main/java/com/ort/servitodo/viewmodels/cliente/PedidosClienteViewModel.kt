@@ -43,18 +43,18 @@ class PedidosClienteViewModel : ViewModel() {
     //----------------------------------------------------------------------------------------
     fun setPedidos(){
         viewModelScope.launch{
+            cargando.value = "Cargando..."
+
+            repository.changeState()
             emptyList()
             val userId = usuarioRepository.getIdSession()
             val list = repository.getPedidosCliente(userId)
-
-            cargando.value = "Cargando..."
 
             if(list.size < 1) {
                 cargando.value = "Todavia no hay pedidos solicitados"
             }
             else{
                 pedidos.value = list
-                cargando.value = ""
             }
         }
     }

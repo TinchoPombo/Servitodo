@@ -98,14 +98,15 @@ class GoogleMapsViewModel : ViewModel() , OnMapReadyCallback {
         if(!validateCurrentUserAddress()){
             popUpInvalidAddress()
         }
-        else if(km.isNullOrEmpty()){
-            Snackbar.make(view, "Debes elegir una opcion", Snackbar.LENGTH_SHORT).show()
+        else if(km.isEmpty()){
+            cargando.value = "Debes elegir una opcion"
         }
         else{
             this.kmFilter.value = getNumberFromRadioButton(km)
-            cargando.value = "Cargando..."
 
             if(!f.isAdded) return;
+            cargando.value = "Cargando..."
+
             supportMapFragment = f.childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment
             supportMapFragment.getMapAsync(this)
         }
@@ -146,9 +147,9 @@ class GoogleMapsViewModel : ViewModel() , OnMapReadyCallback {
         }
         showAllMarkers(googleMap, listOfMarker)
 
-        cargando.value = if(listOfMarker.size == 1 && this.kmFilter.value!! >= 1){
-             "No hay prestadores a ${this.kmFilter.value}km"
-        } else{ "" }
+        if(listOfMarker.size == 1 && this.kmFilter.value!! >= 1){
+            cargando.value = "No hay prestadores a ${this.kmFilter.value}km"
+        }
     }
 
     //--> Redireccionamiento a Google Maps

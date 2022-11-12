@@ -1,6 +1,7 @@
 package com.ort.servitodo.adapters
 
 import android.annotation.SuppressLint
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -8,12 +9,14 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.cardview.widget.CardView
+import androidx.core.content.ContextCompat
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.ort.servitodo.R
 import com.ort.servitodo.entities.Pedido
 import com.ort.servitodo.entities.Publicacion
+import com.ort.servitodo.entities.TipoEstado
 import com.ort.servitodo.repositories.PublicacionRepository
 import com.ort.servitodo.viewmodels.cliente.DetallePedidoViewModel
 import kotlinx.coroutines.CoroutineScope
@@ -86,6 +89,18 @@ class PedidosAdapter (
 
         fun setEstado(estado: String) {
             var txtEstado: TextView = view.findViewById(R.id.txtEstado)
+            
+            val color = if(estado == TipoEstado.APROBADO.toString()){
+                ContextCompat.getColor(view.context, R.color.green_state)
+            }
+            else if(estado == TipoEstado.EN_CURSO.toString()){
+                ContextCompat.getColor(view.context, R.color.blue_state)
+            }
+            else{
+                ContextCompat.getColor(view.context, R.color.orange_state)
+            }
+
+            txtEstado.setTextColor(color)
             txtEstado.text = estado
         }
 
