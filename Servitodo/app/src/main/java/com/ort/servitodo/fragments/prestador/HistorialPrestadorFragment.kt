@@ -72,9 +72,6 @@ class HistorialPrestadorFragment : Fragment() {
 
         })
 
-
-        //historialPrestadorViewModel.recyclerView(binding.historialPrestadorRV)
-        //historialPrestadorViewModel.emptyList()
     }
 
 }

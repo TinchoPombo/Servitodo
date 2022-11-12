@@ -38,13 +38,11 @@ class CalificacionesAdapter (
 
     override fun onBindViewHolder(holder: CalificacionesHolder, position: Int) {
 
-
         if(esPrestador){
             holder.setDatos(listaCalificaciones[position].idPrestador)
         }else{
             holder.setDatos(listaCalificaciones[position].idCliente)
         }
-
 
         holder.setRating(listaCalificaciones[position].puntaje)
 
@@ -78,6 +76,8 @@ class CalificacionesAdapter (
             val ratingUsuario : RatingBar = view.findViewById((R.id.puntaje_opinion))
             ratingUsuario.rating = rating
         }
+
+
 
         fun setImagenUsuario(img : String) {
             val imgPedido: ImageView = view.findViewById(R.id.imagen_opinion)

@@ -42,6 +42,11 @@ class PerfilPrestadorFragment : Fragment() {
             val action = PerfilPrestadorFragmentDirections.actionPerfilPrestadorFragmentToHistorialPrestadorFragment()
             v.findNavController().navigate(action)
         }
+
+        binding.prestadorCalificacionesBtm.setOnClickListener{
+            val action = PerfilPrestadorFragmentDirections.actionPerfilPrestadorFragmentToOpinionesDelPrestadosFragment()
+            v.findNavController().navigate(action)
+        }
     }
 
 

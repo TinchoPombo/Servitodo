@@ -97,8 +97,6 @@ class HistorialPrestadorViewModel : ViewModel() {
             }
         }
     }
-
-
     fun onClickFiltro(l : Long){
         when(l){
             0L-> cargarPedidos()

@@ -187,15 +187,12 @@
         android:id="@+id/btnHistorial"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="159dp"
-        android:layout_marginTop="51dp"
-        android:layout_marginEnd="158dp"
-        android:layout_marginBottom="92dp"
         android:text="Historial"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/misCalificacionesClienteBtm"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/scrollView2" />
+        app:layout_constraintTop_toBottomOf="@+id/scrollView2"
+        app:layout_constraintVertical_bias="0.48000002" />
 
     <Button
         android:id="@+id/btnCerrarSesion"
@@ -212,5 +209,16 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/tv_heading"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/misCalificacionesClienteBtm"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:backgroundTint="#DAEF0B"
+        android:text="Mis Calificaciones"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnHistorial" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

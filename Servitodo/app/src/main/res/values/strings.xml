@@ -47,6 +47,13 @@
 
     </string-array>
 
+    <string-array name="filtroOpiniones">
+        <item>Todos</item>
+        <item>Por Puntaje  ⇡ </item>
+        <item>Por Puntaje   ⇣ </item>
+
+    </string-array>
+
     <string-array name="filtroDistancia">
         <item>1km</item>
         <item>3km</item>

@@ -43,6 +43,11 @@ class PerfilClienteFragment : Fragment() {
             v.findNavController().navigate(action)
         }
 
+        binding.misCalificacionesClienteBtm.setOnClickListener{
+            val action = PerfilClienteFragmentDirections.actionPerfilClienteFragmentToOpinionesDelClienteFragment()
+            v.findNavController().navigate(action)
+        }
+
 
     }
 

@@ -66,6 +66,9 @@
         <action
             android:id="@+id/action_perfilPrestadorFragment_to_historialPrestadorFragment"
             app:destination="@id/historialPrestadorFragment" />
+        <action
+            android:id="@+id/action_perfilPrestadorFragment_to_opinionesDelPrestadosFragment"
+            app:destination="@id/opinionesDelPrestadosFragment" />
     </fragment>
     <fragment
         android:id="@+id/publicacionesPrestadorFragment"
@@ -137,4 +140,9 @@
             android:name="receivePublicacion"
             app:argType="com.ort.servitodo.entities.Publicacion" />
     </fragment>
+    <fragment
+        android:id="@+id/opinionesDelPrestadosFragment"
+        android:name="com.ort.servitodo.fragments.prestador.OpinionesDelPrestadorFragment"
+        android:label="fragment_opiniones_del_prestados"
+        tools:layout="@layout/fragment_opiniones_del_prestador" />
 </navigation>
