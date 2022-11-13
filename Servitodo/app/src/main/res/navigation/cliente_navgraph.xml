@@ -46,6 +46,9 @@
         <action
             android:id="@+id/action_perfilClienteFragment_to_opinionesDelClienteFragment"
             app:destination="@id/opinionesDelClienteFragment" />
+        <action
+            android:id="@+id/action_perfilClienteFragment_to_mainActivity2"
+            app:destination="@id/mainActivity2" />
     </fragment>
     <fragment
         android:id="@+id/detallePublicacionFragment"
@@ -71,4 +74,9 @@
         android:name="com.ort.servitodo.fragments.cliente.OpinionesDelClienteFragment"
         android:label="fragment_opiniones_del_cliente"
         tools:layout="@layout/fragment_opiniones_del_cliente" />
+    <activity
+        android:id="@+id/mainActivity2"
+        android:name="com.ort.servitodo.activities.MainActivity"
+        android:label="activity_main"
+        tools:layout="@layout/activity_main" />
 </navigation>

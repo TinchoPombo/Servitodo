@@ -15,11 +15,14 @@
             app:destination="@id/signUpFragment" />
         <action
             android:id="@+id/action_logInFragment_to_prestadorActivity"
-            app:destination="@id/prestadorActivity" />
+            app:destination="@id/prestadorActivity"
+            app:popUpTo="@id/logInFragment" />
         <action
             android:id="@+id/action_logInFragment_to_clienteActivity"
-            app:destination="@id/clienteActivity" />
+            app:destination="@id/clienteActivity"
+            app:popUpTo="@id/logInFragment" />
     </fragment>
+
     <fragment
         android:id="@+id/signUpFragment"
         android:name="com.ort.servitodo.fragments.login.SignUpFragment"
@@ -32,11 +35,13 @@
             android:id="@+id/action_signUpFragment_to_prestadorActivity"
             app:destination="@id/prestadorActivity" />
     </fragment>
+
     <activity
         android:id="@+id/prestadorActivity"
         android:name="com.ort.servitodo.activities.PrestadorActivity"
         android:label="activity_prestador"
         tools:layout="@layout/activity_prestador" />
+
     <activity
         android:id="@+id/clienteActivity"
         android:name="com.ort.servitodo.activities.ClienteActivity"

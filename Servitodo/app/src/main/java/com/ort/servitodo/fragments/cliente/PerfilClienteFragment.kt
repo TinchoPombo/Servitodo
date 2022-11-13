@@ -48,6 +48,10 @@ class PerfilClienteFragment : Fragment() {
             v.findNavController().navigate(action)
         }
 
+        binding.btnCerrarSesion.setOnClickListener{
+            perfilViewModel.logOut()
+        }
+
 
     }
 

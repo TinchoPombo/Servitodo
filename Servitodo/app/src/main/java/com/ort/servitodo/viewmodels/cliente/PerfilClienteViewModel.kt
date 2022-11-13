@@ -3,9 +3,12 @@ package com.ort.servitodo.viewmodels.cliente
 import android.view.View
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.navigation.findNavController
 import com.bumptech.glide.Glide
 import com.ort.servitodo.databinding.FragmentPerfilClienteBinding
 import com.ort.servitodo.entities.Usuario
+import com.ort.servitodo.fragments.cliente.PerfilClienteFragmentDirections
+import com.ort.servitodo.fragments.prestador.PerfilPrestadorFragmentDirections
 import com.ort.servitodo.repositories.UsuarioRepository
 import kotlinx.coroutines.launch
 
@@ -36,5 +39,12 @@ class PerfilClienteViewModel : ViewModel() {
                 .load(usuario.foto)
                 .into(binding.foto)
         }
+    }
+
+    fun logOut() {
+        UsuarioRepository(view).deleteSharedPreferences()
+
+        val action = PerfilClienteFragmentDirections.actionPerfilClienteFragmentToMainActivity2()
+        view.findNavController().navigate(action)
     }
 }
