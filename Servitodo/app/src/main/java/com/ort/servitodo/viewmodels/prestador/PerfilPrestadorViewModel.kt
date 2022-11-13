@@ -28,8 +28,7 @@ class PerfilPrestadorViewModel : ViewModel() {
         viewModelScope.launch {
             val usuario = getUsuario(UsuarioRepository(view).getIdSession())
 
-            binding.etName.text = usuario.nombre
-            binding.etApellido.text = usuario.apellido
+            binding.etCompleteName.text = "${usuario.nombre} ${usuario.apellido}"
             binding.etEmail.text = usuario.mail
             binding.etDireccion.text = usuario.ubicacion
             binding.etTelefono.text = usuario.telefono

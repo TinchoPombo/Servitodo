@@ -105,10 +105,10 @@ class GoogleMapsViewModel : ViewModel() , OnMapReadyCallback {
             this.kmFilter.value = getNumberFromRadioButton(km)
 
             if(!f.isAdded) return;
-            cargando.value = "Cargando..."
 
             supportMapFragment = f.childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment
             supportMapFragment.getMapAsync(this)
+            cargando.value = "Cargando..."
         }
     }
 
@@ -145,6 +145,7 @@ class GoogleMapsViewModel : ViewModel() , OnMapReadyCallback {
                 redirectToDetallePublicacion(googleMap)
             }
         }
+
         showAllMarkers(googleMap, listOfMarker)
 
         if(listOfMarker.size == 1 && this.kmFilter.value!! >= 1){
