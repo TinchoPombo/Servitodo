@@ -154,6 +154,25 @@ class UsuarioRepository(view : View) {
      return user
     }
 
+    suspend fun emailExistente(email:String): Boolean {
+        var existe = true //
+        var user = Usuario()
+
+        try{
+            listaUsuarios = getUsuarios()
+            for (pepe in listaUsuarios){
+                Log.d("PEPE", pepe.mail.toString())
+            }
+            user = listaUsuarios.find { u -> u.mail.equals(email)}!!
+            Log.d("PEPE", user.mail.toString())
+        }catch (e:Exception){}
+
+        if(user.mail == ""){
+            existe = false  //
+        }
+        return existe
+    }
+
 
     /*TODO:
        Cuando el usuario se loguea, que haya algun checkbox que diga "queres mantener la sesion iniciada?"
