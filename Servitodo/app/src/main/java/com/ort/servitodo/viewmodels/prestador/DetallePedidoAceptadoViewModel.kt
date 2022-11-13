@@ -27,7 +27,6 @@ import kotlinx.coroutines.launch
 
 class DetallePedidoAceptadoViewModel : ViewModel() {
 
-
     private lateinit var view : View
     private lateinit var pedido : Pedido
     private lateinit var usuario : Usuario
@@ -216,7 +215,6 @@ class DetallePedidoAceptadoViewModel : ViewModel() {
     }
 
 
-
     //--> CANCEL BUTTON
     private fun cancel() {
         val pedidoRepository = PedidosRepository()
@@ -238,6 +236,5 @@ class DetallePedidoAceptadoViewModel : ViewModel() {
             }
             .show()
     }
-
 
 }

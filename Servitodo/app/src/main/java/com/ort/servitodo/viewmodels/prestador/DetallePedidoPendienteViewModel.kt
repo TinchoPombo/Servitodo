@@ -11,6 +11,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.findNavController
 import com.google.android.material.datepicker.MaterialDatePicker
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
@@ -26,12 +27,12 @@ import kotlinx.coroutines.launch
 import java.util.*
 
 class DetallePedidoPendienteViewModel : ViewModel() {
-    private lateinit var view : View
+    private lateinit var view: View
     private lateinit var fragmentManager: FragmentManager
     private lateinit var pedido: Pedido
     private lateinit var usuario: Array<String>
-    private lateinit var usuarioRepository : UsuarioRepository
-    private lateinit var publicacion : Publicacion
+    private lateinit var usuarioRepository: UsuarioRepository
+    private lateinit var publicacion: Publicacion
     private var precio = 0
     val db = Firebase.firestore
 
@@ -40,10 +41,14 @@ class DetallePedidoPendienteViewModel : ViewModel() {
     private val calendarViewModel = CalendarViewModel()
     private val timeViewModel = TimePickerViewModel()
     private val opiniones = OpinionesPrestadorViewModel()
+    private val pedidoRepository = PedidosRepository()
 
     //--> Mutable Live Data
     val selectedDay = MutableLiveData<String>()
     val selectedHour = MutableLiveData<String>()
+
+    val pedidoSelectedDay = MutableLiveData<String>()
+    val pedidoSelectedHour = MutableLiveData<String>()
 
     val nombreCompleto = MutableLiveData<String>()
     val rubro = MutableLiveData<String>()
@@ -52,132 +57,149 @@ class DetallePedidoPendienteViewModel : ViewModel() {
     val fotoPrestador = MutableLiveData<String>()
 
     //----------------------------------------------------------------------
-    fun setView(v : View){
+    fun setView(v: View) {
         this.view = v
         usuarioRepository = UsuarioRepository(v)
     }
 
-    fun setFragmentManager(fm : FragmentManager){
+    fun setFragmentManager(fm: FragmentManager) {
         this.fragmentManager = fm
     }
 
-    fun setPedido(pedido :Pedido ){
+    fun setPedido(pedido: Pedido) {
         this.pedido = pedido
     }
 
-    fun setUsuario(us : Array<String>){
+    fun setUsuario(us: Array<String>) {
         this.usuario = us
     }
 
-    fun setPublicacion (publicacion : Publicacion){
+    fun setPublicacion(publicacion: Publicacion) {
         this.publicacion = publicacion
     }
 
-    fun setPrecio(precio : Int){
+    fun setPrecio(precio: Int) {
         this.precio = precio
     }
 
     //----------------------------------------------------------------------
-    fun initLiveData(){
+    fun initLiveData() {
         viewModelScope.launch {
             nombreCompleto.value = "${usuario[0]} ${usuario[1]}"
             rubro.value = "${pedido.estado}"/*"${this.publicacion.rubro.nombre}"*/
             direccion.value = "${usuario[2]}"
             fotoPrestador.value = usuario[3]
             selectedDay.value = "${pedido.fecha}"
-            selectedHour.value= "${pedido.hora}"
+            selectedHour.value = "${pedido.hora}"
+            pedidoSelectedDay.value = "${pedido.fecha}"
+            pedidoSelectedHour.value = "${pedido.hora}"
         }
     }
 
     //-------------------- Seleccion del Horario --------------------------------------------------
-    fun selectDate(){
+    fun selectDate() {
         val calendar = calendarViewModel.calendar(this.fragmentManager)
         initializeCalendarMutableLiveData(calendar)
     }
 
-
-
-    fun selectHour(){
+    fun selectHour() {
         val fecha = this.selectedDay.value
-        if(fecha != null){
-             timeViewModel.showTimePicker(view, fecha, this.publicacion, this.selectedHour)
+        if (fecha != null) {
+            timeViewModel.showTimePicker(view, fecha, this.publicacion, this.selectedHour)
         }
     }
 
-    fun redirectionToWhatsApp(){
+    fun redirectionToWhatsApp() {
         val whatsAppViewModel = WhatsAppViewModel()
         whatsAppViewModel.confirmRedirectionToWhatsapp(this.pedido.idCliente, view)
     }
 
     //---------------- Calendario ------------------------------------------
-    private fun initializeCalendarMutableLiveData(datePicker : MaterialDatePicker<Long>){
+    private fun initializeCalendarMutableLiveData(datePicker: MaterialDatePicker<Long>) {
 
         datePicker.addOnPositiveButtonClickListener { selection: Long? ->
             val calendar = Calendar.getInstance(TimeZone.getTimeZone("UTC"))
             calendar.time = Date(selection!!)
             this.selectedDay.value = "${calendar.get(Calendar.DAY_OF_MONTH)}-" +
                     "${calendar.get(Calendar.MONTH) + 1}-${calendar.get(Calendar.YEAR)}"
-
             selectHour()
         }
     }
 
-    fun rechazarPedido(){
-        val pedidoActualizar = db.collection("pedidos").document(pedido.id.toString())
-
-        pedidoActualizar
-            .update("estado", TipoEstado.RECHAZADO.toString() )
-            .addOnSuccessListener { Log.d(TAG, "DocumentSnapshot successfully updated!") }
-            .addOnFailureListener { e -> Log.w(TAG, "Error updating document", e) }
+    fun rechazarPedido() {
+        pedidoRepository.cancelPedido(this.pedido.id)
+        Snackbar.make(view, "El pedido se rechazó con exito", Snackbar.LENGTH_SHORT).show()
         view.findNavController().navigateUp()
     }
 
-    fun aceptarPedido(){
-        val pedidoActualizar = db.collection("pedidos").document(pedido.id.toString())
+    fun aceptarPedido() {
+        if (pedidoSelectedDay.value.equals(selectedDay.value) && pedidoSelectedHour.value.equals(selectedHour.value)) {
+            popUpAceptar()
+        } else {
+            popUpCambioFecha()
+        }
+    }
 
-        pedidoActualizar
-            .update("estado", TipoEstado.APROBADO.toString(), "fecha", selectedDay.value.toString(), "hora", selectedHour.value.toString(), "precio", this.precio)
-            .addOnSuccessListener { Log.d(TAG, "DocumentSnapshot successfully updated!") }
-            .addOnFailureListener { e -> Log.w(TAG, "Error updating document", e) }
+    private fun updatePedido(){
+        pedidoRepository.acceptPedido(this.pedido.id,this.selectedDay.value.toString(), this.selectedHour.value.toString(), this.precio )
+        Snackbar.make(this.view, "El pedido se aceptó con exito", Snackbar.LENGTH_SHORT).show()
         view.findNavController().navigateUp()
     }
 
-    //---------------- Contratacion de prestador ------------------------------------------
-/*    fun contratar(){
-        val calendarLive = this.selectedDay.value
-        val timeLive = this.selectedHour.value
-        val cond = !calendarLive.isNullOrEmpty() && !timeLive.isNullOrEmpty()
-        if(cond) popUpContratar() else Snackbar.make(this.view, "Debes seleccionar el horario", Snackbar.LENGTH_SHORT).show()
-    }*/
+    //---------------- popUpsConfirmacion ------------------------------------------
 
-   /* private fun popUpContratar() : Int{
+    private fun popUpCambioFecha(): Int {
         var result = 0
-        MaterialAlertDialogBuilder(view.context).setTitle("Confirmar").setMessage("Deseas confirmar el pedido?")
+        MaterialAlertDialogBuilder(view.context).setTitle("Desea modificar la fecha del pedio?")
+            .setMessage("De  ->  Fecha: ${this.pedidoSelectedDay.value}   Hora: ${this.pedidoSelectedHour.value} \n\nA  ->  Fecha: ${this.selectedDay.value}   Hora: ${this.selectedHour.value}")
             .setNegativeButton("Cancelar") { dialog, which ->
-                this.selectedDay.value = ""
-                this.selectedHour.value = ""
+                this.selectedDay.value = this.pedidoSelectedDay.value
+                this.selectedHour.value = this.pedidoSelectedHour.value
+                Snackbar.make(this.view, "No se modificio la fecha", Snackbar.LENGTH_SHORT).show()
             }
             .setPositiveButton("Aceptar") { dialog, which ->
-                pedidosRepository.addPedido(pedido, selectedDay.value!!, selectedHour.value!!)
-                Snackbar.make(this.view, "El pedido se agregó con exito", Snackbar.LENGTH_SHORT).show()
-                view.findNavController().navigateUp()
+                popUpAceptar()
             }
             .show()
         return result
-    }*/
+    }
+
+    private fun popUpAceptar(){
+        MaterialAlertDialogBuilder(view.context).setTitle("Desea aceptar el pedido?")
+            .setNegativeButton("Cancelar") { dialog, which ->
+            }
+            .setPositiveButton("Aceptar") { dialog, which ->
+                viewModelScope.launch {
+                    updatePedido()
+                }
+            }
+            .show()
+    }
+
+
+    fun popUpRecahzar(){
+        MaterialAlertDialogBuilder(view.context).setTitle("Desea rechazar el pedido?")
+            .setNegativeButton("Cancelar") { dialog, which ->
+            }
+            .setPositiveButton("Aceptar") { dialog, which ->
+                viewModelScope.launch {
+                    rechazarPedido()
+                }
+            }
+            .show()
+    }
+
+    fun snackPrecio() {
+        Snackbar.make(this.view, "Debe ingresar el precio para acepetar el pedido", Snackbar.LENGTH_SHORT)
+            .show()
+    }
 
     //---------------- Calificaciones de prestador ------------------------------------------
-    fun opinionesDelPrestador(){
 
-      //  opiniones.setView(this.view)
+    fun opinionesDelPrestador() {
         opiniones.emptyList()
         opiniones.recyclerView(this.view, this.pedido.idCliente)
     }
 
-
-    fun snackPrecio(){
-        Snackbar.make(this.view, "Debe ingresar el precio para acepetar el pedido", Snackbar.LENGTH_SHORT)
-                    .show()
-    }
 
 }

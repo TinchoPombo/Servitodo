@@ -24,18 +24,6 @@ class DetallePedidoPendienteFragment : Fragment() {
     lateinit var v: View
     private lateinit var binding: FragmentDetallePedidoPendienteBinding
 
-    /*
-    companion object {
-        fun newInstance() = DetallePublicacionFragment()
-    }
-
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        detalleViewModel = ViewModelProvider(this).get(DetallePublicacionViewModel::class.java)
-        // TODO: Use the ViewModel
-    }
-    */
-
     private var receivePedido = Pedido()
     private lateinit var reciveCliente: Array<String>
     private var receivePublicacion = Publicacion()
@@ -121,20 +109,17 @@ class DetallePedidoPendienteFragment : Fragment() {
         }
 
         binding.btnRechazar.setOnClickListener {
-            detalleViewModel.rechazarPedido()
+            detalleViewModel.popUpRecahzar()
         }
 
         binding.aceptarButton.setOnClickListener {
-
             val precio = binding.editTextPrecio.text.toString()
-            Log.d("PRECIO", "Precio sugerido: ${precio} ")
             if (!precio.isNullOrEmpty()) {
                 detalleViewModel.setPrecio(Integer.parseInt(precio))
                 detalleViewModel.aceptarPedido()
             }else{
                 detalleViewModel.snackPrecio()
             }
-
         }
 
 

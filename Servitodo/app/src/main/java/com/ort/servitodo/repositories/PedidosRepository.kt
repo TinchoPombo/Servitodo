@@ -190,6 +190,14 @@ class PedidosRepository {
         } catch (e: Exception) { }
     }
 
+    fun acceptPedido(pedidoId : Int, fecha: String, hora: String, precio : Int){
+        val pedidoActualizar = db.collection("pedidos").document(pedidoId.toString())
+        pedidoActualizar
+            .update("estado", TipoEstado.APROBADO.toString(), "fecha", fecha, "hora", hora, "precio", precio)
+            .addOnSuccessListener { Log.d(TAG, "DocumentSnapshot successfully updated!") }
+            .addOnFailureListener { e -> Log.w(TAG, "Error updating document", e) }
+    }
+
     suspend fun getPedidosByEstado(id :String, estado : String) : MutableList<Pedido>{
 
         try{

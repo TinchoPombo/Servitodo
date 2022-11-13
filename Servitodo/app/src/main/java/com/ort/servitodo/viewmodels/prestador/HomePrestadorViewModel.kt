@@ -55,12 +55,4 @@ class HomePrestadorViewModel : ViewModel() {
         }
     }
 
-//    private fun onItemClick(position : Int){
-//        viewModelScope.launch{
-//            val pedido = repository.getPedidoByIndex(position)
-//
-//            val action = HomeClienteFragmentDirections.actionHomeClienteFragmentToDetallePublicacionFragment(pedido)
-//            view.findNavController().navigate(action)
-//        }
-//    }
 }
