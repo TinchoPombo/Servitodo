@@ -55,6 +55,31 @@ class HomeClienteViewModel : ViewModel() {
         }
     }
 
+    fun recyclerViewFiltered(recyclerPublicacion : RecyclerView, a : String, b : String){
+
+        cargando.value = "Cargando..."
+
+        viewModelScope.launch{
+            publicaciones = repository.getPublicacionesFiltradas(a,b)
+
+            if(publicaciones.size < 1) {
+                cargando.value = "No hay publicaciones disponibles"
+            }
+            else{
+                recyclerPublicacion.setHasFixedSize(true)
+
+                cargando.value = ""
+
+                recyclerPublicacion.layoutManager  = LinearLayoutManager(view.context)
+
+                recyclerPublicacion.adapter = PublicacionAdapter(publicaciones){ pos ->
+                    onItemClick(pos)
+                }
+            }
+        }
+    }
+
+
     private fun onItemClick(position : Int){
         viewModelScope.launch{
             val publicacion = repository.getPublicacionByIndex(position)

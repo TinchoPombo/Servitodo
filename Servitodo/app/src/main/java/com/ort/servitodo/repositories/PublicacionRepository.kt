@@ -27,6 +27,167 @@ class PublicacionRepository {
         return listaPublicaciones
     }
 
+    suspend fun getPublicacionesFiltradas (calificacion : String, rubro : String) : MutableList<Publicacion>{
+
+        var cal : Int = 0
+        var rub : Int = 0
+
+        var calFlag : Boolean = true
+        var rubFlag : Boolean = true
+
+        when (calificacion) {
+            "Mayor" -> cal = 0
+            "Menor" -> cal = 1
+            else -> {
+                calFlag = false
+            }
+        }//Esto es un Order By
+
+        when (rubro) {
+            "Mantenimiento" -> rub = 1
+            "Fletero" -> rub = 2
+            "Pasea perros" -> rub = 3
+            else -> {
+                rubFlag = false
+            }
+        }//Esto es un igual
+
+        if(calFlag && rubFlag){
+            //13
+            var questionRef = db.collection("publicaciones")
+                .whereEqualTo("rubro.id",rub)
+
+            try {
+                val data = questionRef.get().await()
+                for(document in data){
+
+                    listaPublicaciones.add(document.toObject())
+
+                }
+
+            } catch (e : Exception){ }
+
+
+            for(publi in listaPublicaciones){
+
+                var questionRefAux = db.collection("calificaciones")
+                    .whereEqualTo("idServicio", publi.idServicio)
+
+                var i = 0
+                var suma = 0
+
+                try {
+                    val dataParteDos = questionRefAux.get().await()
+
+                    for(documento in dataParteDos){
+
+                        i++
+
+                        suma += documento["puntos"].toString().toInt()
+
+                    }
+
+                } catch (e : Exception){ }
+
+                var prom = 0.0
+
+                if(i != 0){
+                    prom = suma.toDouble()/i.toDouble()
+                }
+
+                publi.puntuacion = prom
+
+            }
+
+            if(cal == 0){
+                listaPublicaciones.sortByDescending { it.puntuacion }//Esto es mayor arriba
+            }else{
+                listaPublicaciones.sortBy { it.puntuacion }//Esto es menor arriba
+            }
+
+            return listaPublicaciones
+
+
+        }else if(calFlag && !rubFlag){
+            //1
+            var questionRef = db.collection("publicaciones")
+
+            try {
+                val data = questionRef.get().await()
+                for(document in data){
+
+                    listaPublicaciones.add(document.toObject())
+
+
+                }
+            } catch (e : Exception){ }
+
+            for(publi in listaPublicaciones){
+
+                var questionRefAux = db.collection("calificaciones")
+                    .whereEqualTo("idServicio", publi.idServicio)
+
+                var i = 0
+                var suma = 0
+
+                try {
+                    val dataParteDos = questionRefAux.get().await()
+
+                    for(documento in dataParteDos){
+
+                        i++
+
+                        suma += documento["puntos"].toString().toInt()
+
+                    }
+
+                } catch (e : Exception){ }
+
+                var prom = 0.0
+
+                if(i != 0){
+                    prom = suma.toDouble()/i.toDouble()
+                }
+
+                publi.puntuacion = prom
+
+            }
+
+            if(cal == 0){
+                listaPublicaciones.sortByDescending { it.puntuacion }//Esto es mayor arriba
+            }else{
+                listaPublicaciones.sortBy { it.puntuacion }//Esto es menor arriba
+            }
+
+            return listaPublicaciones
+
+        }else if(!calFlag && rubFlag){
+            //3
+
+            var questionRef = db.collection("publicaciones")
+                .whereEqualTo("rubro.id",rub)
+
+            try {
+                val data = questionRef.get().await()
+                for(document in data){
+                    listaPublicaciones.add(document.toObject())
+                }
+            } catch (e : Exception){ }
+            return listaPublicaciones
+
+        }
+
+        var questionRef = db.collection("publicaciones")
+
+        try {
+            val data = questionRef.get().await()
+            for(document in data){
+                listaPublicaciones.add(document.toObject())
+            }
+        } catch (e : Exception){ }
+        return listaPublicaciones
+    }
+
     suspend fun getRubro(idServicio : Int) : Rubro{
         val questionRef = db.collection("publicaciones").whereEqualTo("idServicio", idServicio)
         try {
