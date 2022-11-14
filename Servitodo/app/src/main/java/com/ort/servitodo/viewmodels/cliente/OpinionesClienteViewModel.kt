@@ -60,30 +60,13 @@ class OpinionesClienteViewModel : ViewModel() {
             val userActual : Usuario = repositoryUser.getUsuarioById(repositoryUser.getIdSession())
             val esPrestador : Boolean = userActual.esPrestador
             calificaciones = repository.getCalificacionesByPrestadorId(id)
-            //calificaciones = repository.getCalificaciones()
 
-            if(calificaciones.size < 1) {
-                cargando.value = "No hay calificaciones disponibles"
-            }
-            else{
-                recycler.setHasFixedSize(true)
+            recycler.setHasFixedSize(true)
+            recycler.layoutManager  = LinearLayoutManager(view.context)
 
-                cargando.value = ""
-
-                recycler.layoutManager  = LinearLayoutManager(view.context)
-
-                recycler.adapter = CalificacionesAdapter(calificaciones, esPrestador ){
-
-                }
-
-
-
-            }
-
+            recycler.adapter = CalificacionesAdapter(calificaciones, esPrestador ){}
         }
         dialog.show()
-
-
     }
 
 }

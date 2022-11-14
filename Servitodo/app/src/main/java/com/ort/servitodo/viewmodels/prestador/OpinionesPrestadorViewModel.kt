@@ -27,15 +27,10 @@ class OpinionesPrestadorViewModel : ViewModel() {
     private lateinit var recycler : RecyclerView
     private lateinit var repositoryUser : UsuarioRepository
 
-
-
-    //----------------------------------------------------------------------------------------
     fun setView(v : View){
         this.view = v
 
     }
-
-
 
     fun emptyList(){
         this.calificaciones.clear()
@@ -43,8 +38,6 @@ class OpinionesPrestadorViewModel : ViewModel() {
 
 
     fun recyclerView(view : View, id : String){
-
-        cargando.value = "Cargando..."
 
         val dialog = BottomSheetDialog(view.context)
         dialog.setContentView(R.layout.fragment_opiniones_prestador)
@@ -57,29 +50,12 @@ class OpinionesPrestadorViewModel : ViewModel() {
             val userActual : Usuario = repositoryUser.getUsuarioById(repositoryUser.getIdSession())
             val esPrestador : Boolean = userActual.esPrestador
             calificaciones = repository.getCalificacionesByClienteId(id)
-            //calificaciones = repository.getCalificaciones()
 
-            if(calificaciones.size < 1) {
-                cargando.value = "No hay calificaciones disponibles"
-            }
-            else{
-                recycler.setHasFixedSize(true)
-
-                cargando.value = ""
-
-                recycler.layoutManager  = LinearLayoutManager(view.context)
-
-                 recycler.adapter = CalificacionesAdapter(calificaciones, esPrestador){
-
-                 }
-
-
-
-                  }
-
+            recycler.setHasFixedSize(true)
+            recycler.layoutManager  = LinearLayoutManager(view.context)
+            recycler.adapter = CalificacionesAdapter(calificaciones, esPrestador){}
         }
         dialog.show()
-
 
     }
 

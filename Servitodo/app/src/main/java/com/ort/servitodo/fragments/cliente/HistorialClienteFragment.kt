@@ -46,13 +46,9 @@ class HistorialClienteFragment : Fragment() {
         historialClienteViewModel.cargarPedidos()
 
         binding.autoCompleteTextViewFiltroClientePrestador.setOnItemClickListener { adapterView, view, i, l ->
-            historialClienteViewModel.emptyList()
+           // historialClienteViewModel.emptyList()
             historialClienteViewModel.onClickFiltro(l)
-
         }
-
-
-
         return v
     }
 
@@ -71,6 +67,9 @@ class HistorialClienteFragment : Fragment() {
             }
 
 
+        })
+        historialClienteViewModel.cargando.observe(viewLifecycleOwner, Observer { result ->
+            binding.cargandoTxtHistorial.text = result.toString()
         })
 
 

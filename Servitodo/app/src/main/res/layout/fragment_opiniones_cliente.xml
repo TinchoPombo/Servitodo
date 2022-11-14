@@ -43,8 +43,8 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/opinionesClienteRecycler"
-        android:layout_width="409dp"
-        android:layout_height="0dp"
+        android:layout_width="412dp"
+        android:layout_height="653dp"
         android:layout_marginTop="8dp"
         app:layout_constraintBottom_toTopOf="@+id/guideline15"
         app:layout_constraintEnd_toEndOf="parent"
@@ -52,4 +52,5 @@
         app:layout_constraintTop_toBottomOf="@+id/materialDivider6">
 
     </androidx.recyclerview.widget.RecyclerView>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

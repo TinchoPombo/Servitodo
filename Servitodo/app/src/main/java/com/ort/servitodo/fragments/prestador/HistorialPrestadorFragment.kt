@@ -46,14 +46,13 @@ class HistorialPrestadorFragment : Fragment() {
         historialPrestadorViewModel.cargarPedidos()
 
         binding.autoCompleteTextViewFiltroHistorialPrestador.setOnItemClickListener { adapterView, view , i, l ->
-            historialPrestadorViewModel.emptyList()
+           // historialPrestadorViewModel.emptyList()
             historialPrestadorViewModel.onClickFiltro(l)
         }
 
 
         return v
     }
-
 
     override fun onStart() {
         super.onStart()
@@ -66,10 +65,10 @@ class HistorialPrestadorFragment : Fragment() {
 
             recyclerPedidos.adapter = PedidosHistorialAdapter(result) { pos ->
                 historialPrestadorViewModel.onClick(pos)
-
             }
-
-
+        })
+        historialPrestadorViewModel.cargando.observe(viewLifecycleOwner, Observer { result ->
+            binding.cargandoTxtCliente.text = result.toString()
         })
 
     }

@@ -111,7 +111,6 @@ class HistorialClienteViewModel : ViewModel() {
         }
 
     }
-
     fun getFechaInTimeInMillis(dateToParse : String) : Long{
         val dateFormat = SimpleDateFormat("dd-MM-yyyy")
         val mDate: Date = dateFormat.parse(dateToParse)
@@ -124,7 +123,6 @@ class HistorialClienteViewModel : ViewModel() {
             emptyList()
 
             val listaHistorial = repository.getPedidosByUserIndex(getActualId())
-
 
             cargando.value = "Cargando...."
 
@@ -230,11 +228,9 @@ class HistorialClienteViewModel : ViewModel() {
                 cargando.value = "No hay pedidos"
 
             }else{
-
                 cargando.value = ""
             }
             pedidos.value = listaHistorial.sortedByDescending { it.precio }.toMutableList()
-
         }
     }
 

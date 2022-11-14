@@ -20,7 +20,7 @@
         <AutoCompleteTextView
             android:id="@+id/autoCompleteTextViewFiltroClientePrestador"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
+            android:layout_height="55dp"
             android:layout_weight="1"
             android:inputType="none"
             android:text="Filtrar por"
@@ -43,11 +43,21 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/historialClienteRV"
-        android:layout_width="409dp"
-        android:layout_height="616dp"
+        android:layout_width="413dp"
+        android:layout_height="584dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/autoCompleteTextViewFiltroClientePrestador" />
+
+    <TextView
+        android:id="@+id/cargandoTxtHistorial"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Cargando..."
+        app:layout_constraintBottom_toTopOf="@+id/textInputLayout2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView7" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

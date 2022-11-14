@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
 import com.ort.servitodo.R
 import com.ort.servitodo.databinding.FragmentOpinionesClienteBinding
 import com.ort.servitodo.databinding.FragmentOpinionesPrestadorBinding
@@ -36,6 +37,7 @@ class OpinionesClienteFragment : Fragment() {
 
         return v
     }
+
 
 
 }
