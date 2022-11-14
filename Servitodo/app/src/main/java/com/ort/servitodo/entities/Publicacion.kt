@@ -21,6 +21,8 @@ class Publicacion (idServicio : Int, idPrestador : String, fotoPrestador : Strin
 
     var descripcion: String
 
+    var puntuacion : Double = 0.0
+
     constructor() : this(0,"","","","", Mantenimiento(0, 0,""),"")
 
     init {
