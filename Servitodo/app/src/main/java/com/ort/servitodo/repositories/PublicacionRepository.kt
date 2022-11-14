@@ -70,30 +70,44 @@ class PublicacionRepository {
 
             for(publi in listaPublicaciones){
 
-                var questionRefAux = db.collection("calificaciones")
-                    .whereEqualTo("idServicio", publi.idServicio)
-
                 var i = 0
-                var suma = 0
+                var suma = 0.0
+
+                var questionIntermedia = db.collection("pedidos")
+                .whereEqualTo("idPublicacion", publi.idServicio)
 
                 try {
-                    val dataParteDos = questionRefAux.get().await()
+                    val dataParteMedia = questionIntermedia.get().await()
 
-                    for(documento in dataParteDos){
+                    for(documentoMedio in dataParteMedia){
 
-                        i++
+                        var questionRefAux = db.collection("calificaciones")
+                            .whereEqualTo("idPedido", documentoMedio["id"])
 
-                        suma += documento["puntos"].toString().toInt()
+                        try {
+                            val dataParteDos = questionRefAux.get().await()
+
+                            for(documentoDeAdentro in dataParteDos){
+
+                                i++
+
+                                suma += documentoDeAdentro["puntaje"].toString().toDouble()
+
+                            }
+
+                        } catch (e : Exception){ }
 
                     }
 
                 } catch (e : Exception){ }
+
 
                 var prom = 0.0
 
                 if(i != 0){
                     prom = suma.toDouble()/i.toDouble()
                 }
+
 
                 publi.puntuacion = prom
 
@@ -124,30 +138,44 @@ class PublicacionRepository {
 
             for(publi in listaPublicaciones){
 
-                var questionRefAux = db.collection("calificaciones")
-                    .whereEqualTo("idServicio", publi.idServicio)
-
                 var i = 0
-                var suma = 0
+                var suma = 0.0
+
+                var questionIntermedia = db.collection("pedidos")
+                    .whereEqualTo("idPublicacion", publi.idServicio)
 
                 try {
-                    val dataParteDos = questionRefAux.get().await()
+                    val dataParteMedia = questionIntermedia.get().await()
 
-                    for(documento in dataParteDos){
+                    for(documentoMedio in dataParteMedia){
 
-                        i++
+                        var questionRefAux = db.collection("calificaciones")
+                            .whereEqualTo("idPedido", documentoMedio["id"])
 
-                        suma += documento["puntos"].toString().toInt()
+                        try {
+                            val dataParteDos = questionRefAux.get().await()
+
+                            for(documentoDeAdentro in dataParteDos){
+
+                                i++
+
+                                suma += documentoDeAdentro["puntaje"].toString().toDouble()
+
+                            }
+
+                        } catch (e : Exception){ }
 
                     }
 
                 } catch (e : Exception){ }
+
 
                 var prom = 0.0
 
                 if(i != 0){
                     prom = suma.toDouble()/i.toDouble()
                 }
+
 
                 publi.puntuacion = prom
 

@@ -21,7 +21,10 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import java.util.UUID
+import java.security.Security
+import java.util.*
+import javax.crypto.Cipher
+import javax.crypto.spec.SecretKeySpec
 
 class SignUpViewModel : ViewModel() {
 
@@ -197,13 +200,8 @@ class SignUpViewModel : ViewModel() {
         }
     }
 
-    private fun modificarMailExistente(existe : Boolean) {
-        this.mailExistente = existe
-    }
-
     private fun invalidForm() {
         var msg = ""
-
 
         if(mailValido.value == 1) {
             if (msgValidarNombre.value != "")
@@ -307,21 +305,29 @@ class SignUpViewModel : ViewModel() {
         ubicacion : String,
         esPrestador: Boolean
     ) {
+
+        //todo encriptar pw aca
+
+        val encoder: Base64.Encoder = Base64.getEncoder()
+        var encryptedPw : String = encoder.encodeToString(password.toByteArray())
+
         usuarioRepository.addUsuario(Usuario(
             id,
             nombre,
             apellido,
             mail,
-            password,
+            encryptedPw,
             "549" + telefono,
             foto,
             ubicacion,
             esPrestador))
     }
 
-    fun continueValidation() {
-        TODO("Not yet implemented")
-    }
+    //Encriptado
+
+
+
+
 
 
 }

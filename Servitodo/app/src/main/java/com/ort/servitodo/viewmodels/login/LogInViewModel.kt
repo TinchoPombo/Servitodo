@@ -10,6 +10,7 @@ import androidx.navigation.findNavController
 import com.ort.servitodo.fragments.login.LogInFragmentDirections
 import com.ort.servitodo.repositories.UsuarioRepository
 import kotlinx.coroutines.launch
+import java.util.*
 
 class LogInViewModel : ViewModel() {
 
@@ -25,8 +26,13 @@ class LogInViewModel : ViewModel() {
     //---------------------------------------------------------------------------------------------------------
     fun validarCuenta(email : String, pw: String) {
 
+        //todo encripto aca y paso la pw encriptada a validarMailYPw
+
+        val encoder: Base64.Encoder = Base64.getEncoder()
+        var encryptedPw : String = encoder.encodeToString(pw.toByteArray())
+
         viewModelScope.launch {
-            val user = usuarioRepository.validarMailYPw(email, pw)
+            val user = usuarioRepository.validarMailYPw(email, encryptedPw)
 
             if(user.mail != ""){
                 logOut()
