@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
@@ -16,7 +17,7 @@ import com.ort.servitodo.databinding.FragmentHomeClienteBinding
 import com.ort.servitodo.repositories.UsuarioRepository
 import com.ort.servitodo.viewmodels.cliente.HomeClienteViewModel
 
-class HomeClienteFragment : Fragment() {
+class HomeClienteFragment : Fragment(), AdapterView.OnItemClickListener {
 
     private val homeClienteViewModel: HomeClienteViewModel by viewModels()
     lateinit var v : View
@@ -52,16 +53,21 @@ class HomeClienteFragment : Fragment() {
     override fun onResume() {
         super.onResume()
         val rubros = resources.getStringArray(R.array.rubros)
-        val filtroDistancia = resources.getStringArray(R.array.filtroDistancia)
         val filtroPuntuacion = resources.getStringArray(R.array.filtroPuntuacion)
 
         val arrayAdapterRubros = ArrayAdapter(requireContext(), R.layout.dropdown_item, rubros)
-        val arrayAdapterDistancia = ArrayAdapter(requireContext(), R.layout.dropdown_item, filtroDistancia)
         val arrayAdapterPuntuacion = ArrayAdapter(requireContext(), R.layout.dropdown_item, filtroPuntuacion)
 
-        binding.autoCompleteTextView1.setAdapter(arrayAdapterPuntuacion)
-        binding.autoCompleteTextView2.setAdapter(arrayAdapterRubros)
-        binding.autoCompleteTextView3.setAdapter(arrayAdapterDistancia)
+
+        with(binding.autoCompleteTextView1){
+            setAdapter(arrayAdapterPuntuacion)
+            onItemClickListener = this@HomeClienteFragment
+        }
+
+        with(binding.autoCompleteTextView2){
+            setAdapter(arrayAdapterRubros)
+            onItemClickListener = this@HomeClienteFragment
+        }
 
     }
 
@@ -86,5 +92,22 @@ class HomeClienteFragment : Fragment() {
 
 
     }
+
+    override fun onItemClick(parent: AdapterView<*>?, p1: View?, position: Int, id: Long) {
+
+        val a = binding.autoCompleteTextView1.text.toString()
+        val b = binding.autoCompleteTextView2.text.toString()
+
+        homeClienteViewModel.emptyList()
+
+        homeClienteViewModel.cargando.observe(viewLifecycleOwner, Observer { result ->
+            binding.cargandoTxt.text = result.toString()
+        })
+
+        homeClienteViewModel.recyclerViewFiltered(binding.recPublicacion,a,b)
+
+    }
+
+
 
 }

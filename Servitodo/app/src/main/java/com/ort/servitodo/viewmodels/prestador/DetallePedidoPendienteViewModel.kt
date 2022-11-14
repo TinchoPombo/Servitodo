@@ -86,7 +86,7 @@ class DetallePedidoPendienteViewModel : ViewModel() {
     fun initLiveData() {
         viewModelScope.launch {
             nombreCompleto.value = "${usuario[0]} ${usuario[1]}"
-            rubro.value = "${pedido.estado}"/*"${this.publicacion.rubro.nombre}"*/
+            rubro.value = "${publicacion.rubro.nombre}"
             direccion.value = "${usuario[2]}"
             fotoPrestador.value = usuario[3]
             selectedDay.value = "${pedido.fecha}"
