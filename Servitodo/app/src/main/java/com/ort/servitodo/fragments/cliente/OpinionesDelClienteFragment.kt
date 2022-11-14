@@ -31,6 +31,7 @@ class OpinionesDelClienteFragment : Fragment() {
         val arrayAdapterFiltroHistorial = ArrayAdapter(requireContext(), R.layout.dropdown_item, filtroOpiniones)
         binding.filtradoOpinionesCliente.setAdapter(arrayAdapterFiltroHistorial)
 
+
     }
 
 
@@ -43,37 +44,31 @@ class OpinionesDelClienteFragment : Fragment() {
         v = binding.root
 
         opinionesDelClienteViewModel.setView(v)
+
         opinionesDelClienteViewModel.cargarCalificaciones()
 
         binding.filtradoOpinionesCliente.setOnItemClickListener { adapterView, view, i, l ->
             opinionesDelClienteViewModel.onClickFiltro(l)
         }
 
-        //binding.ratingBarPromedioCliente
-
         return v
 
     }
-
-
 
     override fun onStart() {
         super.onStart()
 
         opinionesDelClienteViewModel.calificaciones.observe(viewLifecycleOwner, Observer { result ->
+
+            binding.ratingBarPromedioCliente.rating = opinionesDelClienteViewModel.promedioCalificaciones()
+
             val recyclerCalificaciones = binding.recyclerViewOpinionesDelCliente
 
             recyclerCalificaciones.setHasFixedSize(true)
             recyclerCalificaciones.layoutManager = LinearLayoutManager(context)
 
             recyclerCalificaciones.adapter = CalificacionesAdapter(result, true){}
+
         })
-
-
-
-
-
-
     }
-
 }

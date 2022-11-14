@@ -141,6 +141,25 @@ class DetallePublicacionViewModel : ViewModel() {
         var cupos: Int
 
         viewModelScope.launch {
+            val filterPedidos = pedidos.filter { p -> p.fecha == dia
+                    && p.hora == hora
+                    && p.estado != TipoEstado.FINALIZADO.toString()
+                    && p.estado != TipoEstado.RECHAZADO.toString()
+                    && p.estado != TipoEstado.CANCELADO.toString()}.toMutableList()
+
+            cupos = if(publicacion.rubro.nombre == "PaseaPerros"){
+                paseaPerrosSpot(filterPedidos.size)
+            } else{ 1 }
+            cantidadCuposDisponibles.value = "Cupos disponibles: ${cupos}"
+            filterPedidos.clear()
+        }
+    }
+    /*fun getSpot(){
+        val hora = selectedHour.value!!
+        val dia = selectedDay.value!!
+        var cupos: Int
+
+        viewModelScope.launch {
             val filterPedidos = pedidos.filter { p -> p.fecha == dia && p.hora == hora && p.estado != TipoEstado.FINALIZADO.toString() && p.estado != TipoEstado.RECHAZADO.toString() }.toMutableList()
 
             if(publicacion.rubro.nombre == "PaseaPerros"){
@@ -152,7 +171,7 @@ class DetallePublicacionViewModel : ViewModel() {
             cantidadCuposDisponibles.value = "Cupos disponibles: ${cupos}"
             filterPedidos.clear()
         }
-    }
+    }*/
 
     private suspend fun paseaPerrosSpot(cant : Int) : Int{
         var cuposDisponible = 0

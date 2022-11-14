@@ -9,6 +9,9 @@
         <entry key="..\:/SERVITODO/Servitodo/app/src/main/res/layout/fragment_pedidos_cliente.xml" value="0.33" />
         <entry key="..\:/SERVITODO/Servitodo/app/src/main/res/layout/fragment_perfil_cliente.xml" value="0.33" />
         <entry key="..\:/SERVITODO/Servitodo/app/src/main/res/layout/fragment_perfil_prestador.xml" value="0.33" />
+        <entry key="..\:/Users/ronqu/Desktop/Servitodo/Servitodo/Servitodo/app/src/main/res/layout/card_bottom_sheet_historial.xml" value="0.365625" />
+        <entry key="..\:/Users/ronqu/Desktop/Servitodo/Servitodo/Servitodo/app/src/main/res/layout/fragment_bottom_sheet_pedido_aceptado_prestador.xml" value="0.36666666666666664" />
+        <entry key="..\:/Users/ronqu/Desktop/Servitodo/Servitodo/Servitodo/app/src/main/res/layout/fragment_opiniones_del_prestador.xml" value="0.36666666666666664" />
       </map>
     </option>
   </component>

@@ -25,6 +25,7 @@ class OpinionesDelPrestadorFragment : Fragment() {
     private lateinit var binding : FragmentOpinionesDelPrestadorBinding
 
 
+
     override fun onResume() {
         super.onResume()
 
@@ -50,6 +51,8 @@ class OpinionesDelPrestadorFragment : Fragment() {
             opinionesDelPrestadorViewModel.onClickFiltro(l)
         }
 
+
+
        // binding.ratingBarPromedioPrestador.rating = opinionesDelPrestadorViewModel.promedioCalificaciones()
 
         return v
@@ -62,12 +65,17 @@ class OpinionesDelPrestadorFragment : Fragment() {
         super.onStart()
 
         opinionesDelPrestadorViewModel.calificaciones.observe(viewLifecycleOwner, Observer { result ->
+
+            binding.ratingBarPromedioPrestador.rating = opinionesDelPrestadorViewModel.promedioCalificaciones()
+
             val recyclerCalificaciones = binding.recyclerViewOpinionesDelPrestador
 
             recyclerCalificaciones.setHasFixedSize(true)
             recyclerCalificaciones.layoutManager = LinearLayoutManager(context)
 
             recyclerCalificaciones.adapter = CalificacionesAdapter(result, false){}
+
+
         })
 
 

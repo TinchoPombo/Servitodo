@@ -31,7 +31,6 @@ class OpinionesPrestadorFragment : Fragment() {
 
         opinionesPrestadorViewModel.setView(v)
 
-
         return v
     }
 

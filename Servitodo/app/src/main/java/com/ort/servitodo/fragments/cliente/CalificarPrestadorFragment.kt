@@ -21,7 +21,7 @@ class CalificarPrestadorFragment : Fragment() {
         fun newInstance() = CalificarPrestadorFragment()
     }
 
-    private val viewModel: CalificarPrestadorViewModel by viewModels()
+    private val calificarPrestadorViewModel: CalificarPrestadorViewModel by viewModels()
     lateinit var v: View
     private lateinit var binding: FragmentCalificarPrestadorBinding
     private lateinit var receiveData : Pedido
@@ -36,7 +36,7 @@ class CalificarPrestadorFragment : Fragment() {
         binding = FragmentCalificarPrestadorBinding.inflate(inflater, container, false)
         v = binding.root
 
-        viewModel.setView(v)
+        calificarPrestadorViewModel.setView(v)
         receiveData = CalificarPrestadorFragmentArgs.fromBundle(requireArguments()).pedido1
 
         return v
@@ -45,23 +45,16 @@ class CalificarPrestadorFragment : Fragment() {
     override fun onStart() {
         super.onStart()
 
-
-        //Falta la logica para que no se puedan calificar 2 veces el mismo pedido
         binding.calificarPrestadorBtm.setOnClickListener {
 
-            if(true){
-                val rating = binding.ratingBar.rating
-                val descripcion : String  = binding.decripcionCalificacionPrestador.text.toString()
-                viewModel.calificar(descripcion, rating, receiveData.idPrestador, receiveData.id)
+            val rating = binding.ratingBar.rating
+            val descripcion : String  = binding.decripcionCalificacionPrestador.text.toString()
+            calificarPrestadorViewModel.calificar(descripcion, rating, receiveData)
 
-                v.findNavController().navigate(CalificarPrestadorFragmentDirections.actionCalificarPrestadorFragmentToHomeClienteFragment())
-            }else{
-                Snackbar.make(v, "No puedes calificar 2 veces un pedido", Snackbar.LENGTH_SHORT)
-                    .show()
-            }
+            v.findNavController().navigate(CalificarPrestadorFragmentDirections.actionCalificarPrestadorFragmentToHomeClienteFragment())
 
         }
     }
-
-
 }
+
+

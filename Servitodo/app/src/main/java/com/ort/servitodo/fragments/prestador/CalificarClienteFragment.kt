@@ -49,18 +49,11 @@ class CalificarClienteFragment : Fragment() {
 
         binding.calificarClienteBtm.setOnClickListener {
 
+            val rating = binding.ratingBar2.rating
+            val descripcion : String = binding.txtDescripcionCalificarCliente.text.toString()
+            calificarClienteViewModel.calificar(descripcion, rating , receiveData)
 
-            if(true){
-                val rating = binding.ratingBar2.rating
-                val descripcion : String = binding.txtDescripcionCalificarCliente.text.toString()
-                calificarClienteViewModel.calificar(descripcion, rating , receiveData.idCliente, receiveData.id)
-
-                v.findNavController().navigate(CalificarClienteFragmentDirections.actionCalificarClienteFragmentToHomePrestadorFragment())
-            }else{
-                Snackbar.make(v, "No puedes calificar 2 veces un pedido", Snackbar.LENGTH_SHORT)
-                    .show()
-            }
-
+            v.findNavController().navigate(CalificarClienteFragmentDirections.actionCalificarClienteFragmentToHomePrestadorFragment())
         }
     }
 

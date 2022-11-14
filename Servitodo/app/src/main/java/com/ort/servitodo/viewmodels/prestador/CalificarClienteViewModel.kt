@@ -6,6 +6,7 @@ import androidx.lifecycle.viewModelScope
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import com.ort.servitodo.entities.Pedido
 import com.ort.servitodo.entities.Puntuacion
 import com.ort.servitodo.repositories.CalificacionesRepository
 import com.ort.servitodo.repositories.PedidosRepository
@@ -16,7 +17,7 @@ class CalificarClienteViewModel : ViewModel() {
     private lateinit var view : View
     private var repository = PedidosRepository()
     private lateinit var usuarioRepository : UsuarioRepository
-    private lateinit var calificacionesRepository: CalificacionesRepository
+    private var repositoryCalificaciones = CalificacionesRepository()
 
     val db = Firebase.firestore
 
@@ -28,19 +29,20 @@ class CalificarClienteViewModel : ViewModel() {
 
 
 
-    fun calificar(descripcion: String, rating: Float, idCliente : String, idPedido : Int){
+    fun calificar(descripcion: String, rating: Float,pedido: Pedido){
 
 
         viewModelScope.launch {
 
-           // var tiene : Boolean = calificacionesRepository.getCalificaciones().any() { c -> c.idServicio == idPublicacion }
+          val tiene =  repositoryCalificaciones.hayCalificacionPorPedidoIdPrestador(pedido)
 
-           if(true){
+           if(!tiene){
                 val idCalificacion = (1..99999999).random()
                 val user = usuarioRepository.getUsuarioById(usuarioRepository.getIdSession())
-                val calificacion = Puntuacion(idCalificacion, idCliente, user.id , idPedido, rating, descripcion, true)
+                val calificacion = Puntuacion(idCalificacion, pedido.idCliente, user.id , pedido.id, rating, descripcion, true)
 
-                db.collection("calificaciones").document(idCalificacion.toString()).set(calificacion)
+               db.collection("calificaciones").document().set(calificacion)
+               // repositoryCalificaciones.agregarCalificacion(calificacion)
             }else{
                Snackbar.make(view, "No puedes calificar 2 veces un pedido", Snackbar.LENGTH_SHORT)
                    .show()

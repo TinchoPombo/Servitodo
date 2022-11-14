@@ -42,6 +42,7 @@ class HistorialClienteFragment : Fragment() {
         v = binding.root
 
         historialClienteViewModel.setView(v)
+
         historialClienteViewModel.cargarPedidos()
 
         binding.autoCompleteTextViewFiltroClientePrestador.setOnItemClickListener { adapterView, view, i, l ->

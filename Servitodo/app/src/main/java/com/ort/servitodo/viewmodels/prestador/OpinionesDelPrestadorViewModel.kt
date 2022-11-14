@@ -24,6 +24,8 @@ class OpinionesDelPrestadorViewModel : ViewModel() {
     val cargando = MutableLiveData<String>()
     val calificaciones = MutableLiveData<MutableList<Puntuacion>>()
 
+    private var promedioCalificacion = 0F
+
     //-------------------------------------------------------------------------------
     fun setView(v : View){
         this.view = v
@@ -42,19 +44,20 @@ class OpinionesDelPrestadorViewModel : ViewModel() {
         }
     }
     fun promedioCalificaciones() : Float{
-        var valorPromedio : Float = 0F
+
         var valorTotal :Float = 0F
 
         viewModelScope.launch {
             val listaCalificaciones = repository.getCalificacionesByPrestadorId(usuarioRep.getIdSession())
-            if(listaCalificaciones.size > 1){
+
+            if(listaCalificaciones.size > 0){
                 for(c in listaCalificaciones){
                     valorTotal += c.puntaje
                 }
-                valorPromedio = valorTotal /listaCalificaciones.size
+                promedioCalificacion = valorTotal /listaCalificaciones.size
             }
         }
-        return valorPromedio
+        return promedioCalificacion
     }
 
     fun cargarCalificaciones(){
@@ -73,7 +76,6 @@ class OpinionesDelPrestadorViewModel : ViewModel() {
                 calificaciones.value = listaCalificaciones
                 cargando.value = ""
             }
-
         }
     }
 

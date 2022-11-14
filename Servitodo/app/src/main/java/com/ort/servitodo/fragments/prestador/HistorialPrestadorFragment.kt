@@ -45,7 +45,7 @@ class HistorialPrestadorFragment : Fragment() {
         historialPrestadorViewModel.setView(v)
         historialPrestadorViewModel.cargarPedidos()
 
-        binding.autoCompleteTextViewFiltroHistorialPrestador.setOnItemClickListener { adapterView, view, i, l ->
+        binding.autoCompleteTextViewFiltroHistorialPrestador.setOnItemClickListener { adapterView, view , i, l ->
             historialPrestadorViewModel.emptyList()
             historialPrestadorViewModel.onClickFiltro(l)
         }

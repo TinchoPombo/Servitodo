@@ -69,10 +69,7 @@ class HistorialClienteViewModel : ViewModel() {
 
             if(estado == "FINALIZADO") {
                 if (!tiene) {
-                    val action =
-                        HistorialClienteFragmentDirections.actionHistorialClienteFragmentToCalificarPrestadorFragment(
-                            pedido
-                        )
+                    val action = HistorialClienteFragmentDirections.actionHistorialClienteFragmentToCalificarPrestadorFragment(pedido)
                     view.findNavController().navigate(action)
                 } else {
                     snackYaTieneCalificacion()
@@ -134,9 +131,10 @@ class HistorialClienteViewModel : ViewModel() {
             if(listaHistorial.size < 1){
                 cargando.value = "No hay pedidos"
             }else{
-                pedidos.value = listaHistorial.sortedByDescending { getFechaInTimeInMillis(it.fecha) }.toMutableList()
+
                 cargando.value = ""
             }
+            pedidos.value = listaHistorial.sortedByDescending { getFechaInTimeInMillis(it.fecha) }.toMutableList()
 
         }
     }
@@ -154,9 +152,10 @@ class HistorialClienteViewModel : ViewModel() {
             if(listaHistorial.size < 1){
                 cargando.value = "No hay pedidos"
             }else{
-                pedidos.value = listaHistorial.sortedBy { getFechaInTimeInMillis(it.fecha) }.toMutableList()
+
                 cargando.value = ""
             }
+            pedidos.value = listaHistorial.sortedBy { getFechaInTimeInMillis(it.fecha) }.toMutableList()
 
         }
     }
@@ -171,11 +170,10 @@ class HistorialClienteViewModel : ViewModel() {
 
             if(listaHistorial.size < 1){
                 cargando.value = "No hay pedidos"
-                emptyList()
             }else{
-                pedidos.value = listaHistorial
                 cargando.value = ""
             }
+            pedidos.value = listaHistorial
 
         }
     }
@@ -185,26 +183,25 @@ class HistorialClienteViewModel : ViewModel() {
         viewModelScope.launch {
             emptyList()
 
-            val listaHistorial = repository.getPedidosByEstado(getActualId(), "EN CURSO")
+            val listaHistorial = repository.getPedidosByEstado(getActualId(), "EN_CURSO")
 
             cargando.value = "Cargando...."
 
             if(listaHistorial.size < 1){
-
                 cargando.value = "No hay pedidos"
 
             }else{
-                pedidos.value = listaHistorial
                 cargando.value = ""
             }
+            pedidos.value = listaHistorial
 
         }
     }
     private fun cargarPedidosCancelados(){
 
         viewModelScope.launch {
-            emptyList()
 
+            emptyList()
             val listaHistorial = repository.getPedidosByEstado(getActualId(), "CANCELADO")
 
             cargando.value = "Cargando...."
@@ -213,17 +210,18 @@ class HistorialClienteViewModel : ViewModel() {
                 cargando.value = "No hay pedidos"
 
             }else{
-                pedidos.value = listaHistorial
+
                 cargando.value = ""
             }
+            pedidos.value = listaHistorial
 
         }
     }
     private fun cargarPedidosPorPrecio(){
 
         viewModelScope.launch {
-            emptyList()
 
+            emptyList()
             val listaHistorial = repository.getPedidosByUserIndex(getActualId())
 
             cargando.value = "Cargando...."
@@ -232,36 +230,12 @@ class HistorialClienteViewModel : ViewModel() {
                 cargando.value = "No hay pedidos"
 
             }else{
-                pedidos.value = listaHistorial.sortedByDescending { it.precio }.toMutableList()
+
                 cargando.value = ""
             }
+            pedidos.value = listaHistorial.sortedByDescending { it.precio }.toMutableList()
 
         }
     }
-    private fun cargarPedidosPendientes(){
-
-        viewModelScope.launch {
-            emptyList()
-
-            val listaHistorial = repository.getPedidosByEstado(getActualId(), "PENDIENTE")
-
-            cargando.value = "Cargando...."
-
-            if(listaHistorial.size < 1){
-                cargando.value = "No hay pedidos"
-
-            }else{
-                pedidos.value = listaHistorial
-                cargando.value = ""
-            }
-
-        }
-    }
-
-
-
-
-
-
 
 }

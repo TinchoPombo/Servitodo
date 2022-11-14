@@ -1,10 +1,12 @@
 package com.ort.servitodo.repositories
 
+import android.content.ContentValues
 import android.util.Log
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
 import com.ort.servitodo.entities.Pedido
+import com.ort.servitodo.entities.Publicacion
 import com.ort.servitodo.entities.Puntuacion
 import kotlinx.coroutines.tasks.await
 
@@ -90,7 +92,12 @@ class CalificacionesRepository {
 
         return tiene
     }
+
+    fun agregarCalificacion(puntuacion : Puntuacion ){
+        db.collection("calificaciones").document(puntuacion.id.toString()).set(puntuacion)
+
     }
+}
 
     /*  fun uppCalificacion(id: String, cali : Puntuacion){
             questionRef.document(id).set(cali)

@@ -53,43 +53,11 @@ class DetallePedidoAceptadoViewModel : ViewModel() {
     suspend fun getUsuario(id: String) : Usuario {
         return UsuarioRepository(view).getUsuarioById(id)
     }
-//---------------------------------------------------------------
-  //metodo de prueba
 
-     /*fun detallesDelPedidoCliente(pedido : Pedido){
-
-
-        val dialog = BottomSheetDialog(view.context)
-        dialog.setContentView(R.layout.fragment_card_historial_prestador)
-
-        setPedido(pedido)
-
-        val img = dialog.findViewById<ImageView>(R.id.imgPedido)!!
-        val nombre = dialog.findViewById<TextView>(R.id.txtNombrePrestador)!!
-        val fecha = dialog.findViewById<TextView>(R.id.txtHorario)!!
-        val precio = dialog.findViewById<TextView>(R.id.txtPrecio)!!
-        val estado = dialog.findViewById<TextView>(R.id.txtEstado)!!
-
-        viewModelScope.launch {
-            val pedido = getPedido(pedido.id)
-            val user = getUsuario(pedido.idCliente)
-
-            setImg(user.foto, img )
-            nombre.text = "${user.nombre} ${user.apellido}"
-            fecha.text = "Fecha: ${pedido.fecha} - Hora: ${pedido.hora}"
-            precio.text = "Precio: $${setPrecio(pedido.precio)}"
-            estado.text = "Estado: ${pedido.estado}"
-
-
-
-            }
-
-            dialog.show()
-        }*/
 
     fun detallesDelPedido2(pedido : Pedido){
         val dialog = BottomSheetDialog(view.context)
-        dialog.setContentView(R.layout.fragment_bottom_sheet_pedido_aceptado_prestador)
+        dialog.setContentView(R.layout.card_bottom_sheet_historial)
 
         setPedido(pedido)
 
@@ -123,7 +91,6 @@ class DetallePedidoAceptadoViewModel : ViewModel() {
             dialog.show()
         }
     }
-
 
     fun detallesDelPedido(pedido : Pedido){
         val dialog = BottomSheetDialog(view.context)
