@@ -12,9 +12,10 @@ import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.ort.servitodo.R
+import com.ort.servitodo.entities.*
 
-import com.ort.servitodo.entities.Puntuacion
-import com.ort.servitodo.entities.Usuario
+import com.ort.servitodo.repositories.PedidosRepository
+import com.ort.servitodo.repositories.PublicacionRepository
 
 import com.ort.servitodo.repositories.UsuarioRepository
 
@@ -22,6 +23,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
+import org.w3c.dom.Text
 
 class CalificacionesAdapter (
     var listaCalificaciones : MutableList <Puntuacion>,
@@ -39,10 +41,13 @@ class CalificacionesAdapter (
     override fun onBindViewHolder(holder: CalificacionesHolder, position: Int) {
 
         if(esPrestador){
-            holder.setDatos(listaCalificaciones[position].idPrestador)
+            holder.setDatos(listaCalificaciones[position].idPrestador,listaCalificaciones[position].idPedido)
+
         }else{
-            holder.setDatos(listaCalificaciones[position].idCliente)
+            holder.setDatos(listaCalificaciones[position].idCliente, listaCalificaciones[position].idPedido)
+
         }
+
 
         holder.setRating(listaCalificaciones[position].puntaje)
 
@@ -90,13 +95,27 @@ class CalificacionesAdapter (
             val descripcion : TextView = view.findViewById(R.id.descripcion_opinion)
             descripcion.text = desc
         }
+        fun setRubro(rubro :String){
+            val rub :TextView= view.findViewById(R.id.rubroOpinion)
+            rub.text = rubro
 
-        fun setDatos(id : String){
+        }
+
+        fun setDatos(id : String, idPedido : Int){
             var usuario : Usuario
             val parent = Job()
+            var pedido = Pedido()
+
+            var pub = Publicacion()
+
             val scope = CoroutineScope(Dispatchers.Main + parent)
             scope.launch() {
+                pedido = PedidosRepository().getPedidoById(idPedido)
                 usuario = UsuarioRepository(view).getUsuarioById(id)
+                pub = PublicacionRepository().getPublicacionById(pedido.idPublicacion)
+
+                setRubro(pub.rubro.nombre)
+
                 setImagenUsuario(usuario.foto)
                 setNombreUsuario(usuario.nombre + "" + usuario.apellido)
             }
