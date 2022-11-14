@@ -48,7 +48,8 @@
             app:destination="@id/opinionesDelClienteFragment" />
         <action
             android:id="@+id/action_perfilClienteFragment_to_mainActivity2"
-            app:destination="@id/mainActivity2" />
+            app:destination="@id/mainActivity2"
+            />
     </fragment>
     <fragment
         android:id="@+id/detallePublicacionFragment"

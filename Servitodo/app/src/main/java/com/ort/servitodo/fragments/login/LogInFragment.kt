@@ -61,24 +61,7 @@ class LogInFragment : Fragment() {
             viewModel.registroLogin()
         }
 
-        binding.btnCliente1.setOnClickListener{
-            viewModel.cliente1()
-        }
-        binding.btnCliente2.setOnClickListener{
-            viewModel.cliente2()
-        }
-        binding.btnCliente3.setOnClickListener{
-            viewModel.cliente3()
-        }
-        binding.btnPrest1.setOnClickListener{
-            viewModel.prest1()
-        }
-        binding.btnPrest2.setOnClickListener{
-            viewModel.prest2()
-        }
-        binding.btnPrest3.setOnClickListener{
-            viewModel.prest3()
-        }
+
 
     }
 }

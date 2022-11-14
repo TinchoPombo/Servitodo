@@ -2,6 +2,7 @@
 
 package com.ort.servitodo.fragments.login
 
+import android.app.Activity
 import android.app.Activity.RESULT_OK
 import android.app.AlertDialog
 import android.content.ContentValues.TAG
@@ -78,6 +79,7 @@ class SignUpFragment : Fragment() {
 
         binding.btnCargarImagen.setOnClickListener {
             pickImageFromGallery()
+
         }
 
         return v
@@ -110,6 +112,10 @@ class SignUpFragment : Fragment() {
         viewModel.msgValidarCalle.observe(viewLifecycleOwner, Observer { result ->
             binding.calleAlturaContainer.helperText = result.toString()
         })
+        //Guarda Url Imagen
+        viewModel.imgUrl.observe(viewLifecycleOwner, Observer { result ->
+            viewModel.guardarUrlImagen()
+        })
 
         //ResetForm
         viewModel.resetForm.observe(viewLifecycleOwner, Observer { result ->
@@ -123,6 +129,8 @@ class SignUpFragment : Fragment() {
 
     }
 
+
+
     private fun pickImageFromGallery() {
         val intent = Intent(Intent.ACTION_PICK)
         intent.type = "image/*"
@@ -133,10 +141,11 @@ class SignUpFragment : Fragment() {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == IMAGE_REQUEST_CODE && resultCode == RESULT_OK) {
             binding.imageView.setImageURI(data?.data)
-            uploadImageToFirebase(data?.data!!)
+            viewModel.uploadImageToFirebase(data?.data!!)
         }
     }
 
+    //TODO esto se supone que no es necesario
     private fun uploadImageToFirebase(fileUri: Uri) {
         if (fileUri != null) {
             val fileName = UUID.randomUUID().toString() +".jpg"
@@ -240,7 +249,7 @@ class SignUpFragment : Fragment() {
             binding.passwordEditText.text.toString(),
             binding.phoneEditText.text.toString(),
             binding.calleAlturaEditText.text.toString(),
-            binding.fotoEditText.text.toString(),
+            binding.imageView.toString(),
             binding.radioGroup.checkedRadioButtonId,
             binding.radioPrestador.id       //Este id se pasa para poder hacer la comparacion con la opcion seleccionada
         )
@@ -255,8 +264,6 @@ class SignUpFragment : Fragment() {
         binding.apellidoEditText.text = null
         binding.nombreEditText.text = null
         binding.calleAlturaEditText.text = null
-        binding.fotoEditText.text = null
-
         binding.radioGroup.clearCheck()
     }
 

@@ -22,7 +22,7 @@ class PublicacionAdapter (
     }
 
     override fun onBindViewHolder(holder: PublicacionHolder, position: Int) {
-        holder.setNombrePrestador(listaPublicaciones[position].nombrePrestador)
+        holder.setNombrePrestador(listaPublicaciones[position].nombrePrestador, listaPublicaciones[position].apellidoPrestador)
         holder.setRubro(listaPublicaciones[position].rubro.nombre)
         holder.setImagenPrestador(listaPublicaciones[position].fotoPrestador)
         holder.getCardView().setOnClickListener {
@@ -45,9 +45,9 @@ class PublicacionAdapter (
             txtRubro.text = rubro
         }
 
-        fun setNombrePrestador (nombrePrestador : String){
+        fun setNombrePrestador (nombrePrestador : String, apellidoPrestador : String){
             var txtNombrePrestador : TextView = view.findViewById(R.id.txtNombrePrestador)
-            txtNombrePrestador.text = nombrePrestador
+            txtNombrePrestador.text = nombrePrestador + " " + apellidoPrestador
         }
 
         fun setImagenPrestador (img : String){

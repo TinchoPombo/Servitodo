@@ -1,19 +1,29 @@
 package com.ort.servitodo.viewmodels.login
 
+import android.app.Activity
 import android.app.AlertDialog
 import android.content.ContentValues.TAG
+import android.content.Intent
+import android.net.Uri
 import android.util.Log
 import android.util.Patterns
 import android.view.View
 import android.widget.Toast
+import androidx.core.app.ActivityCompat.startActivityForResult
+import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavDirections
 import androidx.navigation.findNavController
+import com.google.android.gms.tasks.OnFailureListener
+import com.google.android.gms.tasks.OnSuccessListener
 import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.UploadTask
+import com.google.firebase.storage.ktx.storage
 import com.ort.servitodo.R
 import com.ort.servitodo.entities.Usuario
+import com.ort.servitodo.fragments.login.SignUpFragment
 import com.ort.servitodo.fragments.login.SignUpFragmentDirections
 import com.ort.servitodo.repositories.PedidosRepository
 import com.ort.servitodo.repositories.UsuarioRepository
@@ -36,7 +46,7 @@ class SignUpViewModel : ViewModel() {
         this.v = v
         usuarioRepository = UsuarioRepository(v)
     }
-
+    val storage = Firebase.storage
     private var mailExistente = false
     private final var REQUERIDO = "Requerido"
 
@@ -51,7 +61,7 @@ class SignUpViewModel : ViewModel() {
     var msgvalidarRadio = MutableLiveData<String>()
     var resetForm = MutableLiveData<Boolean>()
     var mailValido = MutableLiveData<Int>()  //se usara para definir si el email ya existe o no
-
+    var imgUrl = MutableLiveData<String>()
 
     //----------------------------------------------------------------------------------------------------------
 
@@ -64,7 +74,8 @@ class SignUpViewModel : ViewModel() {
         msgValidarCalle.value = REQUERIDO
         msgvalidarRadio.value = "Seleccione una opcion"
         resetForm.value = false
-        mailValido. value = 0   //0=No validado, 1=Mail valido, 2=Mail invalido
+        mailValido.value = 0   //0=No validado, 1=Mail valido, 2=Mail invalido
+        imgUrl.value = ""
     }
 
 
@@ -204,6 +215,8 @@ class SignUpViewModel : ViewModel() {
         var msg = ""
 
         if(mailValido.value == 1) {
+            if(imgUrl.value == "")
+                msg += "\n\nFoto: Seleccione una foto de perfil"
             if (msgValidarNombre.value != "")
                 msg += "\n\nNombre: " + msgValidarNombre.value
             if (msgValidarApellido.value != "")
@@ -218,6 +231,7 @@ class SignUpViewModel : ViewModel() {
                 msg += "\n\nCalle: " + msgValidarCalle.value
             if (msgvalidarRadio.value != "")
                 msg += "\n\nUsuario: " + msgvalidarRadio.value
+
         }else{
             msg += "Email ya registrado"
         }
@@ -247,6 +261,7 @@ class SignUpViewModel : ViewModel() {
 
         val esPrestador = esPrestador(userSelecionado,radioPrestador)
         val id = UUID.randomUUID().toString()
+        val fotoUrl = imgUrl.value.toString()
 
         saveSession(id, mail, password)
 
@@ -257,7 +272,7 @@ class SignUpViewModel : ViewModel() {
             mail,
             password,
             telefono,
-            foto,
+            fotoUrl,
             calle,
             esPrestador
         )
@@ -310,6 +325,7 @@ class SignUpViewModel : ViewModel() {
 
         val encoder: Base64.Encoder = Base64.getEncoder()
         var encryptedPw : String = encoder.encodeToString(password.toByteArray())
+        val urlImage = imgUrl.value
 
         usuarioRepository.addUsuario(Usuario(
             id,
@@ -318,16 +334,87 @@ class SignUpViewModel : ViewModel() {
             mail,
             encryptedPw,
             "549" + telefono,
-            foto,
+            urlImage!!,
             ubicacion,
             esPrestador))
     }
 
-    //Encriptado
+    fun uploadImageToFirebase(fileUri : Uri) {
+        if (fileUri != null) {
+            val fileName = UUID.randomUUID().toString() +".jpg"
 
+            /*val storage = Firebase.storage*/
+            val refStorage = storage.reference.child("images/$fileName")
 
+            var imageUrl1 = ""
 
+            refStorage.putFile(fileUri)
+                .addOnSuccessListener(
+                    OnSuccessListener<UploadTask.TaskSnapshot> { taskSnapshot ->
+                        taskSnapshot.storage.downloadUrl.addOnSuccessListener {
+                            imgUrl.value = it.toString()
+                            Log.d("FOTOOO", "link ${it.toString()}")
+                        }
+                    })
 
+                ?.addOnFailureListener(OnFailureListener { e ->
+                    print(e.message)
+                })
+
+           // imgUrl.value = imageUrl1
+
+            Log.d("FOTO2", "valor de funcion:  ${imageUrl1}")
+            Log.d("FOTO2", "valor de LiveData:  ${imgUrl.value}")
+        }
+      /*
+        val storageRef = storage.reference
+        val fileName = UUID.randomUUID().toString() +".jpg"
+
+        val ref = storageRef.child("images/${fileName}")
+        var uploadTask = ref.putFile(fileUri)
+
+        val urlTask = uploadTask.continueWithTask { task ->
+            if (!task.isSuccessful) {
+                task.exception?.let {
+                    throw it
+                }
+            }
+            ref.downloadUrl
+        }.addOnCompleteListener { task ->
+            if (task.isSuccessful) {
+                val downloadUri = task.result
+            } else {
+                // Handle failures
+                // ...
+            }
+        }
+
+        imgUrl.value = ref.downloadUrl.toString()
+
+        */
+    }
+
+    fun guardarUrlImagen() {
+        Log.d("FOTOOO", "Muestra de obs de liveData " + imgUrl.value.toString())
+    }
 
 
 }
+
+/*
+    fun pickimageFromGallery(activity: Activity?) {
+        val intent = Intent(Intent.ACTION_PICK)
+        intent.type = "image/*"
+        if (activity != null) {
+            startActivityForResult(activity, intent, SignUpFragment.IMAGE_REQUEST_CODE, null)
+        }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == SignUpFragment.IMAGE_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
+            binding.imageView.setImageURI(data?.data)
+            uploadImageToFirebase(data?.data!!)
+        }
+    }
+    */

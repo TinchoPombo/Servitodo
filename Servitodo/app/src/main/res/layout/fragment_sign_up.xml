@@ -6,16 +6,16 @@
     android:layout_height="match_parent"
     tools:context=".fragments.login.SignUpFragment">
 
+
     <ImageView
-        android:id="@+id/ivLogo"
-        android:layout_width="139dp"
-        android:layout_height="83dp"
-        android:src="@drawable/logo1"
+        android:id="@+id/imageView"
+        android:layout_width="154dp"
+        android:layout_height="120dp"
+        android:layout_marginTop="8dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.482"
+        app:layout_constraintHorizontal_bias="0.848"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/nombreContainer"
@@ -28,7 +28,7 @@
         app:helperTextTextColor="@android:color/holo_red_dark"
         app:layout_constraintEnd_toStartOf="@+id/apellidoContainer"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ivLogo">
+        app:layout_constraintTop_toBottomOf="@+id/imageView">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/nombreEditText"
@@ -51,7 +51,7 @@
         app:helperTextTextColor="@android:color/holo_red_dark"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/nombreContainer"
-        app:layout_constraintTop_toBottomOf="@+id/ivLogo">
+        app:layout_constraintTop_toBottomOf="@+id/imageView">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/apellidoEditText"
@@ -157,19 +157,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/calleAlturaContainer"
-        tools:layout_editor_absoluteY="451dp">
-
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/fotoEditText"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:hint="@string/foto"
-            android:inputType="text"
-            android:lines="1" />
-
-
-    </com.google.android.material.textfield.TextInputLayout>
+        tools:layout_editor_absoluteY="451dp"/>
 
     <RadioGroup
         android:id="@+id/radioGroup"
@@ -277,24 +265,29 @@
         android:id="@+id/btnCargarImagen"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="13dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginEnd="14dp"
-        android:layout_marginBottom="39dp"
-        android:text="Imagen"
-        app:layout_constraintBottom_toTopOf="@+id/buttonRegister"
-        app:layout_constraintEnd_toStartOf="@+id/radioGroup"
+        android:layout_marginStart="50dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginEnd="50dp"
+        android:layout_marginBottom="26dp"
+        android:text="Cargar"
+        app:layout_constraintBottom_toTopOf="@+id/nombreContainer"
+        app:layout_constraintEnd_toStartOf="@+id/imageView"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/fotoContainer" />
+        app:layout_constraintTop_toBottomOf="@+id/textView17" />
 
-    <ImageView
-        android:id="@+id/imageView"
+
+    <TextView
+        android:id="@+id/textView17"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        app:layout_constraintBottom_toTopOf="@+id/buttonRegister"
-        app:layout_constraintEnd_toEndOf="parent"
-        tools:src="@tools:sample/avatars" />
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginEnd="31dp"
+        android:text="Seleccionar foto de perfil"
+        app:layout_constraintBottom_toTopOf="@+id/btnCargarImagen"
+        app:layout_constraintEnd_toStartOf="@+id/imageView"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
