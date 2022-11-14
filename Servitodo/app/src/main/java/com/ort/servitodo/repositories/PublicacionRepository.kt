@@ -83,6 +83,7 @@ class PublicacionRepository {
 
                         var questionRefAux = db.collection("calificaciones")
                             .whereEqualTo("idPedido", documentoMedio["id"])
+                            .whereEqualTo("calificoPrestador", false)
 
                         try {
                             val dataParteDos = questionRefAux.get().await()
@@ -108,6 +109,7 @@ class PublicacionRepository {
                     prom = suma.toDouble()/i.toDouble()
                 }
 
+                //Log.d("MOMO", "Promedio ${prom} para: ${publi.apellidoPrestador} ${publi.rubro.nombre}")
 
                 publi.puntuacion = prom
 
@@ -151,6 +153,8 @@ class PublicacionRepository {
 
                         var questionRefAux = db.collection("calificaciones")
                             .whereEqualTo("idPedido", documentoMedio["id"])
+                            .whereEqualTo("calificoPrestador", false)
+
 
                         try {
                             val dataParteDos = questionRefAux.get().await()
@@ -176,6 +180,7 @@ class PublicacionRepository {
                     prom = suma.toDouble()/i.toDouble()
                 }
 
+                //Log.d("MOMO", "Promedio ${prom} para: ${publi.apellidoPrestador} ${publi.rubro.nombre}")
 
                 publi.puntuacion = prom
 
