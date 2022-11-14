@@ -70,7 +70,7 @@ class DetallePedidoPendienteFragment : Fragment() {
 
         binding.txtDireccion.setOnClickListener {
             detalleViewModel.direccion.observe(viewLifecycleOwner, Observer { result ->
-                googleMapsViewModel.redirectToGoogleMaps(result.toString(), v)
+                googleMapsViewModel.confirmRedirectionToMaps(result.toString(), v)
             })
         }
 

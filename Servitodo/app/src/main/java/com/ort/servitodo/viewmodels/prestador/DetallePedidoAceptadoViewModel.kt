@@ -166,7 +166,7 @@ class DetallePedidoAceptadoViewModel : ViewModel() {
     //--> MAPS
     fun redirectionToMaps(goto : String): View.OnClickListener? {
         val googleMapsViewModel = GoogleMapsViewModel()
-        googleMapsViewModel.redirectToGoogleMaps(goto, view)
+        googleMapsViewModel.confirmRedirectionToMaps(goto, view)
         return null
     }
 

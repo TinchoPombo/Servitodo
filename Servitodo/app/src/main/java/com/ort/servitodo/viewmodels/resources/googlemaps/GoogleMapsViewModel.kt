@@ -162,6 +162,22 @@ class GoogleMapsViewModel : ViewModel() , OnMapReadyCallback {
     }*/
 
     //--> Redireccionamiento a Google Maps con view
+
+    fun confirmRedirectionToMaps(goto : String, view : View){
+        this.view = view
+        MaterialAlertDialogBuilder(view.context)
+            .setTitle("Deseas ser redireccionado a Google Maps?")
+            .setNegativeButton("Cancelar") { dialog, which ->
+            }
+            .setPositiveButton("Aceptar") { dialog, which ->
+                viewModelScope.launch {
+                    redirectToGoogleMaps(goto, view)
+                }
+            }
+            .show()
+    }
+
+
     fun redirectToGoogleMaps(goto : String, v: View){
         val gmmIntentUri = Uri.parse("https://www.google.co.in/maps/dir//${goto}")
         val mapIntent = Intent(Intent.ACTION_VIEW, gmmIntentUri)

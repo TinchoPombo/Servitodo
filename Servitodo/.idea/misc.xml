@@ -3,6 +3,7 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Proyecto FInal/AppServitodo/Servitodo/Servitodo/app/src/main/res/layout/card_bottom_sheet_historial.xml" value="0.2421875" />
         <entry key="..\:/Users/ronqu/Desktop/Servitodo/Servitodo/Servitodo/app/src/main/res/layout/dropdown_item.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/ronqu/Desktop/Servitodo/Servitodo/Servitodo/app/src/main/res/layout/fragment_historial_cliente.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/ronqu/Desktop/Servitodo/Servitodo/Servitodo/app/src/main/res/layout/fragment_historial_prestador.xml" value="0.36666666666666664" />
@@ -10,5 +11,5 @@
       </map>
     </option>
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" project-jdk-name="11" project-jdk-type="JavaSDK" />
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="11" project-jdk-type="JavaSDK" />
 </project>
