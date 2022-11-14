@@ -3,6 +3,9 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Proyecto FInal/ValidacionMail/Servitodo/Servitodo/app/src/main/res/layout/fragment_home_cliente.xml" value="0.234375" />
+        <entry key="..\:/Proyecto FInal/ValidacionMail/Servitodo/Servitodo/app/src/main/res/layout/fragment_home_prestador.xml" value="0.234375" />
+        <entry key="..\:/Proyecto FInal/ValidacionMail/Servitodo/Servitodo/app/src/main/res/menu/bottom_bar_prestador.xml" value="0.234375" />
         <entry key="..\:/SERVITODO/Servitodo/app/src/main/res/layout/fragment_detalle_publicacion.xml" value="0.2" />
         <entry key="..\:/SERVITODO/Servitodo/app/src/main/res/layout/fragment_google_maps.xml" value="0.33" />
         <entry key="..\:/SERVITODO/Servitodo/app/src/main/res/layout/fragment_pedido.xml" value="0.33" />
@@ -12,5 +15,5 @@
       </map>
     </option>
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" project-jdk-name="11" project-jdk-type="JavaSDK" />
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="11" project-jdk-type="JavaSDK" />
 </project>

@@ -16,4 +16,7 @@ open class Usuario (
     ){
     constructor():this("0","","","","","","","", false)
 
+    fun gatArrayDatos() :Array<String>{
+        return arrayOf(this.nombre, this.apellido, this.ubicacion, this.foto)
+    }
 }
