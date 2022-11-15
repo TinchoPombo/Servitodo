@@ -50,6 +50,9 @@ class CrearPublicacionViewModel : ViewModel() {
                        "Mantenimiento" -> view.findNavController().navigate( CrearPublicacionFragmentDirections.actionCrearPublicacionFragmentToMantenimientoFragment(descripcion,1))
                        "Fletero" -> view.findNavController().navigate( CrearPublicacionFragmentDirections.actionCrearPublicacionFragmentToFleteroFragment(descripcion,2))
                        "Pasea perros" -> view.findNavController().navigate( CrearPublicacionFragmentDirections.actionCrearPublicacionFragmentToPaseaPerrosFragment(descripcion,3))
+                       else -> {
+                           Snackbar.make(view, "Debe seleccionar un rubro", Snackbar.LENGTH_SHORT).show()
+                   }
                    }
                } else {
                    Snackbar.make(view, "Debe completar la descripcion", Snackbar.LENGTH_SHORT).show()
