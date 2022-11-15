@@ -29,9 +29,11 @@ import com.google.android.material.snackbar.Snackbar
 import com.google.maps.android.SphericalUtil
 import com.ort.servitodo.R
 import com.ort.servitodo.entities.Publicacion
+import com.ort.servitodo.entities.Puntuacion
 import com.ort.servitodo.entities.Usuario
 import com.ort.servitodo.fragments.cliente.DetallePublicacionFragment
 import com.ort.servitodo.fragments.cliente.DetallePublicacionFragmentArgs
+import com.ort.servitodo.repositories.CalificacionesRepository
 import com.ort.servitodo.repositories.PublicacionRepository
 import com.ort.servitodo.repositories.UsuarioRepository
 import kotlinx.coroutines.launch
@@ -55,6 +57,7 @@ class GoogleMapsViewModel : ViewModel() , OnMapReadyCallback {
     var addressList : MutableList<Address> = mutableListOf()
     var usersList : MutableList<Usuario> = mutableListOf()
     var publicacionesList : MutableList<Publicacion> = mutableListOf()
+    var calificacionesList : MutableList<Puntuacion> = mutableListOf()
 
     //------------------------------------------------------------------------------------
     private fun setView(v : View){
@@ -66,12 +69,12 @@ class GoogleMapsViewModel : ViewModel() , OnMapReadyCallback {
         val id = usuarioRepository.getIdSession()
         currentUser = usuarioRepository.getUsuarioById(id) //--> Init usuario actual (logueado)
 
-        val lista = if(currentUser.esPrestador){
-            usuarioRepository.getClientes()
-        } else{
-            usuarioRepository.getPrestadores()
-        }
-        usersList = lista.filter { u -> u.id != currentUser.id } as MutableList<Usuario> //--> Init lista
+        usersList = usuarioRepository.getPrestadores()
+    }
+
+    private suspend fun initCalificacionesList(){
+        val list = CalificacionesRepository().getCalificaciones()
+        this.calificacionesList = list.filter { c -> !c.calificoPrestador } as MutableList<Puntuacion>
     }
 
     private fun validateCurrentUserAddress() : Boolean{
@@ -85,6 +88,7 @@ class GoogleMapsViewModel : ViewModel() , OnMapReadyCallback {
             setView(v)
             usuarioRepository = UsuarioRepository(v)
             initUsers()
+            initCalificacionesList()
             publicacionesList = PublicacionRepository().getPublicaciones()
             if(kmFilter.value == null){
                 createGoogleMaps(f, "0km")
@@ -102,7 +106,7 @@ class GoogleMapsViewModel : ViewModel() , OnMapReadyCallback {
             cargando.value = "Debes elegir una opcion"
         }
         else{
-            this.kmFilter.value = getNumberFromRadioButton(km)
+            this.kmFilter.value = getNumberFromDropdownItem(km)
 
             if(!f.isAdded) return;
 
@@ -125,26 +129,29 @@ class GoogleMapsViewModel : ViewModel() , OnMapReadyCallback {
         listOfMarker.add(getCurrentUserMarker(googleMap))
 
         for (u in usersList) {
-            val dir = convertStringToLatLng("${u.ubicacion}, CABA")
+            val dir = convertStringToLatLng(u.ubicacion)
             val distance = calculateKm(dir)
             val publicacion = getPublicacionFromUser(u)
+
             if (publicacion != null && distance <= kmFilter.value!!) {
                 val marker = googleMap.addMarker(
                     MarkerOptions()
                         .position(dir)
                         .title("${u.nombre} ${u.apellido} (${publicacion.rubro.nombre})")
-                        .snippet("${String.format("%.2f", distance)}km")
                 )
-                marker!!.tag = publicacion
+
+                val puntaje = this.getPuntaje(publicacion.idPrestador)
+
+                marker!!.tag = ObjectTag(publicacion, puntaje, distance)
 
                 marker.showInfoWindow()
                 marker.hideInfoWindow()
 
                 listOfMarker.add(marker)
-
-                redirectToDetallePublicacion(googleMap)
             }
         }
+
+        redirectToDetallePublicacion(googleMap)
 
         showAllMarkers(googleMap, listOfMarker)
 
@@ -153,16 +160,8 @@ class GoogleMapsViewModel : ViewModel() , OnMapReadyCallback {
         }
     }
 
-    //--> Redireccionamiento a Google Maps
-    /*fun redirectToGoogleMaps(goto : String){
-        val gmmIntentUri = Uri.parse("https://www.google.co.in/maps/dir/${currentUser.ubicacion}/${goto}")
-        val mapIntent = Intent(Intent.ACTION_VIEW, gmmIntentUri)
-        mapIntent.setPackage("com.google.android.apps.maps")
-        view.context.startActivity(mapIntent)
-    }*/
 
     //--> Redireccionamiento a Google Maps con view
-
     fun confirmRedirectionToMaps(goto : String, view : View){
         this.view = view
         MaterialAlertDialogBuilder(view.context)
@@ -176,7 +175,6 @@ class GoogleMapsViewModel : ViewModel() , OnMapReadyCallback {
             }
             .show()
     }
-
 
     fun redirectToGoogleMaps(goto : String, v: View){
         val gmmIntentUri = Uri.parse("https://www.google.co.in/maps/dir//${goto}")
@@ -210,7 +208,7 @@ class GoogleMapsViewModel : ViewModel() , OnMapReadyCallback {
     //--> Devuelve una lista con la direccion encontrada (el limite es 1 resultado)
     private fun getAddress(dir : String) : MutableList<Address>{
         val geocoder : Geocoder = Geocoder(view.context)
-        return geocoder.getFromLocationName(dir, 1)
+        return geocoder.getFromLocationName("${dir}, CABA", 1)
     }
 
 
@@ -221,15 +219,16 @@ class GoogleMapsViewModel : ViewModel() , OnMapReadyCallback {
     }
 
 
-    //--> Obtiene el numero del valor del radiobutton (index en 0 trae el num en string)
-    private fun getNumberFromRadioButton(value : String) : Int{
+    //--> Obtiene el numero del valor del dropdown (index en 0 trae el num en string)
+    private fun getNumberFromDropdownItem(value : String) : Int{
         val strs = value.split("km").toTypedArray()
         return strs[0].toInt()
     }
 
     //--> Obtiene el marker del usuario actual (logueado)
     private fun getCurrentUserMarker(mMap : GoogleMap) : Marker {
-        val dir = convertStringToLatLng("${this.currentUser.ubicacion}, CABA")
+        val dir = convertStringToLatLng(this.currentUser.ubicacion)
+
         val icon: BitmapDescriptor by lazy {
             val color = ContextCompat.getColor(view.context, R.color.googlemaps_marker)
             BitmapHelper.vectorToBitmap(view.context, R.drawable.home, color)
@@ -246,20 +245,27 @@ class GoogleMapsViewModel : ViewModel() , OnMapReadyCallback {
 
     private fun redirectToDetallePublicacion(mMap : GoogleMap){
         mMap.setOnInfoWindowClickListener {
-            val publicacion = it.tag
-            val bundle = bundleOf("receivePublicacion" to publicacion)
+            val objectTag = it.tag as ObjectTag
+            val bundle = bundleOf("receivePublicacion" to objectTag.publicacion)
             view.findNavController().navigate(R.id.detallePublicacionFragment, bundle)
         }
     }
 
-    //----------------------------------- OTROS ---------------------------------------------
-    //--> Esconde el keyboard
-    /*private fun View.hideKeyboard() {
-        val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-        imm.hideSoftInputFromWindow(windowToken, 0)
-    }*/
-    //Para llamar al hideKeyborad() --> view.hideKeyboard()
+    private fun getPuntaje(idPrestador : String) : Double{
+        val result: Double
+        val lista = calificacionesList.filter { c -> c.idPrestador ==  idPrestador }
+        if(lista.isEmpty()){
+            result = -1.0
+        }
+        else{
+            var acum = 0.00
+            for(l in lista){ acum += l.puntaje }
+            result = acum / lista.size
+        }
+        return result
+    }
 
+    //----------------------------------- OTROS ---------------------------------------------
     private fun popUpInvalidAddress(){
         MaterialAlertDialogBuilder(view.context)
             .setTitle("Direccion invalida")

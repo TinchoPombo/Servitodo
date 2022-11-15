@@ -36,20 +36,16 @@ class MarkerInfoWindowAdapter(private val context: Context) : GoogleMap.InfoWind
     override fun getInfoContents(marker: Marker): View? {
 
         return if(marker.title != "Mi casa"){
-            val publicacion : Publicacion = marker.tag as Publicacion
+            val tag : ObjectTag = marker.tag as ObjectTag
             val view = LayoutInflater.from(context).inflate(R.layout.marker_info_contents, null)
 
             val imageView = view.findViewById<ImageView>(R.id.markerinfoimg)
-            setImage(marker, publicacion.fotoPrestador, imageView)
+            setImage(marker, tag.publicacion!!.fotoPrestador, imageView)
 
-            view.findViewById<TextView>(R.id.text_view_title).text = "${publicacion.nombrePrestador} ${publicacion.apellidoPrestador}"
-            view.findViewById<TextView>(R.id.text_view_rubro).text = publicacion.rubro.nombre.uppercase()
-            view.findViewById<TextView>(R.id.text_view_km).text = marker.snippet
-            view.findViewById<TextView>(R.id.text_view_rating).text = "Puntuacion: "
-
-            view.findViewById<Button>(R.id.markerinfobutton).setOnClickListener{
-                //Log.d("aaasasasasasasasasasasasasa", "Hola soy el boton en el markerinfo")
-            }
+            view.findViewById<TextView>(R.id.text_view_title).text = tag.getCompleteName()
+            view.findViewById<TextView>(R.id.text_view_rubro).text = tag.getRubroTxt()
+            view.findViewById<TextView>(R.id.text_view_km).text = tag.getDistanceTxt()
+            view.findViewById<TextView>(R.id.text_view_rating).text = tag.getPuntajeTxt()
 
             view
         } else null
@@ -57,6 +53,29 @@ class MarkerInfoWindowAdapter(private val context: Context) : GoogleMap.InfoWind
 
 
     //--------------------------------------- GLIDE ----------------------------------------------
+    fun setImage(marker : Marker, foto : String, imageView: ImageView){
+        val image = images[marker]
+        if (image == null) {
+            Glide.with(context)
+                .asBitmap()
+                .load(foto)
+                .dontAnimate()
+                .into(getTarget(marker))
+        } else {
+            imageView.setImageBitmap(image)
+        }
+
+    }
+
+    private fun getTarget(marker: Marker): CustomTarget<Bitmap> {
+        var target = targets[marker]
+        if (target == null) {
+            target = InfoTarget(marker)
+            targets[marker] = target
+        }
+        return target
+    }
+
     private val images: HashMap<Marker, Bitmap> = HashMap()
     private val targets: HashMap<Marker, CustomTarget<Bitmap>> = HashMap()
 
@@ -71,28 +90,4 @@ class MarkerInfoWindowAdapter(private val context: Context) : GoogleMap.InfoWind
             //marker.showInfoWindow()
         }
     }
-
-    //---> Methods
-    private fun getTarget(marker: Marker): CustomTarget<Bitmap> {
-        var target = targets[marker]
-        if (target == null) {
-            target = InfoTarget(marker)
-            targets[marker] = target
-        }
-        return target
-    }
-
-    fun setImage(marker : Marker, foto : String, imageView: ImageView){
-        val image = images[marker]
-        if (image == null) {
-            Glide.with(context)
-                .asBitmap()
-                .load(foto)
-                .dontAnimate()
-                .into(getTarget(marker))
-        } else {
-            imageView.setImageBitmap(image)
-        }
-    }
-
 }
