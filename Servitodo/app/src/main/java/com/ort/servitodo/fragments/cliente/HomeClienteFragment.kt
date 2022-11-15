@@ -52,7 +52,7 @@ class HomeClienteFragment : Fragment(), AdapterView.OnItemClickListener {
 
     override fun onResume() {
         super.onResume()
-        val rubros = resources.getStringArray(R.array.rubros)
+        val rubros = resources.getStringArray(R.array.rubrosHomeCliente)
         val filtroPuntuacion = resources.getStringArray(R.array.filtroPuntuacion)
 
         val arrayAdapterRubros = ArrayAdapter(requireContext(), R.layout.dropdown_item, rubros)
