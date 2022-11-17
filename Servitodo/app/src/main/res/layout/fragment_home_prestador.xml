@@ -8,15 +8,30 @@
     tools:context=".fragments.prestador.HomePrestadorFragment" >
 
 
+    <ImageView
+        android:id="@+id/servitodologohomecliente2"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:layout_marginStart="96dp"
+        android:layout_marginTop="1dp"
+        android:layout_marginBottom="4dp"
+        android:src="@drawable/servitodo"
+        app:layout_constraintBottom_toTopOf="@+id/guideline3"
+        app:layout_constraintEnd_toStartOf="@+id/textView2"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <TextView
         android:id="@+id/textView16"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Pedidos aprobados:"
+        android:layout_marginTop="3dp"
+        android:layout_marginBottom="4dp"
+        android:text="SERVITODO"
         android:textColor="#000000"
-        android:textSize="34sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        android:textSize="30sp"
+        app:layout_constraintBottom_toTopOf="@+id/guideline3"
+        app:layout_constraintStart_toEndOf="@+id/servitodologohomecliente2"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView

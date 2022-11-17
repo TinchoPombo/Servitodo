@@ -37,12 +37,10 @@ class DetallePedidoPendienteFragment : Fragment() {
         v = binding.root
 
         //--> Index recibido por parametro
-        receivePedido =
-            DetallePedidoPendienteFragmentArgs.fromBundle(requireArguments()).receivePedido
-        reciveCliente =
-            DetallePedidoPendienteFragmentArgs.fromBundle(requireArguments()).reciveCliente
-        receivePublicacion =
-            DetallePedidoPendienteFragmentArgs.fromBundle(requireArguments()).receivePublicacion
+        receivePedido = DetallePedidoPendienteFragmentArgs.fromBundle(requireArguments()).receivePedido
+        reciveCliente = DetallePedidoPendienteFragmentArgs.fromBundle(requireArguments()).reciveCliente
+        receivePublicacion = DetallePedidoPendienteFragmentArgs.fromBundle(requireArguments()).receivePublicacion
+
         detalleViewModel.setPedido(receivePedido)
         detalleViewModel.setUsuario(reciveCliente)
         detalleViewModel.setPublicacion(receivePublicacion)
@@ -110,15 +108,9 @@ class DetallePedidoPendienteFragment : Fragment() {
         }
 
         binding.aceptarButton.setOnClickListener {
-            val precio = binding.editTextPrecio.text.toString()
-            if (!precio.isNullOrEmpty()) {
-                detalleViewModel.setPrecio(Integer.parseInt(precio))
-                detalleViewModel.aceptarPedido()
-            }else{
-                detalleViewModel.snackPrecio()
-            }
+                detalleViewModel.setPrecio(binding.editTextPrecio.text.toString())
+                detalleViewModel.confirmarPedido()
         }
-
 
     }
 }

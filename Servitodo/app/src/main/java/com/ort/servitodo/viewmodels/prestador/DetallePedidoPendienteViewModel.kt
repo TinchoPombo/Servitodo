@@ -77,8 +77,12 @@ class DetallePedidoPendienteViewModel : ViewModel() {
         this.publicacion = publicacion
     }
 
-    fun setPrecio(precio: Int) {
-        this.precio = precio
+    fun setPrecio(precio: String) {
+        if (precio.isNullOrEmpty() || precio.equals("0")) {
+            snackPrecio()
+        }else{
+            this.precio = Integer.parseInt(precio)
+        }
     }
 
     //----------------------------------------------------------------------
@@ -120,7 +124,6 @@ class DetallePedidoPendienteViewModel : ViewModel() {
 
     //---------------- Calendario ------------------------------------------
     private fun initializeCalendarMutableLiveData(datePicker: MaterialDatePicker<Long>) {
-
         datePicker.addOnPositiveButtonClickListener { selection: Long? ->
             val calendar = Calendar.getInstance(TimeZone.getTimeZone("UTC"))
             calendar.time = Date(selection!!)
@@ -132,21 +135,23 @@ class DetallePedidoPendienteViewModel : ViewModel() {
 
     fun rechazarPedido() {
         pedidoRepository.rechazarPedido(this.pedido.id)
-        Snackbar.make(view, "El pedido se rechazó con exito", Snackbar.LENGTH_SHORT).show()
+        Snackbar.make(view, "El pedido se rechazó", Snackbar.LENGTH_SHORT).show()
         view.findNavController().navigateUp()
     }
 
-    fun aceptarPedido() {
-        if (pedidoSelectedDay.value.equals(selectedDay.value) && pedidoSelectedHour.value.equals(selectedHour.value)) {
-            popUpAceptar()
-        } else {
-            popUpCambioFecha()
+    fun confirmarPedido() {
+        if(this.precio != 0) {
+            if (pedidoSelectedDay.value.equals(selectedDay.value) && pedidoSelectedHour.value.equals(selectedHour.value)) {
+                popUpAceptar()
+            } else {
+                popUpCambioFecha()
+            }
         }
     }
 
-    private fun updatePedido(){
+    private fun aceptarPedido(){
         pedidoRepository.acceptPedido(this.pedido.id,this.selectedDay.value.toString(), this.selectedHour.value.toString(), this.precio )
-        Snackbar.make(this.view, "El pedido se aceptó con exito", Snackbar.LENGTH_SHORT).show()
+        Snackbar.make(this.view, "El pedido se aceptó", Snackbar.LENGTH_SHORT).show()
         view.findNavController().navigateUp()
     }
 
@@ -174,12 +179,11 @@ class DetallePedidoPendienteViewModel : ViewModel() {
             }
             .setPositiveButton("Aceptar") { dialog, which ->
                 viewModelScope.launch {
-                    updatePedido()
+                    aceptarPedido()
                 }
             }
             .show()
     }
-
 
     fun popUpRecahzar(){
         MaterialAlertDialogBuilder(view.context).setTitle("Desea rechazar el pedido?")
@@ -194,8 +198,8 @@ class DetallePedidoPendienteViewModel : ViewModel() {
     }
 
     fun snackPrecio() {
-        Snackbar.make(this.view, "Debe ingresar el precio para acepetar el pedido", Snackbar.LENGTH_SHORT)
-            .show()
+        Snackbar.make(this.view, "Debe ingresar el precio para acepetar el pedido", Snackbar.LENGTH_SHORT).show()
+        this.precio = 0
     }
 
     //---------------- Calificaciones de prestador ------------------------------------------
