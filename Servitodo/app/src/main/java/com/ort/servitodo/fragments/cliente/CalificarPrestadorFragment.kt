@@ -51,7 +51,7 @@ class CalificarPrestadorFragment : Fragment() {
             val descripcion : String  = binding.decripcionCalificacionPrestador.text.toString()
             calificarPrestadorViewModel.calificar(descripcion, rating, receiveData)
 
-            v.findNavController().navigate(CalificarPrestadorFragmentDirections.actionCalificarPrestadorFragmentToHomeClienteFragment())
+            //v.findNavController().navigate(CalificarPrestadorFragmentDirections.actionCalificarPrestadorFragmentToHomeClienteFragment())
 
         }
     }

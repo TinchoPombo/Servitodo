@@ -43,12 +43,14 @@ class OpinionesDelClienteViewModel : ViewModel() {
         viewModelScope.launch {
 
             val listaCalificaciones = repository.getCalificacionesByClienteId(usuarioRep.getIdSession())
+                if(listaCalificaciones.size > 0){
+                    for(c in listaCalificaciones){
+                        valorTotal += c.puntaje
+                    }
 
-                for(c in listaCalificaciones){
-                    valorTotal += c.puntaje
+                    promedioCalificacion = valorTotal.div(listaCalificaciones.size)
                 }
 
-            promedioCalificacion = valorTotal.div(listaCalificaciones.size)
 
             }
         return promedioCalificacion
@@ -65,7 +67,7 @@ class OpinionesDelClienteViewModel : ViewModel() {
             cargando.value = "Cargando...."
 
             if(listaCalificaciones.size < 1){
-                cargando.value = "No hay pedidos"
+                cargando.value = "No hay calificaciones"
 
             }else{
                 calificaciones.value = listaCalificaciones
@@ -85,7 +87,7 @@ class OpinionesDelClienteViewModel : ViewModel() {
             cargando.value = "Cargando...."
 
             if(listaCalificaciones.size < 1){
-                cargando.value = "No hay pedidos"
+                cargando.value = "No hay calificaciones"
             }else{
                 calificaciones.value = listaCalificaciones.filter { it.puntaje >= 3F }.sortedByDescending { it.puntaje }.toMutableList()
                 cargando.value = ""
@@ -104,7 +106,7 @@ class OpinionesDelClienteViewModel : ViewModel() {
             cargando.value = "Cargando...."
 
             if(listaCalificaciones.size < 1){
-                cargando.value = "No hay pedidos"
+                cargando.value = "No hay calificaciones"
             }else{
                 calificaciones.value = listaCalificaciones.filter { it.puntaje < 3F }.sortedBy { it.puntaje }.toMutableList()
                 cargando.value = ""

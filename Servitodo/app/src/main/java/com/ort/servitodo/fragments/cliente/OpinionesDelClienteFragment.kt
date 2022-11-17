@@ -70,5 +70,9 @@ class OpinionesDelClienteFragment : Fragment() {
             recyclerCalificaciones.adapter = CalificacionesAdapter(result, true){}
 
         })
+
+        opinionesDelClienteViewModel.cargando.observe(viewLifecycleOwner, Observer { result ->
+            binding.cargandoOpinionesCliente.text = result.toString()
+        })
     }
 }
