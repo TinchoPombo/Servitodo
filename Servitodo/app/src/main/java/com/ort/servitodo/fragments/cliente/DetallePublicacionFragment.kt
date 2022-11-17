@@ -106,6 +106,10 @@ class DetallePublicacionFragment : Fragment() {
             detalleViewModel.contratar()
         }
 
+        binding.backDetallePublicacion.setOnClickListener{
+            detalleViewModel.backToHome()
+        }
+
     }
 
 }

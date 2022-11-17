@@ -18,6 +18,13 @@
     <string name="opcional">Opcional</string>
     <string name="registrarse">Registrarse</string>
 
+    <string-array name="rubrosHomeCliente">
+        <item>Cualquiera</item>
+        <item>Mantenimiento</item>
+        <item>Pasea perros</item>
+        <item>Fletero</item>
+    </string-array>
+
     <string-array name="rubros">
         <item>Mantenimiento</item>
         <item>Pasea perros</item>

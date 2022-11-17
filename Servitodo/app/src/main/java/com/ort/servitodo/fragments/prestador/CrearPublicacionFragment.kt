@@ -68,23 +68,11 @@ class CrearPublicacionFragment : Fragment() {
     override fun onStart() {
         super.onStart()
 
+        viewModel.getUsuario()
+
         binding.btnSiguienteCrearPublicacion.setOnClickListener {
 
-            val descripcion = binding.txtDireccion.text.toString()
-
-            val cond = !descripcion.isNullOrEmpty()
-
-            if(cond) {
-                when(binding.autoCompleteTextView.text.toString()){
-                    "Mantenimiento" -> v.findNavController().navigate( CrearPublicacionFragmentDirections.actionCrearPublicacionFragmentToMantenimientoFragment(descripcion,1))
-                    "Fletero" -> v.findNavController().navigate( CrearPublicacionFragmentDirections.actionCrearPublicacionFragmentToFleteroFragment(descripcion,2))
-                    "Pasea perros" -> v.findNavController().navigate( CrearPublicacionFragmentDirections.actionCrearPublicacionFragmentToPaseaPerrosFragment(descripcion,3))
-                }
-            } else {
-                Snackbar.make(v, "Debe completar la descripcion", Snackbar.LENGTH_SHORT).show()}
-
-            /*viewModel.irARubro(binding.autoCompleteTextView.text.toString(), binding.txtDescripcion.text.toString())*/
-
+         viewModel.verificarPublicacion(binding)
 
         }
 

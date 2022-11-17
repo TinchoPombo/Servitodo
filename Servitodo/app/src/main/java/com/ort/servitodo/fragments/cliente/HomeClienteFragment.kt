@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.RecyclerView
@@ -77,19 +78,9 @@ class HomeClienteFragment : Fragment(), AdapterView.OnItemClickListener {
         homeClienteViewModel.emptyList()
 
         homeClienteViewModel.cargando.observe(viewLifecycleOwner, Observer { result ->
-            binding.cargandoTxt.text = result.toString()
         })
 
         homeClienteViewModel.recyclerView(binding.recPublicacion)
-
-
-
-
-        val userrepo = UsuarioRepository(v)
-        Log.d("clientecredentials", "mail: ${userrepo.getMailUserInSharedPreferences()} + " +
-                    "Ps: ${userrepo.getPasswordUserInSharedPreferences()} - Id: ${userrepo.getIdSession()}" )
-
-
 
     }
 
@@ -101,7 +92,7 @@ class HomeClienteFragment : Fragment(), AdapterView.OnItemClickListener {
         homeClienteViewModel.emptyList()
 
         homeClienteViewModel.cargando.observe(viewLifecycleOwner, Observer { result ->
-            binding.cargandoTxt.text = result.toString()
+            Toast.makeText(v.context, result.toString(), Toast.LENGTH_SHORT).show()
         })
 
         homeClienteViewModel.recyclerViewFiltered(binding.recPublicacion,a,b)

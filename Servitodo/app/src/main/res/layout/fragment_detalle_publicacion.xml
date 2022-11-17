@@ -22,12 +22,23 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/layout_detalle_publicacion" />
 
+        <ImageView
+            android:id="@+id/backDetallePublicacion"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            app:layout_constraintBottom_toTopOf="@+id/layout_detalle_publicacion"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/back_arrow" />
+
         <androidx.cardview.widget.CardView
             android:id="@+id/layout_detalle_publicacion"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_marginStart="40dp"
-            android:layout_marginTop="40dp"
             android:layout_marginEnd="40dp"
             android:layout_marginBottom="8dp"
             android:backgroundTint="#E1E1E1"
@@ -37,7 +48,7 @@
             app:layout_constraintBottom_toTopOf="@+id/contratarButton"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/backDetallePublicacion"
             tools:context=".fragments.cliente.DetallePublicacionFragment">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
@@ -327,4 +338,5 @@
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.cardview.widget.CardView>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

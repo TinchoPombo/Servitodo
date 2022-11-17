@@ -299,6 +299,16 @@ class PublicacionRepository {
             }
     }
 
+    suspend fun existePublicacion(rubro: String, idPrestador : String) : Boolean{
+        var encontro = false
+        try {
+            encontro = getPublicaciones().any { p -> p.rubro.nombre == rubro && p.idPrestador == idPrestador }
+        } catch (e : Exception) {
+            Log.d("MESSI", "NO SE ENCUENTRA")
+        }
+        return encontro
+    }
+
     //----------------------------------------------------------------------------------------------------------//
     //----------------------------------------------------------------------------------------------------------//
     /*init
