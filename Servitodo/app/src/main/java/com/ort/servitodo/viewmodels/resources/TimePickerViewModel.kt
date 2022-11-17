@@ -18,6 +18,7 @@ class TimePickerViewModel : ViewModel() {
 
     private var pedidosRepository = PedidosRepository()
     private var publicacionesRepository = PublicacionRepository()
+    private var calendar = CalendarViewModel()
 
     private lateinit var publicacion : Publicacion
     private var pedidos : MutableList<Pedido> = mutableListOf()
@@ -65,7 +66,7 @@ class TimePickerViewModel : ViewModel() {
             if(condFecha && !condEstados){
                 val idPaseaPerros = publicacionesRepository.getIdRubroPaseaPerros()
 
-                if(this.publicacion.rubro.id == idPaseaPerros){
+                if(this.publicacion.rubro.id == idPaseaPerros){ //-> Chequea si es un paseaperros
 
                     val getIndexFromHours = hours.indexOf(p.hora)
                     arrayMismaHora[getIndexFromHours]++
@@ -90,6 +91,25 @@ class TimePickerViewModel : ViewModel() {
         return availableHours
     }
 
+    private fun filterAvailableHoursFromToday(array : Array<String>, date : String) : Array<String>{
+        var availableHours = arrayOf<String>()
+        val getActualHour = calendar.getHourNow()
+        val getActualDate = calendar.getToday()
+
+        if(date == getActualDate){
+            for(h in array){
+                val parseHourToInt = calendar.getOnlyHour(h)
+                if(parseHourToInt > getActualHour){
+                    availableHours += h
+                }
+            }
+        }
+        else{
+            availableHours = array
+        }
+        return availableHours
+    }
+
 
     fun showTimePicker(view : View, date : String, publicacion: Publicacion,
                        selectedHour : MutableLiveData<String>) {
@@ -99,7 +119,7 @@ class TimePickerViewModel : ViewModel() {
             getPedidosPublicacion()
 
             val unavailableHours = getUnavailableHours(date)
-            val availableHours = getAvailableHours(unavailableHours)
+            val availableHours = filterAvailableHoursFromToday(getAvailableHours(unavailableHours), date)
 
             val checkedHour = 1
 

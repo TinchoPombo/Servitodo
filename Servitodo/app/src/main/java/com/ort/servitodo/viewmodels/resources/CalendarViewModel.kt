@@ -25,8 +25,6 @@ class CalendarViewModel : ViewModel() {
         val constraintsBuilder = CalendarConstraints.Builder()
             .setValidator(DateValidatorPointForward.now())
 
-        /* val constraintsBuilder = constraint() */
-
         val datePicker = MaterialDatePicker.Builder.datePicker()
             .setTitleText("Selecciona una fecha")
             .setSelection(today)
@@ -36,27 +34,6 @@ class CalendarViewModel : ViewModel() {
 
         return datePicker
     }
-
-    /*private fun constraint() : CalendarConstraints.Builder{
-        val today = MaterialDatePicker.todayInUtcMilliseconds()
-        val calendar = Calendar.getInstance(TimeZone.getTimeZone("UTC"))
-
-        calendar.timeInMillis = today
-        calendar[Calendar.MONTH] = Calendar.JANUARY
-        val janThisYear = calendar.timeInMillis
-
-        calendar.timeInMillis = today
-        calendar[Calendar.MONTH] = Calendar.DECEMBER
-        val decThisYear = calendar.timeInMillis
-
-        val constraintsBuilder =
-            CalendarConstraints.Builder()
-                .setStart(janThisYear)
-                .setEnd(decThisYear)
-                .setValidator(DateValidatorPointForward.now())
-
-        return constraintsBuilder
-    }*/
 
     //-------------------------------------------------------------------------------
     fun getToday() : String{
