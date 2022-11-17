@@ -31,6 +31,8 @@ class HistorialClienteViewModel : ViewModel() {
     val cargando = MutableLiveData<String>()
     val pedidos = MutableLiveData<MutableList<Pedido>>()
     private var repoCalificacion = CalificacionesRepository()
+    private lateinit var pedido : Pedido
+
 
 
     fun setView(v : View){
@@ -69,7 +71,8 @@ class HistorialClienteViewModel : ViewModel() {
 
             if(estado == "FINALIZADO") {
                 if (!tiene) {
-                    val action = HistorialClienteFragmentDirections.actionHistorialClienteFragmentToCalificarPrestadorFragment(pedido)
+
+                val action = HistorialClienteFragmentDirections.actionHistorialClienteFragmentToCalificarPrestadorFragment(pedido)
                     view.findNavController().navigate(action)
                 } else {
                     snackYaTieneCalificacion()

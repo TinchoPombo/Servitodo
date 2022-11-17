@@ -28,8 +28,8 @@
 
     <TextView
         android:id="@+id/textView8"
-        android:layout_width="0dp"
-        android:layout_height="55dp"
+        android:layout_width="408dp"
+        android:layout_height="47dp"
         android:layout_marginBottom="9dp"
         android:text="Mis Calificaciones"
         android:textAlignment="center"
@@ -41,8 +41,8 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerViewOpinionesDelPrestador"
-        android:layout_width="412dp"
-        android:layout_height="551dp"
+        android:layout_width="414dp"
+        android:layout_height="530dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
@@ -72,5 +72,15 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/textView10"
         app:layout_constraintTop_toBottomOf="@+id/filtroPorCalificacionPrestador" />
+
+    <TextView
+        android:id="@+id/cargandoOpinionesPrestador"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Cargando..."
+        app:layout_constraintBottom_toTopOf="@+id/recyclerViewOpinionesDelPrestador"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ratingBarPromedioPrestador" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -26,10 +26,11 @@ class OpinionesClienteViewModel : ViewModel() {
     private lateinit var view : View
     private var repository = CalificacionesRepository()
     private lateinit var puntuacion: Puntuacion
-    val cargando = MutableLiveData<String>()
-    var calificaciones : MutableList<Puntuacion> = arrayListOf()
+    val calificaciones = MutableLiveData<MutableList<Puntuacion>>()
     var id : String =""
     private lateinit var repositoryUser : UsuarioRepository
+
+
 
     //----------------------------------------------------------------------------------------
     fun setView(v : View){
@@ -37,17 +38,12 @@ class OpinionesClienteViewModel : ViewModel() {
 
     }
 
-     fun create () : Puntuacion{
-        return Puntuacion(1, "1", "1" , 1, "4".toFloat(), "ASd", false)
+    fun emptyList(){
+        this.calificaciones.value?.clear()
     }
 
-    fun emptyList(){
-        this.calificaciones.clear()
-    }
 
     fun recyclerView(view : View, id : String){
-
-        cargando.value = "Cargando..."
 
         val dialog = BottomSheetDialog(view.context)
         dialog.setContentView(R.layout.fragment_opiniones_cliente)
@@ -59,12 +55,12 @@ class OpinionesClienteViewModel : ViewModel() {
             repositoryUser = UsuarioRepository(view)
             val userActual : Usuario = repositoryUser.getUsuarioById(repositoryUser.getIdSession())
             val esPrestador : Boolean = userActual.esPrestador
-            calificaciones = repository.getCalificacionesByPrestadorId(id)
+            calificaciones.value = repository.getCalificacionesByPrestadorId(id)
 
             recycler.setHasFixedSize(true)
             recycler.layoutManager  = LinearLayoutManager(view.context)
 
-            recycler.adapter = CalificacionesAdapter(calificaciones, esPrestador ){}
+            recycler.adapter = CalificacionesAdapter(calificaciones.value!!, esPrestador ){}
         }
         dialog.show()
     }

@@ -84,10 +84,7 @@ class HistorialPrestadorViewModel : ViewModel() {
 
             if(estado == "FINALIZADO") {
                 if (!tiene) {
-                    val action =
-                        HistorialPrestadorFragmentDirections.actionHistorialPrestadorFragmentToCalificarClienteFragment(
-                            pedido
-                        )
+                    val action = HistorialPrestadorFragmentDirections.actionHistorialPrestadorFragmentToCalificarClienteFragment(pedido)
                     view.findNavController().navigate(action)
                 } else {
                     snackYaTieneCalificacion()

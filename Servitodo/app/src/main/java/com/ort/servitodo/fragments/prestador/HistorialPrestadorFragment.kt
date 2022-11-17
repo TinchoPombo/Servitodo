@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
+import androidx.core.view.get
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
@@ -45,8 +46,9 @@ class HistorialPrestadorFragment : Fragment() {
         historialPrestadorViewModel.setView(v)
         historialPrestadorViewModel.cargarPedidos()
 
+
         binding.autoCompleteTextViewFiltroHistorialPrestador.setOnItemClickListener { adapterView, view , i, l ->
-           // historialPrestadorViewModel.emptyList()
+            // historialPrestadorViewModel.emptyList()
             historialPrestadorViewModel.onClickFiltro(l)
         }
 

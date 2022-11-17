@@ -122,7 +122,7 @@ class DetallePublicacionViewModel : ViewModel() {
                 val idCliente = usuarioRepository.getIdSession()
                 pedidosRepository.addPedido(publicacion, selectedDay.value!!, selectedHour.value!!, idCliente)
                 Snackbar.make(view, "El pedido se agregó con exito", Snackbar.LENGTH_SHORT).show()
-                view.findNavController().navigateUp()
+                backToHome()
             }
             .show()
         return result
@@ -154,24 +154,6 @@ class DetallePublicacionViewModel : ViewModel() {
             filterPedidos.clear()
         }
     }
-    /*fun getSpot(){
-        val hora = selectedHour.value!!
-        val dia = selectedDay.value!!
-        var cupos: Int
-
-        viewModelScope.launch {
-            val filterPedidos = pedidos.filter { p -> p.fecha == dia && p.hora == hora && p.estado != TipoEstado.FINALIZADO.toString() && p.estado != TipoEstado.RECHAZADO.toString() }.toMutableList()
-
-            if(publicacion.rubro.nombre == "PaseaPerros"){
-                cupos = paseaPerrosSpot(filterPedidos.size)
-            }
-            else{
-                cupos = 1
-            }
-            cantidadCuposDisponibles.value = "Cupos disponibles: ${cupos}"
-            filterPedidos.clear()
-        }
-    }*/
 
     private suspend fun paseaPerrosSpot(cant : Int) : Int{
         var cuposDisponible = 0
@@ -182,6 +164,10 @@ class DetallePublicacionViewModel : ViewModel() {
             cuposDisponible = cantMax - cant
         }
         return cuposDisponible
+    }
+
+    fun backToHome(){
+        view.findNavController().navigateUp()
     }
 
 }

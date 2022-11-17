@@ -1,5 +1,6 @@
 package com.ort.servitodo.viewmodels.resources
 
+import android.util.Log
 import android.view.View
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -20,9 +21,6 @@ class TimePickerViewModel : ViewModel() {
 
     private lateinit var publicacion : Publicacion
     private var pedidos : MutableList<Pedido> = mutableListOf()
-
-    //--> Rango de horarios (de 8 a 20)
-    //val hours = arrayOf("8:00", "9:00", "10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00", "18:00", "19:00", "20:00")
 
     //--> Rango de horarios (de 8 a 20 - SOLO PARES)
     val hours = arrayOf("8:00", "10:00", "12:00", "14:00", "16:00", "18:00", "20:00")
@@ -93,7 +91,8 @@ class TimePickerViewModel : ViewModel() {
     }
 
 
-    fun showTimePicker(view : View, date : String, publicacion: Publicacion, selectedHour : MutableLiveData<String>) {
+    fun showTimePicker(view : View, date : String, publicacion: Publicacion,
+                       selectedHour : MutableLiveData<String>) {
 
         this.publicacion = publicacion
         viewModelScope.launch {
@@ -112,14 +111,10 @@ class TimePickerViewModel : ViewModel() {
 
             MaterialAlertDialogBuilder(view.context)
                 .setTitle(title)
+                .setCancelable(false)
                 .setNegativeButton("cancelar") { dialog, which ->
                     selectedHour.value = ""
                 }
-                /*
-                .setNeutralButton("cambiar fecha") { dialog, which ->
-
-                }
-                */
                 .setPositiveButton("ok") { dialog, which ->
 
                 }

@@ -48,7 +48,6 @@ class CalificacionesAdapter (
 
         }
 
-
         holder.setRating(listaCalificaciones[position].puntaje)
 
         holder.setDescripcion(listaCalificaciones[position].comentario)

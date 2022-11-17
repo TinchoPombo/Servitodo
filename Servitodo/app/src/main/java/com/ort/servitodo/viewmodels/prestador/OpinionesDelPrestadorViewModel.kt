@@ -71,7 +71,7 @@ class OpinionesDelPrestadorViewModel : ViewModel() {
             cargando.value = "Cargando...."
 
             if(listaCalificaciones.size < 1){
-                cargando.value = "No hay pedidos"
+                cargando.value = "No hay calificaciones"
             }else{
                 calificaciones.value = listaCalificaciones
                 cargando.value = ""
@@ -89,7 +89,7 @@ class OpinionesDelPrestadorViewModel : ViewModel() {
             cargando.value = "Cargando...."
 
             if(listaCalificaciones.size < 1){
-                cargando.value = "No hay pedidos"
+                cargando.value = "No hay calificaciones"
             }else{
                 calificaciones.value = listaCalificaciones.filter { it.puntaje >= 3F }.sortedByDescending { it.puntaje }.toMutableList()
                 cargando.value = ""
@@ -108,7 +108,7 @@ class OpinionesDelPrestadorViewModel : ViewModel() {
             cargando.value = "Cargando...."
 
             if(listaCalificaciones.size < 1){
-                cargando.value = "No hay pedidos"
+                cargando.value = "No hay calificaciones"
             }else{
                 calificaciones.value = listaCalificaciones.filter { it.puntaje < 3F }.sortedBy { it.puntaje }.toMutableList()
                 cargando.value = ""
