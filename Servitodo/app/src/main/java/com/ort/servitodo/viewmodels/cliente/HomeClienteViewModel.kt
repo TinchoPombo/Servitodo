@@ -44,8 +44,6 @@ class HomeClienteViewModel : ViewModel() {
             else{
                 recyclerPublicacion.setHasFixedSize(true)
 
-                cargando.value = ""
-
                 recyclerPublicacion.layoutManager  = LinearLayoutManager(view.context)
 
                 recyclerPublicacion.adapter = PublicacionAdapter(publicaciones){ pos ->
@@ -67,8 +65,6 @@ class HomeClienteViewModel : ViewModel() {
             }
             else{
                 recyclerPublicacion.setHasFixedSize(true)
-
-                cargando.value = ""
 
                 recyclerPublicacion.layoutManager  = LinearLayoutManager(view.context)
 
