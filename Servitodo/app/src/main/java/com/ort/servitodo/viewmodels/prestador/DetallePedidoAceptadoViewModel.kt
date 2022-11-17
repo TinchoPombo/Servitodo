@@ -29,7 +29,6 @@ class DetallePedidoAceptadoViewModel : ViewModel() {
 
     private lateinit var view : View
     private lateinit var pedido : Pedido
-    private lateinit var usuario : Usuario
 
     //----------------------------------------------------------------------------------------
     fun setView(v : View){
@@ -41,9 +40,7 @@ class DetallePedidoAceptadoViewModel : ViewModel() {
     }
 
     //----------------------------------------------------------------------------------------
-    suspend fun getPedido(id : Int) : Pedido {
-        return PedidosRepository().getPedidoByIndex(id)
-    }
+
     suspend fun getPublicacion(id : Int) : Publicacion {
         return PublicacionRepository().getPublicacionById(id)
     }
@@ -101,8 +98,8 @@ class DetallePedidoAceptadoViewModel : ViewModel() {
         val img = dialog.findViewById<ImageView>(R.id.imgBottomSheet)!!
         val nombre = dialog.findViewById<TextView>(R.id.nombreBottomSheet)!!
         val rubro = dialog.findViewById<TextView>(R.id.rubroBottomSheet)!!
-        val rubroDetalle = dialog.findViewById<TextView>(R.id.rubroDetalleBottomSheet)!!
-        val fecha = dialog.findViewById<TextView>(R.id.fechaBottomSheet)!!
+        val fecha = dialog.findViewById<TextView>(R.id.rubroDetalleBottomSheet)!!
+        val hora = dialog.findViewById<TextView>(R.id.fechaBottomSheet)!!
         val precio = dialog.findViewById<TextView>(R.id.precioBottomSheet)!!
         val estado = dialog.findViewById<TextView>(R.id.estadoBottomSheet)!!
         val descripcion = dialog.findViewById<TextView>(R.id.descripcionBottomSheet)!!
@@ -117,11 +114,11 @@ class DetallePedidoAceptadoViewModel : ViewModel() {
             setImg(user.foto, img)
             nombre.text = "${user.nombre} ${user.apellido}"
             rubro.text = "Rubro: ${publicacion.rubro!!.nombre}"
-            fecha.text = "Hora: ${pedido.hora}"
+            hora.text = "Hora: ${pedido.hora}"
             precio.text = "Precio: $${setPrecio(pedido.precio)}"
             estado.text = "Estado: ${pedido.estado}"
             descripcion.text = "${user.ubicacion}"
-            rubroDetalle.text = "Fecha: ${pedido.fecha}"
+            fecha.text = "Fecha: ${pedido.fecha}"
 
 
 
@@ -164,10 +161,9 @@ class DetallePedidoAceptadoViewModel : ViewModel() {
     }
 
     //--> MAPS
-    fun redirectionToMaps(goto : String): View.OnClickListener? {
+    fun redirectionToMaps(goto : String) {
         val googleMapsViewModel = GoogleMapsViewModel()
         googleMapsViewModel.confirmRedirectionToMaps(goto, view)
-        return null
     }
 
     //--> ENABLE/ DISABLE BUTTON

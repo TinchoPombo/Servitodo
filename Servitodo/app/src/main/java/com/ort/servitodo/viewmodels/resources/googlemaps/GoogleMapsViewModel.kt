@@ -170,17 +170,17 @@ class GoogleMapsViewModel : ViewModel() , OnMapReadyCallback {
             }
             .setPositiveButton("Aceptar") { dialog, which ->
                 viewModelScope.launch {
-                    redirectToGoogleMaps(goto, view)
+                    redirectToGoogleMaps(goto)
                 }
             }
             .show()
     }
 
-    fun redirectToGoogleMaps(goto : String, v: View){
+    fun redirectToGoogleMaps(goto : String){
         val gmmIntentUri = Uri.parse("https://www.google.co.in/maps/dir//${goto}")
         val mapIntent = Intent(Intent.ACTION_VIEW, gmmIntentUri)
         mapIntent.setPackage("com.google.android.apps.maps")
-        v.context.startActivity(mapIntent)
+        view.context.startActivity(mapIntent)
     }
 
     //--------------------------------- FUNCIONES PRIVADAS -----------------------------------------------

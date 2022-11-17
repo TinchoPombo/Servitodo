@@ -23,6 +23,7 @@ import com.ort.servitodo.repositories.UsuarioRepository
 import com.ort.servitodo.viewmodels.resources.CalendarViewModel
 import com.ort.servitodo.viewmodels.resources.TimePickerViewModel
 import com.ort.servitodo.viewmodels.resources.WhatsAppViewModel
+import com.ort.servitodo.viewmodels.resources.googlemaps.GoogleMapsViewModel
 import kotlinx.coroutines.launch
 import java.util.*
 
@@ -31,7 +32,6 @@ class DetallePedidoPendienteViewModel : ViewModel() {
     private lateinit var fragmentManager: FragmentManager
     private lateinit var pedido: Pedido
     private lateinit var usuario: Array<String>
-    private lateinit var usuarioRepository: UsuarioRepository
     private lateinit var publicacion: Publicacion
     private var precio = 0
     val db = Firebase.firestore
@@ -54,12 +54,11 @@ class DetallePedidoPendienteViewModel : ViewModel() {
     val rubro = MutableLiveData<String>()
     val calificacion = MutableLiveData<String>()
     val direccion = MutableLiveData<String>()
-    val fotoPrestador = MutableLiveData<String>()
+    val fotoCliente = MutableLiveData<String>()
 
     //----------------------------------------------------------------------
     fun setView(v: View) {
         this.view = v
-        usuarioRepository = UsuarioRepository(v)
     }
 
     fun setFragmentManager(fm: FragmentManager) {
@@ -88,7 +87,7 @@ class DetallePedidoPendienteViewModel : ViewModel() {
             nombreCompleto.value = "${usuario[0]} ${usuario[1]}"
             rubro.value = "${publicacion.rubro.nombre}"
             direccion.value = "${usuario[2]}"
-            fotoPrestador.value = usuario[3]
+            fotoCliente.value = usuario[3]
             selectedDay.value = "${pedido.fecha}"
             selectedHour.value = "${pedido.hora}"
             pedidoSelectedDay.value = "${pedido.fecha}"
@@ -114,6 +113,11 @@ class DetallePedidoPendienteViewModel : ViewModel() {
         whatsAppViewModel.confirmRedirectionToWhatsapp(this.pedido.idCliente, view)
     }
 
+    fun redirectionToMaps() {
+        val googleMapsViewModel = GoogleMapsViewModel()
+        googleMapsViewModel.confirmRedirectionToMaps(usuario[2], view )
+    }
+
     //---------------- Calendario ------------------------------------------
     private fun initializeCalendarMutableLiveData(datePicker: MaterialDatePicker<Long>) {
 
@@ -127,7 +131,7 @@ class DetallePedidoPendienteViewModel : ViewModel() {
     }
 
     fun rechazarPedido() {
-        pedidoRepository.cancelPedido(this.pedido.id)
+        pedidoRepository.rechazarPedido(this.pedido.id)
         Snackbar.make(view, "El pedido se rechazó con exito", Snackbar.LENGTH_SHORT).show()
         view.findNavController().navigateUp()
     }

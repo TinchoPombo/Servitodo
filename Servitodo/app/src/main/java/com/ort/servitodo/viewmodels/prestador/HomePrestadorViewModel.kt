@@ -19,7 +19,7 @@ class HomePrestadorViewModel : ViewModel() {
     private lateinit var usuarioRep : UsuarioRepository
 
     val cargando = MutableLiveData<String>()
-    var pedidos : MutableList<Pedido> = arrayListOf()
+    val pedidos = MutableLiveData<MutableList<Pedido>>()
 
     //-------------------------------------------------------------------------------
     fun setView(v : View){
@@ -27,32 +27,37 @@ class HomePrestadorViewModel : ViewModel() {
        usuarioRep = UsuarioRepository(this.view)
     }
 
-    fun emptyList(){
-        this.pedidos.clear()
+    private fun emptyList() {
+        this.pedidos.value?.clear()
     }
 
     //-------------------------------------------------------------------------------
-    fun recyclerView(recyclerPedidosAceptados : RecyclerView){
 
-        cargando.value = "Cargando..."
+    fun setPedidosAprobados(){
 
         viewModelScope.launch{
-            repository.changeState()
-            pedidos = repository.getPedidosAprobadosByPrestadorId(usuarioRep.getIdSession())
 
-            if(pedidos.size < 1) {
+            cargando.value = "Cargando..."
+
+            repository.changeState()
+
+            emptyList()
+
+            val list = repository.getPedidosAprobadosByPrestadorId(usuarioRep.getIdSession())
+
+            if(list.size < 1) {
                 cargando.value = "No hay publicaciones disponibles"
             }
             else{
-                recyclerPedidosAceptados.setHasFixedSize(true)
-
+                pedidos.value = list
                 cargando.value = ""
-
-                recyclerPedidosAceptados.layoutManager  = LinearLayoutManager(view.context)
-
-                recyclerPedidosAceptados.adapter = PedidosPrestadorAdapter(pedidos){}
             }
         }
+
     }
+
+    /*fun onItemClick(position : Int){
+
+    }*/
 
 }

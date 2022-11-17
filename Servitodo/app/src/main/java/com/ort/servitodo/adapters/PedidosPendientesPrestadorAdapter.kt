@@ -20,15 +20,15 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 
-class PedidosPendientesPrestadorAdapter (
-    var listaPedidos : MutableList <Pedido>,
-    var onClick : (Int) -> Unit
+class PedidosPendientesPrestadorAdapter(
+    var listaPedidos: MutableList<Pedido>,
+    var onClick: (Int) -> Unit
 ) : RecyclerView.Adapter<PedidosPendientesPrestadorAdapter.PedidosHolder>() {
 
 
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PedidosHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.peticion_pendiente_prestador, parent, false)
+        val view = LayoutInflater.from(parent.context)
+            .inflate(R.layout.peticion_pendiente_prestador, parent, false)
         return (PedidosHolder(view))
     }
 
@@ -43,7 +43,6 @@ class PedidosPendientesPrestadorAdapter (
         holder.getCardView().setOnClickListener {
             onClick(position)
         }
-
 
 
     }
@@ -61,17 +60,17 @@ class PedidosPendientesPrestadorAdapter (
             this.view = v
         }
 
-        fun setRubro(rubro : String) {
+        fun setRubro(rubro: String) {
             val txtRubro: TextView = view.findViewById(R.id.txtRubro)
             txtRubro.text = rubro
         }
 
-        fun setNombreCliente(nombre : String) {
+        fun setNombreCliente(nombre: String) {
             val txtNombreCliente: TextView = view.findViewById(R.id.txtNombrePrestador)
             txtNombreCliente.text = nombre
         }
 
-        fun setImagenCliente(img : String) {
+        fun setImagenCliente(img: String) {
             val imgPedido: ImageView = view.findViewById(R.id.imgPedido)
             Glide
                 .with(view)
@@ -91,7 +90,7 @@ class PedidosPendientesPrestadorAdapter (
         }
 
 
-        fun setDatos(pedido : Pedido ){
+        fun setDatos(pedido: Pedido) {
             var publicacion: Publicacion
             var usuario: Usuario
             val parent = Job()
@@ -105,28 +104,6 @@ class PedidosPendientesPrestadorAdapter (
             }
         }
 
-        //--> WHATSAPP
-/*        fun redirectionToWhatsApp(idPrestador : Int){
-            val whatsAppViewModel = WhatsAppViewModel()
-            whatsAppViewModel.confirmRedirectionToWhatsapp(idPrestador, view)
-        }
-
-
-
-        fun getWhatsappButton() : Button {
-            return view.findViewById(R.id.whatsappPedidoButton)
-        }*/
-
-        //--> DETALLE DEL PEDIDO
-      /*  fun detallesDelPedido(pedido : Pedido){
-            val detalle = DetallePedidoViewModel()
-            detalle.setView(view)
-            detalle.detallesDelPedido(pedido)
-        }*/
-
-       /* fun getDetalleButton() : Button {
-            return view.findViewById(R.id.detallePedidoButton)
-        }*/
 
         //-------------------------------------------------------
         fun getCardView(): CardView {

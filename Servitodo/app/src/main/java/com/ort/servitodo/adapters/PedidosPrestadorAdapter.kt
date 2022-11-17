@@ -4,7 +4,6 @@ import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.cardview.widget.CardView
@@ -16,21 +15,19 @@ import com.ort.servitodo.entities.Publicacion
 import com.ort.servitodo.entities.Usuario
 import com.ort.servitodo.repositories.PublicacionRepository
 import com.ort.servitodo.repositories.UsuarioRepository
-import com.ort.servitodo.viewmodels.cliente.DetallePedidoViewModel
 import com.ort.servitodo.viewmodels.prestador.DetallePedidoAceptadoViewModel
-import com.ort.servitodo.viewmodels.resources.WhatsAppViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 
-class PedidosPrestadorAdapter (
-    var listaPedidos : MutableList <Pedido>,
-    var onClick : (Int) -> Unit
+class PedidosPrestadorAdapter(
+    var listaPedidos: MutableList<Pedido>
 ) : RecyclerView.Adapter<PedidosPrestadorAdapter.PedidosHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PedidosHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.peticion_aceptada_prestador, parent, false)
+        val view = LayoutInflater.from(parent.context)
+            .inflate(R.layout.peticion_aceptada_prestador, parent, false)
         return (PedidosHolder(view))
     }
 
@@ -43,16 +40,8 @@ class PedidosPrestadorAdapter (
         holder.setPrecio(listaPedidos[position].precio)
 
         holder.getCardView().setOnClickListener {
-            holder.detallesDelPedido(listaPedidos[position])
+            holder.detallesDelPedido((listaPedidos[position]))
         }
-
-     /*   holder.getDetalleButton().setOnClickListener{
-            holder.detallesDelPedido(listaPedidos[position])
-        }
-
-        holder.getWhatsappButton().setOnClickListener{
-            holder.redirectionToWhatsApp(listaPedidos[position].idPrestador)
-        }*/
 
     }
 
@@ -69,17 +58,17 @@ class PedidosPrestadorAdapter (
             this.view = v
         }
 
-        fun setRubro(rubro : String) {
+        fun setRubro(rubro: String) {
             val txtRubro: TextView = view.findViewById(R.id.txtRubro)
             txtRubro.text = rubro
         }
 
-        fun setNombreCliente(nombre : String) {
+        fun setNombreCliente(nombre: String) {
             val txtNombrePrestador: TextView = view.findViewById(R.id.txtNombrePrestador)
             txtNombrePrestador.text = nombre
         }
 
-        fun setImagenCliente(img : String) {
+        fun setImagenCliente(img: String) {
             val imgPedido: ImageView = view.findViewById(R.id.imgPedido)
             Glide
                 .with(view)
@@ -99,17 +88,16 @@ class PedidosPrestadorAdapter (
         }
 
         @SuppressLint("SetTextI18n")
-        fun setPrecio(precio : Double) {
+        fun setPrecio(precio: Double) {
             var txtPrecio: TextView = view.findViewById(R.id.txtPrecio)
-            if(precio == 0.0){
+            if (precio == 0.0) {
                 txtPrecio.text = "--.--"
-            }
-            else{
+            } else {
                 txtPrecio.text = "$${precio}"
             }
         }
 
-        fun setDatos(pedido : Pedido ){
+        fun setDatos(pedido: Pedido) {
             var publicacion: Publicacion
             var usuario: Usuario
             val parent = Job()
@@ -123,35 +111,14 @@ class PedidosPrestadorAdapter (
             }
         }
 
-        //--> WHATSAPP
-        fun redirectionToWhatsApp(idPrestador : String){
-            val whatsAppViewModel = WhatsAppViewModel()
-            whatsAppViewModel.confirmRedirectionToWhatsapp(idPrestador, view)
-        }
-
-/*        fun enableWhatsappButton() : Button{
-            val button = getWhatsappButton()
-                button.isEnabled = true
-                button.setTextColor(ContextCompat.getColor(view.context, R.color.greyish))
-                button.setBackgroundColor(ContextCompat.getColor(view.context, R.color.light_grey))
-            return button
-        }*/
-
-       /* fun getWhatsappButton() : Button {
-            return view.findViewById(R.id.whatsappPedidoButton)
-        }*/
 
         //--> DETALLE DEL PEDIDO
-        fun detallesDelPedido(pedido : Pedido){
+        fun detallesDelPedido(pedido: Pedido) {
             val detalle = DetallePedidoAceptadoViewModel()
             detalle.setView(view)
-            // +-++-+-++-+-+-+-++-+--++--+ ACA
             detalle.detallesDelPedido(pedido)
         }
 
-        /*fun getDetalleButton() : Button {
-            return view.findViewById(R.id.detallePedidoButton)
-        }*/
 
         //-------------------------------------------------------
         fun getCardView(): CardView {

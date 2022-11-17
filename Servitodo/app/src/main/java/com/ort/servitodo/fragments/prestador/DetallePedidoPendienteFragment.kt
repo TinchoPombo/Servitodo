@@ -19,7 +19,6 @@ import com.ort.servitodo.viewmodels.resources.googlemaps.GoogleMapsViewModel
 class DetallePedidoPendienteFragment : Fragment() {
 
     private val detalleViewModel: DetallePedidoPendienteViewModel by viewModels()
-    private val googleMapsViewModel: GoogleMapsViewModel by viewModels()
 
     lateinit var v: View
     private lateinit var binding: FragmentDetallePedidoPendienteBinding
@@ -69,9 +68,7 @@ class DetallePedidoPendienteFragment : Fragment() {
         })
 
         binding.txtDireccion.setOnClickListener {
-            detalleViewModel.direccion.observe(viewLifecycleOwner, Observer { result ->
-                googleMapsViewModel.confirmRedirectionToMaps(result.toString(), v)
-            })
+                detalleViewModel.redirectionToMaps()
         }
 
         detalleViewModel.rubro.observe(viewLifecycleOwner, Observer { result ->
@@ -81,7 +78,7 @@ class DetallePedidoPendienteFragment : Fragment() {
             binding.txtCalificacionPublicacion.text = result.toString()
         })
 
-        detalleViewModel.fotoPrestador.observe(viewLifecycleOwner, Observer { result ->
+        detalleViewModel.fotoCliente.observe(viewLifecycleOwner, Observer { result ->
             Glide
                 .with(v)
                 .load(result.toString())

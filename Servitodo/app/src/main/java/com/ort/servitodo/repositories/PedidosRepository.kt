@@ -198,6 +198,15 @@ class PedidosRepository {
             .addOnFailureListener { e -> Log.w(TAG, "Error updating document", e) }
     }
 
+    fun rechazarPedido(pedidoId : Int){
+        val pedidoActualizar = db.collection("pedidos").document(pedidoId.toString())
+        pedidoActualizar
+            .update("estado", TipoEstado.RECHAZADO.toString() )
+            .addOnSuccessListener { Log.d(TAG, "DocumentSnapshot successfully updated!") }
+            .addOnFailureListener { e -> Log.w(TAG, "Error updating document", e) }
+    }
+
+
     suspend fun getPedidosByEstado(id :String, estado : String) : MutableList<Pedido>{
 
         try{
